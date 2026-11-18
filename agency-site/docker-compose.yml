@@ -1,0 +1,115 @@
+services:
+  # 1. 앞단 웹서버: 자동 무료 SSL(HTTPS) + /uploads/public 직접 서빙 + 리버스 프록시
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: starter-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - uploads_public:/var/www/uploads/public:ro   # 읽기 전용 마운트로 공개 이미지만 직접 서빙
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_healthy
+    mem_limit: 64m
+
+  # 2. 프론트엔드: Next.js 15 Standalone 경량 실행 모드
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: starter-frontend
+    restart: unless-stopped
+    expose:
+      - "3000"                                      # 외부 미노출 (Caddy 및 Backend와만 내부 통신)
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: "--max-old-space-size=256"
+      INTERNAL_API_URL: http://backend:8080
+      NEXT_PUBLIC_SITE_URL: https://${DOMAIN_NAME:-localhost}
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-starter_revalidate_secret_2026}
+    depends_on:
+      backend:
+        condition: service_healthy
+    mem_limit: 350m
+
+  # 3. 백엔드: Spring Boot 3.4 단일 서버 (768MB 수학적 메모리 상한 적용)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: starter-backend
+    restart: unless-stopped
+    expose:
+      - "8080"                                      # 외부 직접 접근 원천 차단 (IP 위조 해킹 방어)
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-prod}
+      SERVER_FORWARD_HEADERS_STRATEGY: native       # Caddy가 전달한 실제 클라이언트 IP 인식
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-starter_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-starter_user}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-starter_secure_password_2026}
+      STARTER_JWT_SECRET: ${JWT_SECRET:-replace_with_64_bytes_secure_random_key_for_production_2026}
+      STARTER_REVALIDATE_URL: http://frontend:3000/api/revalidate
+      STARTER_REVALIDATE_SECRET: ${REVALIDATE_SECRET:-starter_revalidate_secret_2026}
+      # 420MB(Heap) + 128MB(Metaspace) + 64MB(CodeCache) + 64MB(Direct) + ~50MB(Native) = 726MB <= 768MB
+      JAVA_TOOL_OPTIONS: >-
+        -Xms256m -Xmx420m
+        -XX:MaxMetaspaceSize=128m
+        -XX:ReservedCodeCacheSize=64m
+        -XX:MaxDirectMemorySize=64m
+        -XX:+UseSerialGC
+        -XX:+ExitOnOutOfMemoryError
+    volumes:
+      - uploads_public:/app/uploads/public          # 공개 WebP 이미지 저장소 (Caddy와 공유)
+      - uploads_private:/app/uploads/private        # 비공개 문의 첨부파일 저장소 (Spring Boot 단독 접근)
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/v1/health >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 768m
+
+  # 4. 데이터베이스: 외부 포트 차단(127.0.0.1 바인딩) 및 저메모리 튜닝 적용
+  postgres:
+    image: postgres:16.4-alpine
+    container_name: starter-postgres
+    restart: unless-stopped
+    command: >
+      postgres
+      -c shared_buffers=128MB
+      -c work_mem=4MB
+      -c maintenance_work_mem=32MB
+      -c max_connections=50
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-starter_db}
+      POSTGRES_USER: ${POSTGRES_USER:-starter_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-starter_secure_password_2026}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"     # 외부 인터넷 노출 차단 (SSH 터널링으로만 접속 가능)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    mem_limit: 384m
+
+volumes:
+  pgdata:
+  uploads_public:
+  uploads_private:
+  caddy_data:
+  caddy_config:

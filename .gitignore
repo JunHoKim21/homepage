@@ -1,0 +1,31 @@
+# Environment & Secrets
+.env
+**/.env
+*.env.local
+
+# Backend (Gradle / Java)
+**/.gradle/
+**/build/
+**/bin/
+**/out/
+*.jar
+*.class
+
+# Frontend (Next.js / Node)
+**/node_modules/
+**/.next/
+**/out/
+npm-debug.log*
+*.tsbuildinfo
+next-env.d.ts
+
+# Uploads & Runtime Data
+**/uploads/
+*.log
+
+# IDE & OS
+.idea/
+.vscode/
+*.iml
+Thumbs.db
+.DS_Store

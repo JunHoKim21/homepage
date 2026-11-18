@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>엔터프라이즈 & 외주 에이전시 통합 홈페이지 스타터 킷 - v2.0-FINAL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      color: #0f172a;
+      background-color: #f8fafc;
+    }
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm 12mm 14mm 12mm;
+      }
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 9.5pt;
+        line-height: 1.45;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .page-break-before {
+        page-break-before: always;
+      }
+      .avoid-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      pre {
+        white-space: pre-wrap !important;
+        word-break: break-all !important;
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-size: 8pt !important;
+      }
+      table {
+        font-size: 8.5pt !important;
+      }
+      .mermaid svg {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-indigo-600 selection:text-white">
+
+  <header class="no-print sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          v2.0-FINAL
+        </span>
+        <h1 class="text-sm sm:text-base font-bold tracking-tight text-slate-100 truncate">
+          엔터프라이즈 & 외주 에이전시 통합 홈페이지 스타터 킷 명세서
+        </h1>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button onclick="downloadHtmlFile()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer">
+          HTML 다운로드
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm transition cursor-pointer">
+          PDF 저장 / 인쇄 (A4 최적화)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    <aside class="no-print lg:w-64 shrink-0">
+      <nav class="sticky top-24 bg-white rounded-xl border border-slate-200 p-5 shadow-xs text-sm space-y-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">문서 목차 (Contents)</div>
+        <ul class="space-y-2 text-slate-600 font-medium">
+          <li><a href="#sec-1" class="hover:text-indigo-600 block transition">1. 프로젝트 개요 및 상용화 전제</a></li>
+          <li><a href="#sec-2" class="hover:text-indigo-600 block transition">2. 초경량 스택 및 메모리 최적화</a></li>
+          <li><a href="#sec-3" class="hover:text-indigo-600 block transition">3. 단일 모듈 아키텍처 & ArchUnit</a></li>
+          <li><a href="#sec-4" class="hover:text-indigo-600 block transition">4. 크몽 4대 핵심 기능 & 예약 옵션</a></li>
+          <li><a href="#sec-5" class="hover:text-indigo-600 block transition">5. 데이터베이스(ERD) 표준 DDL</a></li>
+          <li><a href="#sec-6" class="hover:text-indigo-600 block transition">6. 핵심 비즈니스 시퀀스 (4종)</a></li>
+          <li><a href="#sec-7" class="hover:text-indigo-600 block transition">7. 부록: 2GB RAM 올인원 배포 스펙</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="print-container flex-1 bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-10 lg:p-12 space-y-10">
+      <div class="border-b border-slate-200 pb-8">
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+            Architecture Specification
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            v2.0-FINAL (크몽·외주 양산 & 템플릿 판매 완결판)
+          </span>
+          <span class="text-xs text-slate-500 ml-auto">작성일: 2026년 11월 18일</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          엔터프라이즈 & 외주 에이전시 통합 홈페이지 스타터 킷
+        </h1>
+        <p class="mt-2 text-base text-slate-600 font-medium">
+          상용화 기술 아키텍처 및 상세 기획서 (Technical Architecture & Engineering Specification)
+        </p>
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+          <div>
+            <span class="text-slate-400 font-semibold block">라이선스 정책 (코드 + 폰트/에셋)</span>
+            <span class="text-slate-800 font-bold">100% Clean (Apache 2.0 / MIT / BSD / OFL / CC0)</span>
+          </div>
+          <div>
+            <span class="text-slate-400 font-semibold block">아키텍처 & 메모리 한도</span>
+            <span class="text-slate-800 font-bold">Modular Monolith + ArchUnit / 2GB VPS (Boot ≤ 768MB)</span>
+          </div>
+          <div>
+            <span class="text-slate-400 font-semibold block">핵심 런타임</span>
+            <span class="text-slate-800 font-bold">Caddy 2 / Next.js 15 / Spring Boot 3.4 / PostgreSQL 16</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1장 -->
+      <section id="sec-1" class="space-y-4 avoid-break">
+        <h2 class="text-xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-3">
+          1. 프로젝트 개요 및 상용화 핵심 전제
+        </h2>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          본 스타터 킷은 <strong>① 크몽·숨고 초고속 홈페이지 제작·납품</strong>, <strong>② 마켓플레이스(Standard / Pro) 템플릿 판매</strong>, <strong>③ 중소·중견기업 맞춤형 예약·결제 시스템 구축</strong>을 단일 코드베이스로 달성하도록 설계된 풀스택 상용화 프레임워크입니다.
+        </p>
+
+        <h3 class="text-base font-bold text-slate-800 mt-4">1.2 100% 라이선스 안전성 보장 (소프트웨어 & 디자인 에셋)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-slate-200 text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-800 font-bold">
+                <th class="border border-slate-200 px-3 py-2">분류</th>
+                <th class="border border-slate-200 px-3 py-2">기본 채택 (Lite/기본형)</th>
+                <th class="border border-slate-200 px-3 py-2">확장 옵션 (Enterprise)</th>
+                <th class="border border-slate-200 px-3 py-2">라이선스</th>
+                <th class="border border-slate-200 px-3 py-2">비용 및 법무 방어 효과</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="border border-slate-200 px-3 py-2 font-semibold">웹서버 / SSL</td>
+                <td class="border border-slate-200 px-3 py-2 font-bold text-indigo-700">Caddy 2.x</td>
+                <td class="border border-slate-200 px-3 py-2">Cloudflare + ALB</td>
+                <td class="border border-slate-200 px-3 py-2">Apache 2.0</td>
+                <td class="border border-slate-200 px-3 py-2">무료 SSL 평생 자동 갱신, <code>/uploads/public</code> 직접 서빙</td>
+              </tr>
+              <tr>
+                <td class="border border-slate-200 px-3 py-2 font-semibold">프론트엔드</td>
+                <td class="border border-slate-200 px-3 py-2 font-bold text-indigo-700">Next.js 15+ / React 19</td>
+                <td class="border border-slate-200 px-3 py-2">Next.js 15+ (Multi-Node)</td>
+                <td class="border border-slate-200 px-3 py-2">MIT</td>
+                <td class="border border-slate-200 px-3 py-2">Standalone 경량 실행, shadcn/ui + TanStack Table</td>
+              </tr>
+              <tr>
+                <td class="border border-slate-200 px-3 py-2 font-semibold">백엔드</td>
+                <td class="border border-slate-200 px-3 py-2 font-bold text-indigo-700">Spring Boot 3.4 / Java 21</td>
+                <td class="border border-slate-200 px-3 py-2">Spring Boot 3.4 (Scale-out)</td>
+                <td class="border border-slate-200 px-3 py-2">Apache 2.0</td>
+                <td class="border border-slate-200 px-3 py-2">I/O 가상 스레드 + 이미지 전용 플랫폼 스레드(Pool=1, Q=50)</td>
+              </tr>
+              <tr>
+                <td class="border border-slate-200 px-3 py-2 font-semibold">DB / 캐시</td>
+                <td class="border border-slate-200 px-3 py-2 font-bold text-indigo-700">PostgreSQL 16 + Caffeine</td>
+                <td class="border border-slate-200 px-3 py-2">PG 16 HA + Valkey 8.0</td>
+                <td class="border border-slate-200 px-3 py-2">PostgreSQL / Apache 2.0</td>
+                <td class="border border-slate-200 px-3 py-2">외부 캐시 서버 없이 내장 메모리와 DB만으로 100% 동작</td>
+              </tr>
+              <tr>
+                <td class="border border-slate-200 px-3 py-2 font-semibold">폰트 / 에셋</td>
+                <td class="border border-slate-200 px-3 py-2 font-bold text-indigo-700">Pretendard / Lucide / Unsplash</td>
+                <td class="border border-slate-200 px-3 py-2">좌동</td>
+                <td class="border border-slate-200 px-3 py-2">OFL 1.1 / MIT / CC0</td>
+                <td class="border border-slate-200 px-3 py-2">납품 후 폰트·이미지 저작권 내용증명 분쟁 100% 원천 차단</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2장 & 3장 -->
+      <section id="sec-2" class="space-y-4 avoid-break">
+        <h2 class="text-xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-3">
+          2. 2GB RAM 저가 서버 생존을 위한 수학적 JVM 메모리 공식
+        </h2>
+        <div class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono leading-relaxed">
+          JAVA_TOOL_OPTIONS="-Xms256m -Xmx420m -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=64m -XX:MaxDirectMemorySize=64m -XX:+UseSerialGC -XX:+ExitOnOutOfMemoryError"<br/>
+          ➔ Heap(420MB) + Metaspace(128MB) + CodeCache(64MB) + Direct(64MB) + Native/Threads(~50MB) = <strong>726MB ≤ 768MB 엄격 보장</strong>
+        </div>
+      </section>
+
+      <section id="sec-3" class="space-y-4 page-break-before">
+        <h2 class="text-xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-3">
+          3. 빠른 커스터마이징을 위한 단일 모듈 아키텍처 (backend/ & frontend/)
+        </h2>
+        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs overflow-x-auto leading-relaxed"><code>starter-kit (Root Project)
+ ├── backend/ (단일 Spring Boot 3.4 프로젝트)
+ │    ├── src/main/java/com/starterkit/
+ │    │    ├── common/               # ApiResponse, BusinessException, 암호화 유틸
+ │    │    ├── api/                  # publicapi (/api/v1/*), adminapi (/api/admin/*), filter (AntiSpam/JWT)
+ │    │    ├── domain/               # member, cms, inquiry, reservation, media, order(Pro), audit(Pro)
+ │    │    └── infra/                # config, storage(Local/S3), image(Pool=1, Q=50), notification, excel(Pro)
+ │    └── src/test/java/com/starterkit/ArchitectureRulesTest.java
+ ├── frontend/ (Next.js 15 App Router / shadcn/ui)
+ ├── Caddyfile & docker-compose.yml</code></pre>
+      </section>
+
+      <!-- 4장 -->
+      <section id="sec-4" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-3">
+          4. 크몽 수주 특화 4대 핵심 기능 & 하이브리드 예약 옵션 명세
+        </h2>
+        <div class="space-y-3 text-xs sm:text-sm text-slate-700">
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-slate-900 mb-1">[핵심 1] 무코드 SEO·브랜딩 관리 + 사장님 실수 잠금(is_system) + 0.1초 즉시 갱신</h3>
+            <p>관리자에서 제목, 카톡 공유 썸네일(<code>seo_og_image</code>), 대표 색상(<code>brand_primary_color</code>) 수정 시 <code>AFTER_COMMIT</code> 이벤트가 로컬 Caffeine 캐시를 비우고 Next.js <code>/api/revalidate</code>(<code>X-Revalidate-Secret</code> 검증)를 호출해 0.1초 만에 반영합니다. <code>is_system = true</code> 항목은 삭제를 원천 차단합니다.</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-slate-900 mb-1">[핵심 2] 업종별 동적 상담 문의(custom_fields JSONB) + 스팸 봇 3중 무료 방어막</h3>
+            <p>Honeypot 숨김 필드 + Caffeine IP Rate Limit(1분 3회) + <code>server.forward-headers-strategy: native</code>(8080 내부 격리)로 해외 스팸 봇의 알림톡 요금 폭탄을 100% 차단합니다.</p>
+          </div>
+          <div class="bg-indigo-50/70 p-4 rounded-xl border border-indigo-200">
+            <h3 class="font-bold text-indigo-950 mb-1">[핵심 3] 하이브리드 예약 시스템 — 2단계 스위치 (채널 모드 × 정원 옵션)</h3>
+            <ul class="list-disc list-inside space-y-1 mt-1">
+              <li><strong>제1스위치 (<code>reservation_mode</code>):</strong> <code>OFF</code> | <code>NAVER</code> (네이버 스마트플레이스 직결) | <code>INTERNAL</code> (자체 예약) | <code>BOTH</code> (동시 노출)</li>
+              <li><strong>제2스위치 (<code>reservation_capacity_mode</code>):</strong>
+                <span class="font-semibold text-indigo-800"><code>SINGLE</code> (1:1 단독 예약 — 법무·세무·스튜디오·1인샵, 정원 1명 고정)</span> ↔
+                <span class="font-semibold text-emerald-800"><code>MULTI</code> (시간대별 N명 정원제 — 병원·학원·원데이클래스, 슬롯별 <code>max_capacity</code> 설정 및 잔여석 표시)</span>
+              </li>
+              <li><strong>동시성 방어:</strong> <code>reservation_slots</code> 행 잠금(<code>SELECT ... FOR UPDATE</code>)과 <code>CHECK (reserved_count &lt;= max_capacity)</code>로 초과 예약을 완벽 차단합니다.</li>
+            </ul>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-slate-900 mb-1">[핵심 4] 스마트폰 사진 WebP 자동 다이어트 (Pool=1, Q=50) & 공개/비공개 폴더 이원화</h3>
+            <p>전용 플랫폼 스레드 1개 + <code>ArrayBlockingQueue(50)</code>에서 순차 변환하여 피크 힙을 100MB 이하로 통제합니다. 공개 이미지(<code>/uploads/public</code>)는 Caddy가 직접 서빙하고, 고객 문의 첨부파일(<code>/uploads/private</code>)은 관리자 인가 후 Spring Boot 스트리밍으로만 다운로드합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6장 시퀀스 -->
+      <section id="sec-6" class="space-y-6 page-break-before">
+        <h2 class="text-xl font-bold text-slate-900 border-l-4 border-indigo-600 pl-3">
+          6. 핵심 비즈니스 작동 흐름 (시퀀스 다이어그램)
+        </h2>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 avoid-break">
+          <h3 class="text-sm font-bold text-slate-800 mb-2">6.4 하이브리드 예약 (NAVER 분기 vs INTERNAL [SINGLE 1:1 / MULTI N명 정원제] 동시성 방어)</h3>
+          <div class="mermaid flex justify-center">
+sequenceDiagram
+    autonumber
+    actor Customer as 방문 고객
+    participant NextUI as Next.js 예약 화면
+    participant API as ReservationController
+    participant DB as PostgreSQL 16 (reservation_slots)
+
+    Customer->>NextUI: 예약 진입 (reservation_mode & reservation_capacity_mode 확인)
+    alt reservation_mode == 'NAVER'
+        NextUI-->>Customer: 네이버 스마트플레이스(naver_booking_url) 이동
+    else INTERNAL or BOTH
+        NextUI->>API: GET /api/v1/reservations/slots?date=2026-11-25
+        API->>DB: 슬롯 조회 (SINGLE: 마감 여부 / MULTI: 잔여 좌석 수)
+        API-->>NextUI: 시간대 목록 반환
+        Customer->>NextUI: 시간대 선택 및 예약 제출
+        NextUI->>API: POST /api/v1/reservations (slotId, visitorCount)
+        API->>DB: SELECT * FROM reservation_slots WHERE id = :slotId FOR UPDATE
+        alt reserved_count + visitorCount > max_capacity
+            API-->>NextUI: 409 Conflict (마감 안내)
+        else 예약 가능
+            API->>DB: UPDATE reserved_count & INSERT reservations
+            API-->>NextUI: 201 Created (접수 완료 & 알림 발송)
+        end
+    end
+          </div>
+        </div>
+      </section>
+
+      <footer class="pt-6 border-t border-slate-200 text-xs text-slate-400 flex justify-between items-center">
+        <span>Enterprise & Agency Homepage Starter Kit (v2.0-FINAL)</span>
+        <span>100% Commercial Clean (Apache 2.0 / MIT / BSD / OFL / CC0)</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const mermaidSources = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.mermaid').forEach((el, idx) => {
+        el.dataset.mermaidIndex = String(idx);
+        mermaidSources[idx] = el.textContent;
+      });
+      mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose', fontFamily: 'Pretendard, sans-serif' });
+      mermaid.run();
+    });
+    function downloadHtmlFile() {
+      const clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('.mermaid').forEach((el) => {
+        const idx = Number(el.dataset.mermaidIndex);
+        if (!Number.isNaN(idx) && mermaidSources[idx] !== undefined) {
+          el.removeAttribute('data-processed');
+          el.removeAttribute('data-mermaid-index');
+          el.textContent = mermaidSources[idx];
+        }
+      });
+      const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ARCHITECTURE_SPEC_v2.0-FINAL.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
