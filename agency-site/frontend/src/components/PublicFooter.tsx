@@ -46,19 +46,19 @@ export default function PublicFooter({ companyInfoJson }: { companyInfoJson: str
     info.hours || "평일 09:30 ~ 18:30 (점심 12:30 ~ 13:30 / 주말·공휴일 휴무)";
 
   return (
-    <footer className="border-t border-slate-800 bg-slate-950 text-slate-400">
+    <footer className="w-full max-w-full overflow-x-clip border-t border-slate-800 bg-slate-950 text-slate-400">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-12">
           {/* 좌측: 브랜드 및 사업자 정보 */}
-          <div className="space-y-4 lg:col-span-5">
+          <div className="min-w-0 space-y-4 lg:col-span-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-700 text-white">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-700 text-white">
                 <Code2 className="h-5 w-5" />
               </div>
-              <div>
-                <p className="text-lg font-extrabold text-white">{companyName}</p>
-                <p className="text-[11px] font-bold tracking-wider text-blue-400">
-                  JAVA 21 · SPRING BOOT 3.4 · NEXT.JS 15 AGENCY
+              <div className="min-w-0">
+                <p className="truncate text-lg font-extrabold text-white">{companyName}</p>
+                <p className="truncate text-[11px] font-bold tracking-wider text-blue-400">
+                  CUSTOM WEB &amp; ADMIN AGENCY
                 </p>
               </div>
             </div>
@@ -203,9 +203,9 @@ export default function PublicFooter({ companyInfoJson }: { companyInfoJson: str
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800/80 pt-6 text-xs text-slate-500 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800/80 pt-6 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} {companyName}. All rights reserved.</p>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <Link href="/notices" className="hover:text-slate-300">
               이용약관 및 정찰제 규정
             </Link>

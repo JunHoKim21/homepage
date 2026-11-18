@@ -1,5 +1,6 @@
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
+import QuickFloatingBar from "@/components/QuickFloatingBar";
 import { fetchPublicMenus, fetchPublicSiteConfigs } from "@/lib/api";
 
 export default async function PublicLayout({
@@ -28,6 +29,7 @@ export default async function PublicLayout({
         reservationMode={configs.reservation_mode || "BOTH"}
       />
       <main className="flex-1">{children}</main>
+      <QuickFloatingBar configs={configs} />
       <PublicFooter companyInfoJson={configs.footer_company_info || "{}"} />
     </div>
   );

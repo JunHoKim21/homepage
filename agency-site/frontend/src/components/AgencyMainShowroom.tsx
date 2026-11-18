@@ -58,6 +58,7 @@ interface Props {
   configs: Record<string, string>;
   portfolios: CmsContentItem[];
   notices: CmsContentItem[];
+  heroBanner?: CmsContentItem;
   initialPreset?: string;
 }
 
@@ -81,6 +82,7 @@ export default function AgencyMainShowroom({
   configs,
   portfolios,
   notices,
+  heroBanner,
   initialPreset,
 }: Props) {
   const router = useRouter();
@@ -158,7 +160,7 @@ export default function AgencyMainShowroom({
         tags:
           extra.tags && extra.tags.length > 0
             ? extra.tags
-            : ["반응형 웹", "맞춤 CMS", "WebP 최적화", "SEO 탑재"],
+            : ["반응형 웹", "맞춤 관리자", "사진 자동 최적화", "검색 노출 최적화"],
       };
     });
   }, [portfolios]);
@@ -171,14 +173,14 @@ export default function AgencyMainShowroom({
   const naverBookingUrl = configs.naver_booking_url || "https://booking.naver.com/";
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white">
       {/* =====================================================================
           상단 라이브 테마·샘플 스위처 바 (크몽·숨고 의뢰인 실시간 쇼룸 컨트롤러)
       ===================================================================== */}
       <div className="border-b border-slate-200 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white shadow-md">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:flex-row">
-          <div className="flex items-center gap-2.5 text-center sm:text-left">
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-2.5 py-0.5 text-[11px] font-black text-slate-950 shadow-2xs">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-3 py-3 sm:px-6 lg:flex-row">
+          <div className="flex min-w-0 flex-col items-center gap-1.5 text-center sm:flex-row sm:gap-2.5 sm:text-left">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-400 px-2.5 py-0.5 text-[11px] font-black text-slate-950 shadow-2xs">
               <Sparkles className="h-3 w-3" />
               LIVE 쇼룸 스위처
             </span>
@@ -188,43 +190,43 @@ export default function AgencyMainShowroom({
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+          <div className="flex w-full flex-wrap items-center justify-center gap-1.5 sm:w-auto sm:gap-2">
             <button
               type="button"
               onClick={() => switchPreset("AGENCY")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
+              className={`inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-extrabold transition sm:px-3.5 sm:text-xs ${
                 activePreset === "AGENCY"
                   ? "bg-blue-600 text-white shadow-sm ring-2 ring-blue-300"
                   : "bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white"
               }`}
             >
-              <Code2 className="h-3.5 w-3.5" />
+              <Code2 className="h-3.5 w-3.5 shrink-0" />
               <span>모드 0: 웹 에이전시 공식 홈</span>
             </button>
 
             <button
               type="button"
               onClick={() => switchPreset("CORP")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
+              className={`inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-extrabold transition sm:px-3.5 sm:text-xs ${
                 activePreset === "CORP"
                   ? "bg-amber-500 text-slate-950 shadow-sm ring-2 ring-amber-200"
                   : "bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white"
               }`}
             >
-              <Building2 className="h-3.5 w-3.5" />
+              <Building2 className="h-3.5 w-3.5 shrink-0" />
               <span>샘플 1: 기업·시공·제조형</span>
             </button>
 
             <button
               type="button"
               onClick={() => switchPreset("CLINIC")}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
+              className={`inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-extrabold transition sm:px-3.5 sm:text-xs ${
                 activePreset === "CLINIC"
                   ? "bg-teal-500 text-slate-950 shadow-sm ring-2 ring-teal-200"
                   : "bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white"
               }`}
             >
-              <Stethoscope className="h-3.5 w-3.5" />
+              <Stethoscope className="h-3.5 w-3.5 shrink-0" />
               <span>샘플 2: 병의원·로펌·예약형</span>
             </button>
 
@@ -246,47 +248,64 @@ export default function AgencyMainShowroom({
         <div>
           {/* 섹션 1: 다크 네이비&블루 히어로 + 4대 핵심 지표 카운터 */}
           <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 py-20 text-white sm:py-28">
+            {heroBanner?.thumbnailUrl && (
+              <div
+                className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-20"
+                style={{ backgroundImage: `url('${heroBanner.thumbnailUrl}')` }}
+              />
+            )}
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.22),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(245,158,11,0.12),transparent_45%)]" />
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
               <div className="mx-auto max-w-4xl text-center">
                 <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-blue-400/30 bg-blue-900/40 px-4 py-1.5 text-xs font-bold text-blue-200 backdrop-blur-xs">
                   <BadgeCheck className="h-4 w-4 text-amber-400" />
                   <span>
-                    사업자 세금계산서 발행 | Java 21 · Spring Boot 3.4 · Next.js 15 정통 구축
+                    사업자 세금계산서 즉시 발행 | 월 고정 임대료 0원 · 100% 고객사 자체 소유 구축
                   </span>
                 </div>
 
-                <h1 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-[52px]">
-                  <span className="block text-amber-300">
-                    “매달 나가는 웹빌더 월 임대료, 아직도 내고 계십니까?”
-                  </span>
-                  <span className="mt-3 block">
-                    100% 귀사 소유로 구축하는 초고속 반응형 홈페이지 &amp; 맞춤 관리자(CMS)
-                  </span>
-                </h1>
+                {heroBanner?.title ? (
+                  <h1 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-[52px]">
+                    {heroBanner.title}
+                  </h1>
+                ) : (
+                  <h1 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-[52px]">
+                    <span className="block text-amber-300">
+                      “매달 나가는 홈페이지 월 임대료, 아직도 내고 계십니까?”
+                    </span>
+                    <span className="mt-3 block">
+                      100% 귀사 소유로 구축하는 초고속 반응형 홈페이지 &amp; 맞춤 관리자
+                    </span>
+                  </h1>
+                )}
 
-                <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
-                  아임웹·카페24·저가형 워드프레스처럼 매달 호스팅·플러그인 비용을 내고도 소스코드를 가져올 수 없는
-                  임대형 웹빌더와 비교하지 마십시오. 금융·공공기관 표준{" "}
-                  <strong className="font-bold text-white">Spring Boot + Next.js 정통 아키텍처</strong>로
-                  구축하여 평생 귀사 자산으로 이관해 드립니다.
-                </p>
+                {heroBanner?.summary ? (
+                  <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+                    {heroBanner.summary}
+                  </p>
+                ) : (
+                  <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+                    일반 임대형 웹빌더처럼 매달 플랫폼 이용료나 기능 추가 비용을 계속 내야 하는 방식과 다릅니다.{" "}
+                    <strong className="font-bold text-white">초고속 검색 최적화 구조와 맞춤 관리자 기능</strong>으로
+                    제작하여 원본 파일과 데이터를 100% 귀사 자산으로 이관해 드립니다.
+                  </p>
+                )}
 
-                <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+                <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
                   <Link
                     href="/inquiries"
-                    className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-7 py-4 text-base font-extrabold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 sm:w-auto sm:px-7 sm:py-4 sm:text-base"
                   >
-                    <MessageSquarePlus className="h-5 w-5" />
-                    30초 무료 제작 견적 받기
-                    <ArrowRight className="h-4 w-4" />
+                    <MessageSquarePlus className="h-5 w-5 shrink-0" />
+                    <span>30초 무료 제작 견적 받기</span>
+                    <ArrowRight className="h-4 w-4 shrink-0" />
                   </Link>
                   <Link
                     href="/admin/login"
-                    className="inline-flex items-center gap-2 rounded-2xl border border-amber-400/50 bg-amber-400/15 px-7 py-4 text-base font-extrabold text-amber-300 backdrop-blur-xs transition hover:bg-amber-400/25"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-amber-400/50 bg-amber-400/15 px-5 py-3.5 text-sm font-extrabold text-amber-300 backdrop-blur-xs transition hover:bg-amber-400/25 sm:w-auto sm:px-7 sm:py-4 sm:text-base"
                   >
-                    <LockKeyhole className="h-5 w-5" />
-                    관리자(CMS) 1초 원클릭 체험
+                    <LockKeyhole className="h-5 w-5 shrink-0" />
+                    <span>관리자 화면 1초 원클릭 체험</span>
                   </Link>
                 </div>
 
@@ -323,20 +342,20 @@ export default function AgencyMainShowroom({
                   </div>
                   <p className="mt-4 text-2xl font-black text-white">월 고정 임대료 0원</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-300">
-                    100% 독립 소유형 원본 소스코드 이관으로 웹빌더 월세·수수료 완전 해방
+                    100% 자체 소유형 원본 파일 이관으로 제작사 월 관리비·임대료 부담 해방
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
                   <div className="flex items-center justify-between">
                     <span className="rounded-lg bg-emerald-500/20 px-2.5 py-1 text-xs font-extrabold text-emerald-300">
-                      SEO &amp; AEO
+                      SEARCH READY
                     </span>
                     <Search className="h-5 w-5 text-emerald-400" />
                   </div>
-                  <p className="mt-4 text-2xl font-black text-white">네이버·구글 SEO 100%</p>
+                  <p className="mt-4 text-2xl font-black text-white">네이버·구글 검색 최적화</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-300">
-                    Next.js 15 SSR 기반 동적 메타태그·사이트맵·AI 검색엔진 최적화 기본 탑재
+                    초고속 검색 최적화 구조와 사이트맵·카톡 공유 썸네일 직접 설정 기본 탑재
                   </p>
                 </div>
 
@@ -347,9 +366,9 @@ export default function AgencyMainShowroom({
                     </span>
                     <Zap className="h-5 w-5 text-amber-400" />
                   </div>
-                  <p className="mt-4 text-2xl font-black text-white">WebP 자동 다이어트</p>
+                  <p className="mt-4 text-2xl font-black text-white">사진 용량 자동 최적화</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-300">
-                    고화질 사진을 올려도 서버가 자동으로 초경량 WebP 변환 (로딩속도 3배 향상)
+                    고화질 사진을 그대로 올려도 자동으로 용량을 줄여 모바일 로딩속도 3배 향상
                   </p>
                 </div>
 
@@ -362,14 +381,14 @@ export default function AgencyMainShowroom({
                   </div>
                   <p className="mt-4 text-2xl font-black text-white">평균 구축 5~7일</p>
                   <p className="mt-1.5 text-xs leading-relaxed text-slate-300">
-                    검증된 엔터프라이즈 모듈형 엔진으로 기획부터 런칭까지 초고속 안심 납품
+                    검증된 업종별 맞춤 모듈로 기획부터 오픈까지 빠르고 정확하게 안심 납품
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 섹션 2: 일반 웹빌더 vs 당사 정통 웹 구축 5대 비교표 */}
+          {/* 섹션 2: 일반 임대형 웹빌더 vs 당사 자체 소유형 맞춤 홈페이지 비교표 */}
           <section className="py-20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="mx-auto max-w-3xl text-center">
@@ -377,88 +396,88 @@ export default function AgencyMainShowroom({
                   WHY STARTERWEB STUDIO
                 </span>
                 <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">
-                  일반 웹빌더 단순 대행 vs 당사 정통 웹 구축 비교
+                  일반 임대형 웹빌더 vs 당사 자체 소유형 맞춤 홈페이지 비교
                 </h2>
                 <p className="mt-3 text-sm text-slate-600 sm:text-base">
-                  제작비만 싸고 매달 관리비·호스팅비가 빠져나가는 임대형 홈페이지와 근본부터 다릅니다.
+                  매달 나가는 플랫폼 유지 비용과 홈페이지 소유권, 우리 회사 맞춤 기능 범위를 한눈에 비교해 보세요.
                 </p>
               </div>
 
-              <div className="mt-12 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
-                <div className="overflow-x-auto">
+              <div className="mt-12 w-full max-w-full min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
+                <div className="w-full overflow-x-auto">
                   <table className="w-full min-w-[720px] border-collapse text-left text-sm">
                     <thead>
                       <tr className="border-b border-slate-200 bg-slate-900 text-white">
                         <th className="w-1/4 px-6 py-5 font-extrabold">비교 항목</th>
                         <th className="w-3/8 px-6 py-5 font-bold text-slate-300">
-                          아임웹 · 워드프레스 단순 제작 대행
+                          일반 임대형 웹빌더 · 구독형 노코드 플랫폼
                         </th>
                         <th className="w-3/8 bg-blue-800 px-6 py-5 font-extrabold text-white">
                           <div className="flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-amber-300" />
-                            <span>당사 Spring Boot + Next.js 독립형 구축</span>
+                            <span>당사 자체 소유형 맞춤 홈페이지</span>
                           </div>
                         </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
                       <tr className="hover:bg-slate-50/70">
-                        <td className="px-6 py-5 font-extrabold text-slate-900">1. 월 고정 유지비</td>
+                        <td className="px-6 py-5 font-extrabold text-slate-900">1. 매달 나가는 비용</td>
                         <td className="px-6 py-5 text-slate-600">
-                          매월 2.2만~5.5만 원 웹빌더 임대료 + 유료 플러그인 정기결제 평생 발생
+                          매월 플랫폼 임대료·기능 추가비 지속 발생
                         </td>
                         <td className="bg-blue-50/40 px-6 py-5 font-bold text-blue-950">
                           <span className="inline-flex items-center gap-1.5 text-blue-800">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-700" />
-                            에이전시 월 고정 임대료 0원 (100% 자체 소유)
+                            제작사 관리비·월 임대료 0원 (100% 자체 소유)
                           </span>
                         </td>
                       </tr>
                       <tr className="hover:bg-slate-50/70">
-                        <td className="px-6 py-5 font-extrabold text-slate-900">2. 원본 소스 소유권</td>
+                        <td className="px-6 py-5 font-extrabold text-slate-900">2. 홈페이지 소유권</td>
                         <td className="px-6 py-5 text-slate-600">
-                          플랫폼 종속(Lock-in)으로 타 서버 이전 불가, 해지 시 사이트 즉시 소멸
+                          플랫폼 정책에 따라 서버 이전 제한
                         </td>
                         <td className="bg-blue-50/40 px-6 py-5 font-bold text-blue-950">
                           <span className="inline-flex items-center gap-1.5 text-blue-800">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-700" />
-                            프론트·백엔드·DB 원본 소스코드 및 Docker 100% 이관
+                            원본 파일·데이터 100% 고객사 귀속 (원하는 서버로 자유 이전)
                           </span>
                         </td>
                       </tr>
                       <tr className="hover:bg-slate-50/70">
-                        <td className="px-6 py-5 font-extrabold text-slate-900">3. 맞춤 예약/DB 확장성</td>
+                        <td className="px-6 py-5 font-extrabold text-slate-900">3. 우리 회사 맞춤 기능</td>
                         <td className="px-6 py-5 text-slate-600">
-                          정해진 템플릿 외 맞춤 견적 계산기·시간대별 정원 예약·사내 ERP 연동 불가
+                          정해진 템플릿 외 맞춤 기능 추가 제한
                         </td>
                         <td className="bg-blue-50/40 px-6 py-5 font-bold text-blue-950">
                           <span className="inline-flex items-center gap-1.5 text-blue-800">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-700" />
-                            1:1/정원제/네이버예약 하이브리드 &amp; 맞춤 DB 무제한 확장
+                            1:1·정원제 예약, 견적 계산기, 실시간 알림 등 맞춤 기능 기본 탑재
                           </span>
                         </td>
                       </tr>
                       <tr className="hover:bg-slate-50/70">
-                        <td className="px-6 py-5 font-extrabold text-slate-900">4. 검색엔진 노출(SEO)</td>
+                        <td className="px-6 py-5 font-extrabold text-slate-900">4. 네이버·구글 검색 노출</td>
                         <td className="px-6 py-5 text-slate-600">
-                          무거운 스크립트와 중복 메타태그로 네이버·구글 웹문서 상위노출 불리
+                          검색엔진 세부 구조 직접 수정 제한
                         </td>
                         <td className="bg-blue-50/40 px-6 py-5 font-bold text-blue-950">
                           <span className="inline-flex items-center gap-1.5 text-blue-800">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-700" />
-                            Next.js 15 SSR 초고속 렌더링 + 무코드 실시간 SEO/OG 제어
+                            초고속 페이지 로딩 + 관리자 화면에서 검색 제목·카톡 공유 이미지 직접 설정
                           </span>
                         </td>
                       </tr>
                       <tr className="hover:bg-slate-50/70">
-                        <td className="px-6 py-5 font-extrabold text-slate-900">5. 보안 및 서버 안정성</td>
+                        <td className="px-6 py-5 font-extrabold text-slate-900">5. 스팸 및 개인정보 보호</td>
                         <td className="px-6 py-5 text-slate-600">
-                          워드프레스 플러그인 취약점 해킹·광고 스팸봇 테러·첨부파일 URL 노출 위험
+                          공용 플러그인 방식 및 기본 스팸 방어
                         </td>
                         <td className="bg-blue-50/40 px-6 py-5 font-bold text-blue-950">
                           <span className="inline-flex items-center gap-1.5 text-blue-800">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-700" />
-                            Java 21 금융권 표준 보안 + 스팸 차단 + 비공개 파일 격리 저장
+                            자동 스팸 차단 + 고객 견적서·첨부파일 비공개 안전 보관
                           </span>
                         </td>
                       </tr>
@@ -469,18 +488,18 @@ export default function AgencyMainShowroom({
             </div>
           </section>
 
-          {/* 섹션 3: 납품 시 기본 제공되는 4대 킬러 관리자(CMS) 기능 쇼케이스 */}
+          {/* 섹션 3: 납품 시 기본 제공되는 4대 핵심 관리자 기능 쇼케이스 */}
           <section className="border-y border-slate-200 bg-slate-50 py-20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="mx-auto max-w-3xl text-center">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3.5 py-1 text-xs font-extrabold text-amber-900">
-                  4 KILLER CMS FEATURES
+                  4 EASY ADMIN FEATURES
                 </span>
                 <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-900 sm:text-4xl">
-                  개발자 없이 대표님이 직접 운영하는 ‘4대 킬러 관리자(CMS)’ 기본 탑재
+                  개발자 없이 대표님이 직접 운영하는 ‘4대 맞춤 관리자 기능’ 기본 탑재
                 </h2>
                 <p className="mt-3 text-sm text-slate-600 sm:text-base">
-                  문구 하나 바꾸려고 건당 3~5만 원씩 유지보수 비용을 청구하지 않습니다. 지금 바로 관리자 화면에서 직접 눌러보세요.
+                  문구 하나 바꾸려고 건당 3~5만 원씩 수정 비용을 지불하지 마세요. 지금 바로 관리자 화면에서 직접 눌러보실 수 있습니다.
                 </p>
               </div>
 
@@ -493,22 +512,22 @@ export default function AgencyMainShowroom({
                         <Globe className="h-6 w-6" />
                       </span>
                       <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-extrabold text-blue-700">
-                        KILLER 01 · ZERO-CODE SEO
+                        FEATURE 01 · 쉬운 검색·브랜드 설정
                       </span>
                     </div>
                     <h3 className="mt-5 text-xl font-black text-slate-900">
-                      ① 무코드 SEO·브랜딩 0.1초 즉시 반영
+                      ① 검색 노출 제목 · 카톡 공유 썸네일 · 브랜드 색상 즉시 변경
                     </h3>
                     <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                      네이버·구글 검색 제목, 설명문, 카카오톡 공유 썸네일(OG 이미지), 브랜드 대표 색상, 하단 사업자 정보를
-                      서버 재배포 없이 관리자 콘솔에서 저장 즉시 0.1초 만에 사이트 전체에 반영합니다.
+                      네이버·구글 검색 제목, 소개 문구, 카카오톡 공유 썸네일 이미지, 대표 브랜드 색상, 하단 사업자 정보를
+                      복잡한 작업 없이 관리자 화면에서 저장 즉시 0.1초 만에 홈페이지 전체에 반영합니다.
                     </p>
                     <ul className="mt-4 space-y-1.5 text-xs font-semibold text-slate-700">
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-blue-700" /> 네이버 서치어드바이저 · 구글 소유권 인증 메타태그 즉시 입력
+                        <Check className="h-4 w-4 text-blue-700" /> 네이버·구글 검색 등록 인증코드 빈칸 입력만으로 간편 연동
                       </li>
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-blue-700" /> 상단 메뉴명 · 노출 순서 · 숨김 여부 마우스 클릭 제어
+                        <Check className="h-4 w-4 text-blue-700" /> 상단 메뉴 이름 · 노출 순서 · 숨김 여부 마우스 클릭 제어
                       </li>
                     </ul>
                   </div>
@@ -530,22 +549,22 @@ export default function AgencyMainShowroom({
                         <FileSpreadsheet className="h-6 w-6" />
                       </span>
                       <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700">
-                        KILLER 02 · LEAD &amp; EXCEL
+                        FEATURE 02 · 고객 문의 &amp; 엑셀 관리
                       </span>
                     </div>
                     <h3 className="mt-5 text-xl font-black text-slate-900">
-                      ② 스팸방어 맞춤 견적·상담 문의폼 + 원클릭 엑셀(.xlsx) 다운로드
+                      ② 자동 스팸 차단 견적·상담 문의폼 + 원클릭 엑셀(.xlsx) 다운로드
                     </h3>
                     <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                      허니팟(Honeypot)과 IP Rate-Limit 필터로 해외 광고 스팸봇을 100% 차단합니다. 접수된 고객 DB는 상태별(신규/상담중/완료)로
-                      관리하고 클릭 한 번에 한글 깨짐 없는 엑셀 파일로 추출합니다.
+                      자동 스팸 방지 기능으로 광고성 도배 문의를 깔끔하게 걸러냅니다. 접수된 고객 문의 내역은 진행 상태별(신규/상담중/완료)로
+                      메모하며 관리하고 클릭 한 번에 한글 깨짐 없는 엑셀 파일로 내려받습니다.
                     </p>
                     <ul className="mt-4 space-y-1.5 text-xs font-semibold text-slate-700">
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-emerald-700" /> 업종별 맞춤 추가 항목(예산/평수/희망일) 자유 확장 구조
+                        <Check className="h-4 w-4 text-emerald-700" /> 업종별 맞춤 입력 항목(예산/평수/희망일) 자유 추가 가능
                       </li>
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-emerald-700" /> 영업팀 보고용 기간별·상태별 엑셀(.xlsx) 즉시 다운로드
+                        <Check className="h-4 w-4 text-emerald-700" /> 영업·상담 정리용 기간별·상태별 엑셀(.xlsx) 즉시 다운로드
                       </li>
                     </ul>
                   </div>
@@ -567,7 +586,7 @@ export default function AgencyMainShowroom({
                         <CalendarCheck className="h-6 w-6" />
                       </span>
                       <span className="rounded-full bg-purple-50 px-3 py-1 text-xs font-extrabold text-purple-700">
-                        KILLER 03 · HYBRID BOOKING
+                        FEATURE 03 · 업종별 맞춤 예약
                       </span>
                     </div>
                     <h3 className="mt-5 text-xl font-black text-slate-900">
@@ -575,14 +594,14 @@ export default function AgencyMainShowroom({
                     </h3>
                     <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
                       로펌·세무사처럼 한 타임에 1명만 받는 ‘1:1 단독 예약’부터 클리닉·필라테스처럼 시간대별 ‘N명 정원제 예약’,
-                      그리고 ‘네이버 스마트플레이스 예약’ 병행까지 스위치 하나로 전환됩니다.
+                      그리고 ‘네이버 스마트플레이스 예약’ 병행까지 관리자 스위치 하나로 전환됩니다.
                     </p>
                     <ul className="mt-4 space-y-1.5 text-xs font-semibold text-slate-700">
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-purple-700" /> 날짜·시간대별 잔여석 자동 마감 및 중복 예약 원천 방지
+                        <Check className="h-4 w-4 text-purple-700" /> 날짜·시간대별 잔여석 자동 마감 및 중복 예약 방지
                       </li>
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-purple-700" /> 예약 기능이 필요 없는 기업형은 ‘OFF’ 스위치로 메뉴 자동 숨김
+                        <Check className="h-4 w-4 text-purple-700" /> 예약 기능이 필요 없는 기업형은 ‘사용 안 함’ 선택 시 메뉴 자동 숨김
                       </li>
                     </ul>
                   </div>
@@ -604,22 +623,22 @@ export default function AgencyMainShowroom({
                         <ImageIcon className="h-6 w-6" />
                       </span>
                       <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-800">
-                        KILLER 04 · WEBP &amp; SECURITY
+                        FEATURE 04 · 사진 최적화 &amp; 안전 보관
                       </span>
                     </div>
                     <h3 className="mt-5 text-xl font-black text-slate-900">
-                      ④ 고화질 사진 WebP 자동 다이어트 &amp; 공개/비공개 보안 스토리지 분리
+                      ④ 고화질 사진 용량 자동 최적화 &amp; 고객 첨부파일 비공개 안전 보관
                     </h3>
                     <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                      10MB짜리 원본 시공 사진을 그대로 업로드해도 서버가 자동으로 차세대 WebP 포맷으로 압축해 모바일 로딩 속도를
-                      극대화하며, 고객 문의 첨부파일은 외부 접근이 차단된 보안 폴더에 분리 저장합니다.
+                      10MB짜리 스마트폰·카메라 원본 시공 사진을 그대로 올려도 서버가 자동으로 용량을 줄여 모바일 로딩 속도를
+                      높여주며, 고객이 올린 견적서·첨부파일은 외부에서 볼 수 없는 비공개 폴더에 안전하게 보관합니다.
                     </p>
                     <ul className="mt-4 space-y-1.5 text-xs font-semibold text-slate-700">
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-amber-700" /> 포토샵 리사이징 없이 원본 업로드 → 용량 80% 자동 절감
+                        <Check className="h-4 w-4 text-amber-700" /> 포토샵 크기 조절 없이 원본 사진 그대로 등록 → 용량 80% 자동 절감
                       </li>
                       <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-amber-700" /> 의뢰인 계약서·진료/사건 첨부자료 관리자 전용 토큰 다운로드
+                        <Check className="h-4 w-4 text-amber-700" /> 고객 계약서·사건/진료 첨부자료는 로그인한 관리자만 안전 열람
                       </li>
                     </ul>
                   </div>
@@ -855,15 +874,15 @@ export default function AgencyMainShowroom({
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-amber-400" />
-                        <span>고화질 사진 WebP 자동 다이어트 &amp; 비공개 첨부파일 보안 저장</span>
+                        <span>고화질 사진 용량 자동 최적화 &amp; 고객 첨부파일 비공개 안전 보관</span>
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-amber-400" />
-                        <span>무코드 실시간 SEO·브랜드 컬러·메뉴 제어 CMS 풀버전</span>
+                        <span>검색 제목·카톡 공유 이미지·브랜드 색상·메뉴 직접 설정 관리자 제공</span>
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-amber-400" />
-                        <span>도메인·SSL 보안인증서 세팅 및 포털 사이트 검색등록 대행</span>
+                        <span>도메인·보안인증서(SSL) 연결 및 네이버·구글 검색등록 대행</span>
                       </li>
                     </ul>
                   </div>
@@ -891,7 +910,7 @@ export default function AgencyMainShowroom({
                       기업 맞춤·정부지원·고급 확장형
                     </h3>
                     <p className="mt-1 text-xs text-slate-400">
-                      초기창업패키지·정부지원사업 수행, 다국어, 알림톡/결제/외부 API 맞춤 연동
+                      초기창업패키지·정부지원사업 수행, 다국어, 알림톡/결제/외부 기능 맞춤 연동
                     </p>
                     <div className="mt-6 flex items-baseline gap-1 border-b border-slate-800 pb-6">
                       <span className="text-4xl font-black text-white">1,790,000</span>
@@ -901,7 +920,7 @@ export default function AgencyMainShowroom({
                     <ul className="mt-6 space-y-3 text-xs text-slate-300">
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-400" />
-                        <span className="font-bold text-white">DELUXE 전 기능 포함 + 페이지/DB 맞춤 설계</span>
+                        <span className="font-bold text-white">DELUXE 전 기능 포함 + 페이지·기능 맞춤 설계</span>
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-400" />
@@ -909,7 +928,7 @@ export default function AgencyMainShowroom({
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-400" />
-                        <span>관리자 권한 등급 분리 (SUPER_ADMIN / EDITOR) &amp; 감사로그</span>
+                        <span>대표 관리자 / 실무 담당자 등급별 권한 분리 및 작업 내역 기록</span>
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-400" />
@@ -917,7 +936,7 @@ export default function AgencyMainShowroom({
                       </li>
                       <li className="flex items-center gap-2.5">
                         <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-400" />
-                        <span>독립 클라우드 서버(AWS/Naver Cloud) Docker 무중단 구축 지원</span>
+                        <span>원클릭 서버 설치 패키지 제공 및 고객사 전용 클라우드 서버 구축 지원</span>
                       </li>
                     </ul>
                   </div>
@@ -961,22 +980,22 @@ export default function AgencyMainShowroom({
                   {
                     step: "STEP 02",
                     title: "업종 맞춤 설계",
-                    desc: "전환율 높은 카피라이팅 보정 및 브랜드 컬러·레이아웃 시안 확정",
+                    desc: "전환율 높은 소개 문구 다듬기 및 브랜드 색상·화면 구성 확정",
                   },
                   {
                     step: "STEP 03",
-                    title: "반응형 웹·CMS 구축",
-                    desc: "Spring Boot + Next.js 정통 코딩 및 예약·문의폼·WebP 엔진 연동",
+                    title: "반응형 웹·관리자 구축",
+                    desc: "PC·모바일 반응형 제작 및 예약·문의폼·사진 자동 최적화 연동",
                   },
                   {
                     step: "STEP 04",
-                    title: "SEO 검색등록·SSL",
-                    desc: "도메인 연결, 보안인증서(HTTPS) 적용, 네이버·구글 사이트맵 등록",
+                    title: "검색등록·보안 적용",
+                    desc: "도메인 연결, 보안인증서(SSL) 적용, 네이버·구글 검색 노출 등록",
                   },
                   {
                     step: "STEP 05",
-                    title: "원본 납품·매뉴얼",
-                    desc: "100% 원본 소스코드 이관, 비개발자용 한글 관리자 매뉴얼 및 무상 A/S",
+                    title: "원본 납품·가이드북",
+                    desc: "100% 원본 파일·데이터 이관, 쉬운 한글 관리자 가이드북 및 무상 A/S",
                   },
                 ].map((item, idx) => (
                   <div
@@ -1010,24 +1029,24 @@ export default function AgencyMainShowroom({
                 <div className="mt-8 space-y-3">
                   {[
                     {
-                      q: "Q1. 아임웹·워드프레스 제작 대행과 정확히 무엇이 다른가요?",
-                      a: "아임웹이나 카페24 같은 웹빌더는 제작비를 내고도 매달 2~5만 원의 플랫폼 임대료를 평생 내야 하며, 원본 소스코드를 내 서버로 가져올 수 없습니다. 반면 당사는 금융·대기업 표준인 Java 21(Spring Boot 3.4)과 Next.js 15로 정통 구축하여 원본 소스코드를 100% 귀사 소유로 이관해 드리므로 에이전시 월 고정 임대료가 0원입니다.",
+                      q: "Q1. 일반 임대형 웹빌더나 구독형 플랫폼과 어떤 차이가 있나요?",
+                      a: "일반 임대형 웹빌더나 구독형 노코드 플랫폼은 제작 후에도 매월 플랫폼 임대료나 기능 추가 비용이 지속적으로 발생하며, 플랫폼 정책에 따라 다른 서버로 이전이 제한될 수 있습니다. 반면 당사는 홈페이지를 100% 고객사 자체 소유 방식으로 제작하여 원본 파일과 데이터를 모두 귀사에 넘겨드리므로 제작사에 내시는 월 고정 임대료가 0원입니다.",
                     },
                     {
-                      q: "Q2. 월 고정 임대료가 0원이면 실제 서버(호스팅) 비용은 어떻게 되나요?",
-                      a: "당사에 내시는 월 관리비·임대료가 0원입니다! 실제 웹사이트가 돌아가는 클라우드 서버(AWS Lightsail, 카페24 클라우드, 사내 서버 등)는 대표님 명의 계정으로 투명하게 세팅해 드리며, 실비(월 약 5,000원~1만 원대 또는 자체 PC/서버 활용 시 0원)만 클라우드사에 직접 납부하시면 됩니다.",
+                      q: "Q2. 제작사 월 고정 임대료가 0원이면 실제 서버(호스팅) 비용은 어떻게 되나요?",
+                      a: "당사에 내시는 월 관리비·임대료가 0원입니다! 실제 홈페이지가 운영되는 서버(클라우드 또는 웹호스팅)는 대표님 명의 계정으로 투명하게 연결해 드리며, 선택하시는 서버 사양에 따라 서버 제공사에 실비(월 약 5,000원~1만 원대 또는 사내 보유 서버 활용 시 0원)만 직접 납부하시면 됩니다.",
                     },
                     {
                       q: "Q3. 홈페이지에 들어갈 문구(원고)나 전문 사진이 없는데 제작이 가능한가요?",
-                      a: "네, 전혀 걱정하지 마십시오! 업종별(기업·인테리어·병원·로펌·학원 등)로 검증된 고전환 한글 카피라이팅 초안과 상업적 무료 고화질 라이선스 이미지를 기본 배치해 드립니다. 납품 후에도 관리자 콘솔에서 언제든 사진과 텍스트를 직접 교체하실 수 있습니다.",
+                      a: "네, 전혀 걱정하지 마십시오! 업종별(기업·인테리어·병원·로펌·학원 등)로 검증된 맞춤형 한글 소개 문구 초안과 상업적 무료 고화질 라이선스 이미지를 기본 배치해 드립니다. 납품 후에도 관리자 화면에서 언제든 사진과 문구를 직접 교체하실 수 있습니다.",
                     },
                     {
                       q: "Q4. 사업자 전자세금계산서 발행과 정부지원사업(초기창업패키지 등) 서류 지원이 되나요?",
-                      a: "100% 가능합니다. 전자세금계산서 즉시 발행은 물론, 정부지원사업·창업진흥원·소상공인 바우처 집행에 필수적인 비교견적서, 과업지시서, 완료보고서, 산출물 내역서, 검수조서를 행정 반려 없이 완벽하게 준비해 드립니다.",
+                      a: "100% 가능합니다. 전자세금계산서 즉시 발행은 물론, 정부지원사업·창업진흥원·소상공인 바우처 집행에 필수적인 비교견적서, 과업지시서, 완료보고서, 산출물 내역서, 검수조서를 원스톱으로 완벽하게 준비해 드립니다.",
                     },
                     {
                       q: "Q5. 납품 후 수정이나 유지보수는 어떻게 진행되나요?",
-                      a: "최종 납품일로부터 1개월간 기능 오류 및 텍스트·배너 미세 조정을 무상으로 책임 보증합니다. 또한 공지사항, 포트폴리오, 예약 시간표, SEO 제목, 브랜드 컬러, 하단 사업자 정보는 제공해 드리는 관리자(CMS)에서 평생 무료로 직접 수정하실 수 있습니다.",
+                      a: "최종 납품일로부터 1개월간 기능 점검 및 문구·배너 미세 조정을 무상으로 책임 보증합니다. 또한 공지사항, 포트폴리오, 예약 시간표, 검색 노출 제목, 카톡 공유 썸네일, 브랜드 색상, 하단 사업자 정보는 제공해 드리는 관리자 화면에서 평생 무료로 직접 수정하실 수 있습니다.",
                     },
                   ].map((faq, idx) => {
                     const isOpen = openFaqIndex === idx;
@@ -1068,7 +1087,7 @@ export default function AgencyMainShowroom({
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="grid gap-10 lg:grid-cols-12">
                 {/* 좌측 7컬럼: 최신 공지사항 테이블 프리뷰 */}
-                <div className="lg:col-span-7">
+                <div className="min-w-0 lg:col-span-7">
                   <div className="mb-4 flex items-center justify-between">
                     <div>
                       <span className="text-xs font-extrabold text-blue-700">NOTICE &amp; NEWS</span>
@@ -1114,7 +1133,7 @@ export default function AgencyMainShowroom({
                 </div>
 
                 {/* 우측 5컬럼: 즉시 상담/예약 & CMS 체험 배너 */}
-                <div className="flex flex-col justify-between rounded-3xl bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-8 text-white shadow-xl lg:col-span-5">
+                <div className="flex min-w-0 flex-col justify-between rounded-3xl bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-6 text-white shadow-xl sm:p-8 lg:col-span-5">
                   <div>
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-extrabold text-amber-300">
                       <Sparkles className="h-3.5 w-3.5" />
@@ -1201,7 +1220,7 @@ export default function AgencyMainShowroom({
 
             <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12">
               {/* 좌측 기업 히어로 카피 */}
-              <div className="lg:col-span-7">
+              <div className="min-w-0 lg:col-span-7">
                 <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-3.5 py-1 text-xs font-extrabold text-amber-300">
                   <Award className="h-3.5 w-3.5" />
                   PREMIUM SPACE &amp; ENGINEERING PARTNER
@@ -1233,7 +1252,7 @@ export default function AgencyMainShowroom({
               </div>
 
               {/* 우측: 30초 빠른 무료 견적 계산·문의 위젯 */}
-              <div className="rounded-3xl border border-slate-700/80 bg-slate-900/95 p-6 shadow-2xl backdrop-blur-md sm:p-7 lg:col-span-5">
+              <div className="min-w-0 rounded-3xl border border-slate-700/80 bg-slate-900/95 p-5 shadow-2xl backdrop-blur-md sm:p-7 lg:col-span-5">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                   <div className="flex items-center gap-2">
                     <Calculator className="h-5 w-5 text-amber-400" />

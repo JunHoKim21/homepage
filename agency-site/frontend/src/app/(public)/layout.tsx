@@ -22,13 +22,13 @@ export default async function PublicLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen w-full max-w-full min-w-0 flex-col overflow-x-clip">
       <PublicHeader
         menus={menus}
         brandName={brandName}
         reservationMode={configs.reservation_mode || "BOTH"}
       />
-      <main className="flex-1">{children}</main>
+      <main className="min-w-0 flex-1">{children}</main>
       <QuickFloatingBar />
       <PublicFooter companyInfoJson={configs.footer_company_info || "{}"} />
     </div>

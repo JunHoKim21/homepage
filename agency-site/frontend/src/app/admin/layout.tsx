@@ -7,13 +7,16 @@ import {
   Calendar,
   ExternalLink,
   FileText,
+  Home,
   Image as ImageIcon,
   Inbox,
   LayoutDashboard,
   LogOut,
+  Menu,
   ShieldCheck,
   Sliders,
   Sparkles,
+  X,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -29,6 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const [ready, setReady] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLoginPage = pathname === "/admin/login";
 
@@ -44,6 +48,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
     setReady(true);
   }, [isLoginPage, router]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   if (isLoginPage) {
     return <>{children}</>;
@@ -64,9 +72,72 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-100">
-      {/* 3-B 한국 기업 표준 딥 네이비 사이드바 + 인디고 블루 액센트 */}
-      <aside className="flex w-68 shrink-0 flex-col bg-slate-900 text-slate-100 shadow-xl">
+    <div className="flex min-h-screen flex-col bg-slate-100 md:flex-row">
+      {/* 모바일 상단 딥 네이비 헤더 (md 미만) */}
+      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-slate-800 bg-slate-900 px-4 text-slate-100 md:hidden">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-xs font-extrabold text-white">
+            KR
+          </div>
+          <span className="text-sm font-extrabold text-white">스타터웹 관리자 콘솔</span>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1 rounded-lg bg-slate-800 px-2.5 py-1.5 text-xs font-bold text-slate-200 hover:bg-blue-600 hover:text-white"
+            title="홈페이지 메인 보기"
+          >
+            <Home className="h-3.5 w-3.5" />
+            <span>메인</span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-lg p-2 text-slate-200 hover:bg-slate-800"
+            aria-label="관리자 메뉴 열기"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </header>
+
+      {/* 모바일 햄버거 드롭다운 메뉴 (md 미만) */}
+      {mobileMenuOpen && (
+        <div className="border-b border-slate-800 bg-slate-900 p-3 text-slate-100 md:hidden">
+          <nav className="space-y-1">
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-sm font-bold ${
+                    active
+                      ? "bg-blue-600 text-white"
+                      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-2 flex w-full items-center gap-2.5 rounded-xl border border-slate-800 px-3.5 py-2.5 text-sm font-bold text-red-400 hover:bg-red-500/10"
+            >
+              <LogOut className="h-4 w-4 shrink-0" />
+              <span>관리자 로그아웃</span>
+            </button>
+          </nav>
+        </div>
+      )}
+
+      {/* 데스크톱 좌측 3-B 딥 네이비 사이드바 (md 이상에서만 노출) */}
+      <aside className="hidden w-64 shrink-0 flex-col bg-slate-900 text-slate-100 shadow-xl md:flex">
         <div className="flex h-16 items-center justify-between border-b border-slate-800 px-5">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-xs font-extrabold text-white">
@@ -116,7 +187,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <span>시스템 정상 가동 중</span>
             </div>
             <p className="mt-1 text-[11px] text-slate-400">
-              Caddy 자동 SSL · WebP 변환 워커 ON
+              무료 보안인증서 · 사진 경량화 ON
             </p>
           </div>
 
@@ -132,29 +203,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* 우측 메인 영역 (상단 데모 안내 바 + 본문) */}
-      <div className="flex flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-6 py-3.5 shadow-2xs">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1.5 text-xs font-extrabold text-blue-800">
-            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-            <span>[데모 체험 모드 동작 중 — 모든 메뉴를 자유롭게 클릭해 보세요]</span>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-14 z-30 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-white px-4 py-3 shadow-2xs sm:px-6 sm:py-3.5 md:top-0">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-extrabold text-blue-800 sm:text-xs">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-blue-600" />
+            <span className="truncate">[데모 체험 모드 동작 중 — 모든 메뉴를 자유롭게 클릭해 보세요]</span>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Link
               href="/?preset=CORP"
-              className="hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 sm:inline-flex"
+              className="hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 lg:inline-flex"
             >
               기업형 샘플 보기
             </Link>
             <Link
               href="/?preset=CLINIC"
-              className="hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 sm:inline-flex"
+              className="hidden rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 lg:inline-flex"
             >
               병의원형 샘플 보기
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-blue-600"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-extrabold text-white transition hover:bg-blue-600 sm:px-4 sm:py-2"
             >
               <span>[홈페이지 메인 보기 ↗]</span>
               <ExternalLink className="h-3.5 w-3.5" />
@@ -162,7 +233,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </header>
 
-        <main className="flex-1 p-6 sm:p-8">{children}</main>
+        <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

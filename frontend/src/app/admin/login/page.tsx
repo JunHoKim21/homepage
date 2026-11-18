@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-slate-900">관리자 콘솔 로그인</h1>
-            <p className="text-xs text-slate-500">Starter Kit v2.0 Admin</p>
+            <p className="text-xs text-slate-500">홈페이지 통합 관리 시스템</p>
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
 
         <div>
           <label className="mb-1 block text-xs font-semibold text-slate-700">
-            Google OTP (2FA 활성화 시에만 입력)
+            Google OTP 6자리 (보안 설정 시에만 입력)
           </label>
           <input
             type="text"

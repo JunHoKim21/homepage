@@ -1,0 +1,32 @@
+{$DOMAIN_NAME:localhost} {
+    encode zstd gzip
+
+    # 1. 공개 이미지(/uploads/public/*)는 Spring Boot를 거치지 않고 Caddy가 직접 서빙
+    handle_path /uploads/public/* {
+        root * /var/www/uploads/public
+        header Cache-Control "public, max-age=31536000, immutable"
+        header X-Content-Type-Options "nosniff"
+        file_server
+    }
+
+    # 2. 비공개 폴더(/uploads/private/*) 외부 URL 직접 접근 시 즉시 403 차단
+    handle /uploads/private/* {
+        respond "Forbidden" 403
+    }
+
+    # 3. 백엔드 API 및 Swagger 문서 요청 전달 (실제 클라이언트 IP 헤더 자동 전달)
+    handle /api/* {
+        reverse_proxy backend:8080
+    }
+    handle /swagger-ui/* {
+        reverse_proxy backend:8080
+    }
+    handle /v3/api-docs* {
+        reverse_proxy backend:8080
+    }
+
+    # 4. 그 외 모든 웹 페이지 요청은 Next.js 프론트엔드로 전달
+    handle {
+        reverse_proxy frontend:3000
+    }
+}

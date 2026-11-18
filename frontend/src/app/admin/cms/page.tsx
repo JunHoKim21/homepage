@@ -66,7 +66,7 @@ export default function AdminCmsPage() {
         body: formData,
       });
       setThumbnailUrl(res.storageKey);
-      setNotice("이미지가 업로드되어 WebP로 자동 변환됩니다. 등록/저장 버튼을 눌러 반영해 주세요.");
+      setNotice("이미지가 업로드되어 최적화되었습니다. 등록/저장 버튼을 눌러 반영해 주세요.");
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "이미지 업로드 실패");
     } finally {
@@ -116,7 +116,7 @@ export default function AdminCmsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">CMS · 배너 · 팝업 관리</h1>
+        <h1 className="text-2xl font-bold text-slate-900">게시판 · 배너 · 팝업 관리</h1>
         <p className="mt-1 text-sm text-slate-500">
           공지사항, 포트폴리오, 구역별 배너 이미지, 레이어 팝업을 등록하고 즉시 수정할 수 있습니다.
         </p>
@@ -164,7 +164,7 @@ export default function AdminCmsPage() {
           )}
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className={`grid gap-3 ${category === "BANNER" ? "sm:grid-cols-2" : ""}`}>
           <div>
             <label className="mb-1 block text-xs font-semibold text-slate-700">제목 *</label>
             <input
@@ -176,21 +176,21 @@ export default function AdminCmsPage() {
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
             />
           </div>
-          <div>
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
-              {category === "BANNER"
-                ? "구역 식별 코드 (예: hero-main)"
-                : "고유 슬러그 (비워두면 자동 생성)"}
-            </label>
-            <input
-              type="text"
-              value={slug}
-              disabled={editingId !== null}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder={category === "BANNER" ? "hero-main" : "my-post-1"}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100"
-            />
-          </div>
+          {category === "BANNER" && (
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-slate-700">
+                배너 위치 코드 (예: hero-main)
+              </label>
+              <input
+                type="text"
+                value={slug}
+                disabled={editingId !== null}
+                onChange={(e) => setSlug(e.target.value)}
+                placeholder="hero-main"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100"
+              />
+            </div>
+          )}
         </div>
 
         <div>
@@ -204,44 +204,57 @@ export default function AdminCmsPage() {
           />
         </div>
 
-        <div className="flex flex-wrap items-end gap-3">
-          <div className="min-w-[240px] flex-1">
-            <label className="mb-1 block text-xs font-semibold text-slate-700">
-              이미지 경로 (바로 올리거나 URL 입력)
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            {thumbnailUrl ? (
+              <img
+                src={thumbnailUrl}
+                alt="선택된 사진 미리보기"
+                className="h-14 w-20 rounded-lg border border-slate-200 object-cover"
+              />
+            ) : (
+              <div className="flex h-14 w-20 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-[11px] text-slate-400">
+                사진 없음
+              </div>
+            )}
+            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+              <Upload className="h-3.5 w-3.5 text-primary" />
+              <span>{uploading ? "업로드 중..." : thumbnailUrl ? "사진 변경" : "사진 선택"}</span>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
             </label>
-            <input
-              type="text"
-              value={thumbnailUrl}
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-              placeholder="/uploads/public/..."
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-            />
+            {thumbnailUrl && (
+              <button
+                type="button"
+                onClick={() => setThumbnailUrl("")}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-500 hover:bg-red-50 hover:text-red-600"
+              >
+                제거
+              </button>
+            )}
           </div>
-          <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100">
-            <Upload className="h-3.5 w-3.5" />
-            <span>{uploading ? "업로드 중..." : "이미지 바로 올리기"}</span>
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              className="hidden"
-              onChange={handleImageUpload}
-            />
-          </label>
-          <label className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700">
-            <input
-              type="checkbox"
-              checked={isPublished}
-              onChange={(e) => setIsPublished(e.target.checked)}
-            />
-            <span>홈페이지 공개</span>
-          </label>
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl btn-primary px-5 py-2 text-sm font-semibold"
-          >
-            <Plus className="h-4 w-4" />
-            {editingId ? "수정 저장" : "등록하기"}
-          </button>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700">
+              <input
+                type="checkbox"
+                checked={isPublished}
+                onChange={(e) => setIsPublished(e.target.checked)}
+              />
+              <span>홈페이지 공개</span>
+            </label>
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl btn-primary px-5 py-2 text-sm font-semibold"
+            >
+              <Plus className="h-4 w-4" />
+              {editingId ? "수정 저장" : "등록하기"}
+            </button>
+          </div>
         </div>
       </form>
 

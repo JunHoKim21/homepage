@@ -32,72 +32,72 @@ const CORE_PRINCIPLES = [
   {
     badge: "01 · 완전 독립 소유",
     title: "월 고정 임대료 0원 독립 소유",
-    desc: "매월 3~10만 원씩 평생 빠져나가는 임대형 웹빌더와 다릅니다. 구축 완료 즉시 프론트엔드·백엔드·DB 원본 소스코드를 100% 고객사 명의로 귀속시켜 드립니다.",
+    desc: "매월 고정 이용료를 납부해야 하는 일반 임대형 웹빌더와 달리, 구축 완료 즉시 홈페이지와 관리자 프로그램, 데이터베이스 원본 전체를 100% 고객사 명의로 이전해 드립니다.",
     icon: Building2,
   },
   {
-    badge: "02 · 엔터프라이즈 기술력",
-    title: "Java 21 · Spring Boot 3.4 · Next.js 15 정통 아키텍처",
-    desc: "저가형 PHP·워드프레스 플러그인 조합이 아닌, 국내 금융·공공·대기업 표준인 Spring Boot 3.4와 Next.js 15 SSR 정통 아키텍처로 압도적인 속도와 확장성을 보장합니다.",
+    badge: "02 · 검증된 제작 기술력",
+    title: "초고속 검색 최적화 홈페이지 + 안정적인 전용 관리자 시스템",
+    desc: "기존 임대형 플랫폼과 달리, 국내 주요 기업 환경에서 검증된 최신 웹 기술(Spring Boot · Next.js)로 구축하여 빠른 페이지 로딩 속도와 추후 기능 확장성을 보장합니다.",
     icon: Code2,
   },
   {
-    badge: "03 · 법무 리스크 ZERO",
-    title: "100% 라이선스 클린 보장 (폰트·아이콘·오픈소스 법무 리스크 0%)",
-    desc: "납품 후 폰트·이미지 저작권 내용증명으로 당황하시는 일이 없도록 상업적 무료 라이선스(SIL OFL, MIT, Apache-2.0)만 엄격하게 검증하여 적용합니다.",
+    badge: "03 · 저작권 안심 보장",
+    title: "100% 라이선스 클린 보장 (폰트·아이콘·프로그램 저작권 걱정 0%)",
+    desc: "납품 후 폰트나 디자인 요소의 저작권 문제로 불편을 겪으시는 일이 없도록 상업적 무료 사용이 공식 확인된 안전한 라이선스만 엄격하게 선별하여 적용합니다.",
     icon: ShieldCheck,
   },
   {
     badge: "04 · 검색엔진 상위노출 설계",
-    title: "네이버·구글 SEO/AEO 기본 탑재",
-    desc: "단순히 예쁘기만 한 통이미지 사이트가 아닙니다. 시맨틱 마크업, 동적 사이트맵, JSON-LD 구조화 데이터, 서치어드바이저 연동을 기본 탑재해 광고비 효율을 극대화합니다.",
+    title: "네이버·구글 검색 최적화 기본 탑재",
+    desc: "글자가 이미지로 통째로 들어가 검색이 되지 않는 홈페이지가 아닙니다. 검색 로봇이 홈페이지 내용을 잘 읽을 수 있는 표준 문서 구조와 사이트맵, 검색 등록 기능을 기본 탑재해 홍보 효율을 높입니다.",
     icon: SearchCheck,
   },
 ];
 
 const TECH_SPECS = [
   {
-    layer: "Edge & SSL 게이트웨이",
-    stack: "Caddy 2 무료 자동 SSL",
-    benefit: "Let's Encrypt 인증서 무중단 자동 발급·갱신 (연간 SSL 갱신 비용 0원) 및 HTTP/3 보안 통신",
+    layer: "보안 연결 (SSL 인증서)",
+    stack: "무료 보안인증서 자동 갱신 시스템 (Caddy)",
+    benefit: "주소창 자물쇠(https) 보안인증서를 무료로 자동 발급·갱신하여 매년 발생하는 인증서 연장 비용(연 5~15만 원)을 아껴드립니다.",
   },
   {
-    layer: "프론트엔드 & SEO 렌더링",
-    stack: "Next.js 15 SSR (App Router)",
-    benefit: "네이버·구글 검색 로봇이 0.1초 만에 수집하는 서버사이드 렌더링 & 무코드 설정 즉시 반영",
+    layer: "홈페이지 화면 & 검색 최적화",
+    stack: "초고속 검색 최적화 웹 엔진 (Next.js)",
+    benefit: "네이버·구글 검색 로봇이 홈페이지 정보를 빠르게 수집할 수 있도록 돕고, 관리자에서 수정한 내용을 새로고침 즉시 화면에 반영합니다.",
   },
   {
-    layer: "백엔드 비즈니스 엔진",
-    stack: "Spring Boot 3.4 Modular Monolith",
-    benefit: "Java 21 기반 시큐어 코딩, JWT 이중 인증, Honeypot 스팸 방어, 비공개 첨부파일 스트리밍",
+    layer: "전용 관리자 & 고객 정보 보호",
+    stack: "안정적인 전용 관리 서버 (Spring Boot)",
+    benefit: "관리자 2단계 보안 로그인, 광고성 자동 스팸 문의 차단, 고객이 첨부한 견적 서류의 비공개 암호화 보관을 지원합니다.",
   },
   {
-    layer: "데이터베이스 & 트랜잭션",
-    stack: "PostgreSQL 16",
-    benefit: "예약 정원 동시성 제어(비관적 락), 무코드 설정 JSON 관리 및 일일 자동 백업",
+    layer: "데이터 저장 & 예약 관리",
+    stack: "정밀 예약·데이터 관리 시스템 (PostgreSQL)",
+    benefit: "동시 접속 시에도 같은 시간대에 중복 예약이 발생하지 않도록 방지하며, 홈페이지 설정과 문의 내역을 안전하게 보관합니다.",
   },
   {
-    layer: "미디어 & 성능 최적화",
-    stack: "WebP 자동 압축 워커",
-    benefit: "고해상도 원본 업로드 시 백그라운드에서 차세대 WebP 포맷으로 자동 변환·용량 75% 절감",
+    layer: "사진 용량 자동 최적화",
+    stack: "고화질 사진 자동 경량화 기능 (WebP)",
+    benefit: "스마트폰이나 카메라로 찍은 대용량 원본 사진을 그대로 올려도 화질 저하 없이 용량을 약 75% 줄여 모바일 로딩 속도를 높입니다.",
   },
 ];
 
 const TIMELINE = [
   {
-    period: "STEP 01 · 아키텍처 표준화",
-    title: "Spring Boot + Next.js 하이브리드 웹 스타터 엔진 독자 개발",
-    desc: "중소기업·병의원·전문직 현장에서 가장 자주 쓰이는 무코드 SEO, 상담폼, 예약 달력, CMS를 단일 고성능 엔진으로 표준화하여 제작 단가와 기간을 혁신적으로 단축했습니다.",
+    period: "STEP 01 · 핵심 기능 표준화",
+    title: "중소기업·병의원·전문직 필수 기능 올인원 모듈 구축",
+    desc: "현장에서 가장 많이 찾으시는 검색엔진 문구 설정, 맞춤형 상담 문의폼, 온라인 예약 달력, 공지·포트폴리오 게시판을 하나의 안정적인 시스템으로 통합하여 제작 기간과 비용 부담을 줄였습니다.",
   },
   {
-    period: "STEP 02 · 업종별 특화 프리셋 구축",
-    title: "기업·시공·제조형(CORP) 및 병의원·로펌 예약형(CLINIC) 검증",
-    desc: "업종별 고객 동선과 전환율(CVR) 데이터를 반영하여, 원고와 사진이 부족한 초기 창업자도 즉시 비즈니스에 투입할 수 있는 고밀도 템플릿 체계를 완성했습니다.",
+    period: "STEP 02 · 업종별 맞춤 구성",
+    title: "기업·시공·제조형(CORP) 및 병의원·로펌 예약형(CLINIC) 특화 설계",
+    desc: "업종별 방문 고객이 가장 궁금해하는 정보 배치와 문의 동선을 반영하여, 초기 원고와 사진 자료가 부족한 사장님도 빠르게 홈페이지를 오픈할 수 있도록 구성했습니다.",
   },
   {
-    period: "STEP 03 · 2GB 저사양 VPS 최적화",
-    title: "단일 서버 Docker Compose 원클릭 배포 & 365일 무중단 운영",
-    desc: "고가의 클라우드 비용 없이 월 5천 원~1만 원대 가성비 VPS에서도 쾌적하게 돌아가도록 JVM/Node 메모리 튜닝과 자동 헬스체크 구조를 확립했습니다.",
+    period: "STEP 03 · 합리적인 서버 운영비",
+    title: "원클릭 간편 서버 설치 패키지 & 365일 안정적인 운영 구조",
+    desc: "비싼 서버 호스팅 비용을 매달 지출하지 않으셔도 월 5천 원~1만 원대의 합리적인 단독 서버에서 쾌적하게 운영할 수 있도록 최적화했습니다.",
   },
 ];
 
@@ -127,14 +127,14 @@ export default async function AboutPage() {
   }
 
   return (
-    <div className="bg-slate-50 pb-20">
+    <div className="overflow-x-hidden bg-slate-50 pb-20">
       {/* 1. 상단 비주얼 헤더 */}
       <section className="relative overflow-hidden bg-slate-900 py-16 text-white sm:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,#1e3a8a,transparent_60%)] opacity-70" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-xs font-semibold text-blue-300">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>KOREAN FULL-STACK WEB AGENCY · 회사 및 기술 소개</span>
+            <span>KOREAN FULL-STACK WEB AGENCY · 회사 및 제작 방식 소개</span>
           </div>
 
           <h1 className="mt-5 text-2xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
@@ -144,8 +144,8 @@ export default async function AboutPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-sm leading-relaxed text-slate-300 sm:text-base">
-            {companyInfo.name}는 매달 고정 임대료를 내고도 소스코드를 이전받지 못하는 기존 홈페이지 제작 시장의
-            불합리함을 해결합니다. 10년 이상 경력의 시니어 풀스택 엔지니어가 기획부터 개발·SEO·서버 이관까지 직접
+            {companyInfo.name}는 매달 고정 임대료를 내고도 홈페이지 원본을 이전받기 어려웠던 기존 임대형 플랫폼의
+            아쉬움을 해결합니다. 10년 이상 경력의 전담 개발자가 기획부터 디자인 구성, 검색 등록, 서버 이관까지 직접
             책임지고 수행합니다.
           </p>
 
@@ -153,7 +153,7 @@ export default async function AboutPage() {
             {[
               { label: "월 고정 관리·임대료", value: "0원 (평생 독립 소유)" },
               { label: "평균 구축 완료 기간", value: "5~10 영업일" },
-              { label: "폰트·오픈소스 저작권", value: "100% 상업 무료 클린" },
+              { label: "폰트·디자인 저작권", value: "100% 상업 무료 안심" },
               { label: "세금계산서·현금영수증", value: "100% 당일 정식 발행" },
             ].map((stat) => (
               <div
@@ -169,19 +169,19 @@ export default async function AboutPage() {
       </section>
 
       <div className="mx-auto max-w-6xl space-y-16 px-4 pt-14 sm:px-6">
-        {/* 2. 핵심 엔지니어링 철학 4대 원칙 카드 */}
+        {/* 2. 핵심 제작 철학 4대 원칙 카드 */}
         <section>
           <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
             <div>
               <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
-                ENGINEERING PHILOSOPHY
+                OUR CORE PRINCIPLES
               </span>
               <h2 className="mt-1 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-                우리의 핵심 엔지니어링 철학 4대 원칙
+                고객사 만족을 위한 4대 제작 원칙
               </h2>
             </div>
             <p className="text-xs text-slate-500 sm:text-sm">
-              납품 후에도 대표님과 실무자가 개발자 없이 직접 운영할 수 있도록 설계합니다.
+              납품 후에도 대표님과 직원이 개발자 도움 없이 쉽게 운영할 수 있도록 설계합니다.
             </p>
           </div>
 
@@ -209,33 +209,33 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* 3. 기술 스택 및 보안 아키텍처 요약 표 */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xs sm:p-8">
+        {/* 3. 시스템 구성 및 보안 안내 표 */}
+        <section className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-2xs sm:p-8">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-6">
-            <div>
+            <div className="min-w-0">
               <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
-                SYSTEM ARCHITECTURE & SECURITY
+                SYSTEM & SECURITY OVERVIEW
               </span>
               <h2 className="mt-1 text-2xl font-extrabold text-slate-900">
-                기술 스택 및 보안 아키텍처 명세표
+                홈페이지 핵심 시스템 및 보안 설계 안내
               </h2>
               <p className="mt-1 text-sm text-slate-600">
-                대기업·금융권 프로젝트에 투입되는 정통 엔터프라이즈 스택을 경량화하여 납품합니다.
+                복잡한 관리 부담은 줄이고, 속도와 보안은 높인 실용적인 독립형 시스템을 납품합니다.
               </p>
             </div>
             <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-700">
-              <Lock className="h-4 w-4" />
-              <span>OWASP 웹 보안 가이드라인 준수</span>
+              <Lock className="h-4 w-4 shrink-0" />
+              <span>표준 웹 보안 및 개인정보 보호 적용</span>
             </div>
           </div>
 
-          <div className="mt-6 overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+          <div className="mt-6 w-full min-w-0 overflow-x-auto">
+            <table className="w-full min-w-[560px] border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-xs font-bold text-slate-600">
-                  <th className="px-4 py-3.5">아키텍처 계층</th>
-                  <th className="px-4 py-3.5">적용 핵심 기술</th>
-                  <th className="px-4 py-3.5">고객사 비즈니스 이점 및 보안 효과</th>
+                  <th className="px-4 py-3.5">구분</th>
+                  <th className="px-4 py-3.5">제공 시스템</th>
+                  <th className="px-4 py-3.5">사장님이 체감하시는 실제 운영 효과</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -256,37 +256,37 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* 4. 연혁 및 수행 역량 타임라인 */}
+        {/* 4. 수행 역량 및 제공 산출물 안내 */}
         <section className="grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
-              TRACK RECORD & CAPABILITY
+              TRACK RECORD & DELIVERABLES
             </span>
             <h2 className="mt-1 text-2xl font-extrabold text-slate-900">
-              수행 역량 및 아키텍처 고도화 연혁
+              수행 역량 및 100% 원본 인도 원칙
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600">
-              외주 재하청이나 공장식 찍어내기를 일절 하지 않습니다. 담당 엔지니어가 요구사항 분석부터
-              관리자 콘솔 커스터마이징, 도메인·SSL 연결까지 전 과정을 1:1 전담합니다.
+              외주 재하청 없이 전담 엔지니어가 처음 상담부터 관리자 화면 맞춤 설정, 도메인 연결까지
+              전 과정을 1:1로 꼼꼼하게 챙겨드립니다.
             </p>
 
             <div className="mt-6 space-y-3 rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
               <div className="flex items-center gap-2 text-sm font-bold text-blue-900">
                 <Award className="h-4 w-4 text-blue-600" />
-                <span>표준 납품 산출물 5종 기본 제공</span>
+                <span>구축 완료 시 기본 제공해 드리는 산출물</span>
               </div>
               <ul className="space-y-2 text-xs text-slate-700">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-600" />
-                  <span>프론트엔드(Next.js 15) + 백엔드(Spring Boot 3.4) 원본 소스코드 전체</span>
+                  <span>홈페이지 화면 + 전용 관리자 서버 원본 소스코드 전체 (Next.js · Spring Boot)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-600" />
-                  <span>Docker Compose 원클릭 운영 스크립트 및 DB 초기 마이그레이션(Flyway)</span>
+                  <span>원클릭 간편 서버 설치 패키지 및 데이터베이스 자동 구성 파일</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-600" />
-                  <span>비개발자용 한국형 관리자 콘솔 매뉴얼 및 1:1 원격 인수인계 교육</span>
+                  <span>비개발자 눈높이 관리자 사용 설명서 및 1:1 원격 인수인계 안내</span>
                 </li>
               </ul>
             </div>
@@ -301,7 +301,7 @@ export default async function AboutPage() {
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-extrabold text-blue-600">{step.period}</span>
                   <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600">
-                    검증 완료 #{idx + 1}
+                    핵심 강점 #{idx + 1}
                   </span>
                 </div>
                 <h3 className="mt-2 text-base font-bold text-slate-900">{step.title}</h3>
@@ -322,7 +322,7 @@ export default async function AboutPage() {
                 오시는 길 및 고객센터 운영 안내
               </h2>
               <p className="mt-1 text-sm text-slate-600">
-                온라인 1:1 화상 미팅(Zoom/구글미트), 크몽 메시지, 유선 및 대면 미팅 모두 열려 있습니다.
+                온라인 1:1 화상 미팅(Zoom/구글미트), 크몽 메시지, 전화 상담 및 방문 미팅 모두 편하게 이용하실 수 있습니다.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -387,7 +387,7 @@ export default async function AboutPage() {
                 </div>
                 <div className="mt-2 text-xl font-extrabold text-slate-900">{companyInfo.phone}</div>
                 <p className="mt-1 text-xs text-slate-500">
-                  회의 중일 경우 문자나 견적문의를 남겨주시면 즉시 회신드립니다.
+                  상담 중일 경우 문자나 견적문의를 남겨주시면 빠르게 연락드립니다.
                 </p>
               </div>
 
@@ -400,7 +400,7 @@ export default async function AboutPage() {
                   {companyInfo.email}
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
-                  RFP(제안요청서), 화면설계서, 참고 사이트 링크 접수 가능
+                  제안요청서, 기존 홍보물, 참고 사이트 주소 접수 가능
                 </p>
               </div>
 
@@ -413,7 +413,7 @@ export default async function AboutPage() {
                   평일 10:00 ~ 18:00 (점심 12:30~13:30)
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
-                  온라인 견적문의 및 긴급 서버 장애 대응은 365일 상시 접수
+                  온라인 견적문의 및 긴급 점검 요청은 365일 상시 접수
                 </p>
               </div>
 

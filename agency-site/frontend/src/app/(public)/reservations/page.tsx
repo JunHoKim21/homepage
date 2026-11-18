@@ -232,7 +232,7 @@ export default function ReservationsPage() {
   const displaySlots = slots.length > 0 ? slots : usingDemoPreview ? DEMO_PREVIEW_SLOTS : [];
 
   return (
-    <div className="bg-slate-50 pb-20">
+    <div className="overflow-x-hidden bg-slate-50 pb-20">
       {/* 1. 상단 헤더 & 3단계 예약 프로세스 가이드 */}
       <section className="border-b border-slate-200 bg-white py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -293,7 +293,7 @@ export default function ReservationsPage() {
       <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-12">
           {/* 좌측: 예약 폼 */}
-          <div className="lg:col-span-8">
+          <div className="min-w-0 lg:col-span-8">
             {showInternal && (
               <form
                 onSubmit={handleBook}
@@ -494,7 +494,7 @@ export default function ReservationsPage() {
           </div>
 
           {/* 우측: 상담 시간 안내표 박스 (병의원·전문직·에이전시 밀도형) */}
-          <aside className="space-y-5 lg:col-span-4">
+          <aside className="min-w-0 space-y-5 lg:col-span-4">
             <div className="rounded-3xl border border-slate-200 bg-slate-900 p-6 text-white shadow-sm">
               <div className="flex items-center gap-2 text-xs font-bold text-blue-300">
                 <Clock className="h-4 w-4" />

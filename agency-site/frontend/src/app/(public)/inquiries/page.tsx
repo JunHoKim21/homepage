@@ -173,7 +173,7 @@ export default function InquiriesPage() {
   }
 
   return (
-    <div className="bg-slate-50 pb-20">
+    <div className="overflow-x-hidden bg-slate-50 pb-20">
       {/* 상단 헤더 */}
       <section className="border-b border-slate-200 bg-white py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -194,7 +194,7 @@ export default function InquiriesPage() {
       <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-12">
           {/* 좌측: 견적 문의 전 체크 포인트 3가지 */}
-          <aside className="space-y-5 lg:col-span-5">
+          <aside className="min-w-0 space-y-5 lg:col-span-5">
             <div className="rounded-3xl border border-slate-200 bg-slate-900 p-6 text-white shadow-sm sm:p-7">
               <span className="inline-block rounded-lg bg-blue-500/20 px-3 py-1 text-xs font-bold text-blue-300">
                 CHECK POINTS
@@ -255,7 +255,7 @@ export default function InquiriesPage() {
           </aside>
 
           {/* 우측: 한국 에이전시 맞춤 견적 문의 폼 */}
-          <div className="lg:col-span-7">
+          <div className="min-w-0 lg:col-span-7">
             <form
               onSubmit={handleSubmit}
               className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-2xs sm:p-8"

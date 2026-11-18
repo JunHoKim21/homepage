@@ -125,8 +125,8 @@ export default function AdminReservationsPage() {
       setAutoConfirm(next);
       setNotice(
         next
-          ? "자동 예약 확정이 켜졌습니다. 이제 고객 예약 시 즉시 확정(CONFIRMED) 처리됩니다."
-          : "자동 예약 확정이 꺼졌습니다. 이제 고객 예약 시 접수대기(REQUESTED)로 저장됩니다."
+          ? "자동 예약 확정이 켜졌습니다. 이제 고객 예약 시 즉시 확정 처리됩니다."
+          : "자동 예약 확정이 꺼졌습니다. 이제 고객 예약 시 접수대기로 저장됩니다."
       );
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "자동 확정 설정 변경 실패");
@@ -259,7 +259,7 @@ export default function AdminReservationsPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">하이브리드 예약 · 슬롯 달력 관리</h1>
+          <h1 className="text-2xl font-bold text-slate-900">온라인 예약 · 달력 관리</h1>
           <p className="mt-1 text-sm text-slate-500">
             달력에서 날짜별 예약 현황을 한눈에 확인하고, 여러 날짜의 시간대 슬롯을 일괄 생성할 수 있습니다.
           </p>
@@ -349,9 +349,9 @@ export default function AdminReservationsPage() {
             ))}
           </div>
 
-          <div className="mt-1 grid grid-cols-7 gap-1.5">
+          <div className="mt-1 grid grid-cols-7 gap-1 sm:gap-1.5">
             {calendarCells.map((day, idx) => {
-              if (!day) return <div key={`empty-${idx}`} className="h-20 rounded-xl bg-slate-50/40" />;
+              if (!day) return <div key={`empty-${idx}`} className="h-14 rounded-lg bg-slate-50/40 sm:h-20 sm:rounded-xl" />;
               const ymd = toYmd(calYear, calMonth, day);
               const daySlots = slotsByDate[ymd] || [];
               const totalReserved = daySlots.reduce((s, item) => s + item.reservedCount, 0);
@@ -363,28 +363,28 @@ export default function AdminReservationsPage() {
                   key={ymd}
                   type="button"
                   onClick={() => setSelectedDate(ymd)}
-                  className={`flex h-20 flex-col items-start justify-between rounded-xl border p-2 text-left transition ${
+                  className={`flex h-14 flex-col items-start justify-between rounded-lg border p-1 text-left transition sm:h-20 sm:rounded-xl sm:p-2 ${
                     isSelected
                       ? "border-primary bg-indigo-50/60 ring-2 ring-indigo-500/20"
                       : "border-slate-200 bg-white hover:border-slate-300"
                   }`}
                 >
-                  <span className={`text-xs font-bold ${isSelected ? "text-primary" : "text-slate-800"}`}>
+                  <span className={`text-[11px] font-bold sm:text-xs ${isSelected ? "text-primary" : "text-slate-800"}`}>
                     {day}
                   </span>
                   {daySlots.length > 0 ? (
                     <div className="w-full space-y-0.5">
-                      <div className="truncate rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700">
+                      <div className="hidden truncate rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 sm:block">
                         슬롯 {daySlots.length}개
                       </div>
                       <div
-                        className={`truncate rounded px-1.5 py-0.5 text-[10px] font-semibold ${
+                        className={`truncate rounded px-1 py-0.5 text-[9px] font-semibold sm:px-1.5 sm:text-[10px] ${
                           totalReserved > 0
                             ? "bg-emerald-50 text-emerald-700"
                             : "bg-slate-50 text-slate-400"
                         }`}
                       >
-                        예약 {totalReserved}/{totalCap}
+                        {totalReserved}/{totalCap}
                       </div>
                     </div>
                   ) : (
@@ -576,7 +576,7 @@ export default function AdminReservationsPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-slate-700">정원 (MULTI 모드 시)</label>
+                <label className="mb-1 block text-xs font-semibold text-slate-700">시간당 정원 (명)</label>
                 <input
                   type="number"
                   min={1}

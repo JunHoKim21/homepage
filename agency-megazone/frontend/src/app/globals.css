@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #6d28d9;
+  --primary-foreground: #ffffff;
+  --megazone-dark: #0b0f19;
+  --megazone-indigo: #4f46e5;
+}
+
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+/* Megazone-inspired dark & violet/indigo utility classes */
+.mz-dark-surface {
+  background-color: var(--megazone-dark);
+  color: #f8fafc;
+}
+
+.mz-gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #c084fc 45%, #fb7185 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mz-glass-dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.mz-glow-violet {
+  box-shadow: 0 12px 40px -10px rgba(109, 40, 217, 0.45);
+}

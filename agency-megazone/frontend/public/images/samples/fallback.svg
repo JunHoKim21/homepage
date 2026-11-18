@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Image placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)" />
+  <rect x="24" y="24" width="752" height="552" rx="16" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6" />
+  <g transform="translate(400, 275)" fill="none" stroke="#64748b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-44" y="-34" width="88" height="68" rx="10" fill="#ffffff" fill-opacity="0.7" />
+    <circle cx="-18" cy="-12" r="7" />
+    <path d="M-36 22 L-10 -2 L10 14 L22 2 L36 22" />
+  </g>
+  <text x="400" y="352" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" letter-spacing="2" fill="#475569">IMAGE UNAVAILABLE</text>
+</svg>

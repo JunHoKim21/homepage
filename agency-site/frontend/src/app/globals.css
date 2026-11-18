@@ -7,6 +7,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
@@ -14,6 +16,9 @@ body {
   background-color: #ffffff;
   color: #0f172a;
   word-break: keep-all;
+  overflow-wrap: anywhere;
+  overflow-x: clip;
+  max-width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 

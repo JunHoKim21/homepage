@@ -89,7 +89,7 @@ public class AdminBootstrapConfig {
                 .customerPhone("010-8765-4321")
                 .customerEmail("tax@barun-tax.kr")
                 .title("세무사 사무소 홈페이지 및 1:1 기장·양도세 상담 예약 기능 구축 문의")
-                .content("아임웹으로 쓰다가 매달 나가는 비용과 예약 커스텀 한계 때문에 독립형으로 넘어오려고 합니다. 1:1 시간대별 상담 예약과 카카오톡 알림 연동 가능한지 문의드립니다.")
+                .content("기존 임대형 웹빌더를 사용 중인데 매월 발생하는 고정 비용과 예약 기능 커스텀 한계로 인해 독립형 홈페이지로 전환하려고 합니다. 1:1 시간대별 상담 예약과 카카오톡 알림 연동 가능한지 문의드립니다.")
                 .customFields("{\"budgetRange\":\"99만 원 ~ 179만 원\",\"packageType\":\"DELUXE\",\"industry\":\"로펌·세무\"}")
                 .privacyAgreed(true)
                 .clientIp("127.0.0.1")

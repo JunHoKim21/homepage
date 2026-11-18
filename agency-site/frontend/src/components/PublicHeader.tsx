@@ -114,46 +114,53 @@ export default function PublicHeader({ menus, brandName, reservationMode }: Prop
       : brandName;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full max-w-full overflow-x-clip border-b border-slate-200 bg-white/95 backdrop-blur-md">
       {/* 상단 미니 띠배너 (Top Utility Bar) */}
       <div className="bg-slate-950 text-slate-200">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-xs sm:px-6">
-          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap">
-            <span className="inline-flex items-center gap-1 rounded bg-blue-600/20 px-2 py-0.5 text-[11px] font-bold text-blue-300 ring-1 ring-blue-500/30">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2 text-xs sm:px-6">
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden whitespace-nowrap sm:gap-2">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-blue-600/20 px-2 py-0.5 text-[11px] font-bold text-blue-300 ring-1 ring-blue-500/30">
               <FileCheck2 className="h-3 w-3" />
-              정찰제 공식 에이전시
+              <span className="hidden xs:inline">정찰제 </span>에이전시
             </span>
-            <span className="font-medium text-slate-200">
-              세금계산서·비교견적서 즉시 발행 <span className="mx-1.5 text-slate-600">|</span> 월 고정 임대료 0원 독립형 웹 구축{" "}
-              <span className="hidden text-slate-600 md:inline">|</span>{" "}
-              <span className="hidden md:inline">초기창업패키지·정부지원사업 수행 전문</span>
+            <span className="truncate font-medium text-slate-200">
+              세금계산서·비교견적서 즉시 발행
+              <span className="hidden sm:inline">
+                {" "}
+                <span className="mx-1.5 text-slate-600">|</span> 월 고정 임대료 0원 자체 소유형 웹 구축
+              </span>
+              <span className="hidden md:inline">
+                {" "}
+                <span className="mx-1.5 text-slate-600">|</span> 초기창업패키지·정부지원사업 수행 전문
+              </span>
             </span>
           </div>
 
-          <div className="flex shrink-0 items-center gap-3 pl-3">
+          <div className="flex shrink-0 items-center pl-1 sm:pl-3">
             <Link
               href="/admin/login"
-              className="inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-300 ring-1 ring-amber-400/30 transition hover:bg-amber-400/25"
+              className="inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-0.5 text-[11px] font-bold whitespace-nowrap text-amber-300 ring-1 ring-amber-400/30 transition hover:bg-amber-400/25"
             >
-              <Sparkles className="h-3 w-3" />
-              관리자(CMS) 1초 체험 <ArrowRight className="h-3 w-3" />
+              <Sparkles className="h-3 w-3 shrink-0" />
+              <span>관리자 1초 체험</span>
+              <ArrowRight className="h-3 w-3 shrink-0" />
             </Link>
           </div>
         </div>
       </div>
 
       {/* 메인 네비게이션 바 */}
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="group flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 text-white shadow-sm ring-1 ring-blue-700/20 transition group-hover:scale-105">
-            <Code2 className="h-6 w-6" />
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:px-6">
+        <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 text-white shadow-sm ring-1 ring-blue-700/20 transition group-hover:scale-105 sm:h-11 sm:w-11">
+            <Code2 className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-xl">
               {displayBrand}
             </span>
-            <span className="text-[10px] font-bold tracking-widest text-blue-700">
-              JAVA · NEXT.JS AGENCY
+            <span className="truncate text-[10px] font-bold tracking-widest text-blue-700">
+              CUSTOM WEB AGENCY
             </span>
           </div>
         </Link>

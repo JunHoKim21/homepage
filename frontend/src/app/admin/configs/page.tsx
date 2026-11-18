@@ -27,6 +27,7 @@ const GROUP_LABELS: Record<string, string> = {
   BRANDING: "브랜드 · 디자인",
   SEO: "검색엔진 최적화 (SEO)",
   RESERVATION: "온라인 예약 설정",
+  FLOATING: "플로팅 퀵바 · SNS 채널",
   NOTIFICATION: "알림 설정",
 };
 
@@ -47,6 +48,13 @@ const KEY_LABELS: Record<string, string> = {
   reservation_default_capacity: "시간대별 기본 정원 수 (명)",
   reservation_auto_confirm: "예약 접수 시 자동 확정 여부",
   naver_booking_url: "네이버 스마트플레이스 예약 링크",
+  floating_left_enabled: "좌측 상담 플로팅 바 노출 여부",
+  floating_right_enabled: "우측 플로팅 사이드바 노출 여부",
+  quick_kakao_url: "카카오톡 채널 상담 URL",
+  quick_wechat_id: "WeChat 상담 ID",
+  sns_instagram_url: "인스타그램 공식 URL",
+  sns_blog_url: "네이버 블로그 URL",
+  sns_youtube_url: "유튜브 채널 URL",
 };
 
 export default function AdminConfigsPage() {
@@ -97,7 +105,7 @@ export default function AdminConfigsPage() {
         body: formData,
       });
       updateField(configKey, result.storageKey);
-      setNotice("이미지가 업로드되어 WebP 변환이 시작되었습니다. '전체 설정 저장하기'를 눌러 반영해 주세요.");
+      setNotice("이미지가 업로드되었습니다. '전체 설정 저장하기'를 눌러 반영해 주세요.");
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "이미지 업로드 중 오류가 발생했습니다.");
     } finally {
@@ -119,7 +127,7 @@ export default function AdminConfigsPage() {
         }),
       });
       setConfigs(updated);
-      setNotice("설정이 저장되었으며 홈페이지 화면 및 SEO 캐시가 즉시 갱신되었습니다.");
+      setNotice("설정이 저장되었으며 홈페이지에 즉시 반영되었습니다.");
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "저장 중 오류 발생");
     } finally {
@@ -134,7 +142,7 @@ export default function AdminConfigsPage() {
     return acc;
   }, {});
 
-  const groupOrder = ["COMPANY", "BRANDING", "SEO", "RESERVATION", "NOTIFICATION"];
+  const groupOrder = ["COMPANY", "BRANDING", "SEO", "RESERVATION", "FLOATING", "NOTIFICATION"];
   const sortedGroups = Object.keys(grouped).sort((a, b) => {
     const idxA = groupOrder.indexOf(a);
     const idxB = groupOrder.indexOf(b);
@@ -274,27 +282,48 @@ export default function AdminConfigsPage() {
                         <span className="text-xs text-slate-500">색상을 클릭해서 자유롭게 변경하세요.</span>
                       </div>
                     ) : cfg.valueType === "IMAGE" ? (
-                      <div className="flex flex-wrap items-center gap-3">
-                        <input
-                          type="text"
-                          value={cfg.configValue}
-                          onChange={(e) => updateField(cfg.configKey, e.target.value)}
-                          placeholder="/uploads/public/..."
-                          className="min-w-[240px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
-                        />
-                        <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100">
-                          <Upload className="h-3.5 w-3.5" />
-                          <span>{uploadingKey === cfg.configKey ? "업로드 중..." : "이미지 바로 올리기"}</span>
-                          <input
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handleImageUpload(cfg.configKey, file);
-                            }}
+                      <div className="flex flex-wrap items-center gap-4">
+                        {cfg.configValue ? (
+                          <img
+                            src={cfg.configValue}
+                            alt={label}
+                            className="h-16 w-24 rounded-lg border border-slate-200 bg-slate-50 object-cover"
                           />
-                        </label>
+                        ) : (
+                          <div className="flex h-16 w-24 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-[11px] text-slate-400">
+                            사진 없음
+                          </div>
+                        )}
+                        <div className="flex flex-wrap items-center gap-2">
+                          <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50">
+                            <Upload className="h-3.5 w-3.5 text-primary" />
+                            <span>
+                              {uploadingKey === cfg.configKey
+                                ? "업로드 중..."
+                                : cfg.configValue
+                                ? "사진 변경"
+                                : "사진 선택"}
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(cfg.configKey, file);
+                              }}
+                            />
+                          </label>
+                          {cfg.configValue && (
+                            <button
+                              type="button"
+                              onClick={() => updateField(cfg.configKey, "")}
+                              className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-500 hover:bg-red-50 hover:text-red-600"
+                            >
+                              제거
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ) : cfg.configKey === "reservation_mode" ? (
                       <select
@@ -324,6 +353,15 @@ export default function AdminConfigsPage() {
                       >
                         <option value="false">수동 확정 (접수대기 상태로 저장 후 관리자 승인)</option>
                         <option value="true">자동 확정 (정원 내 예약 시 즉시 확정 처리)</option>
+                      </select>
+                    ) : cfg.valueType === "BOOLEAN" ? (
+                      <select
+                        value={cfg.configValue}
+                        onChange={(e) => updateField(cfg.configKey, e.target.value)}
+                        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm sm:w-64"
+                      >
+                        <option value="true">노출 (ON)</option>
+                        <option value="false">숨김 (OFF)</option>
                       </select>
                     ) : cfg.configKey === "robots_txt_custom" ? (
                       <textarea

@@ -118,9 +118,9 @@ export default function QuickFloatingBar() {
       </aside>
 
       {/* 모바일 우측 하단 컴팩트 플로팅 바 */}
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 lg:hidden">
+      <div className="fixed right-3 bottom-3 z-40 flex max-w-[calc(100vw-1.5rem)] flex-col items-end gap-2 lg:hidden">
         {sampleOpen && (
-          <div className="mb-1 flex flex-col gap-1.5 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
+          <div className="mb-1 flex w-full max-w-[300px] flex-col gap-1.5 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
             <p className="px-1 text-[11px] font-extrabold text-slate-500">
               업종 샘플 실시간 전환
             </p>

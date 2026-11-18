@@ -1,0 +1,25 @@
+{
+  "name": "starter-frontend",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node -e \"process.exit(require('child_process').spawnSync(process.execPath,['./node_modules/next/dist/bin/next',...process.argv.slice(1)],{cwd:process.cwd().replace(/^[a-z]:/,m=>m.toUpperCase()),stdio:'inherit'}).status??0)\" dev",
+    "build": "node -e \"process.exit(require('child_process').spawnSync(process.execPath,['./node_modules/next/dist/bin/next',...process.argv.slice(1)],{cwd:process.cwd().replace(/^[a-z]:/,m=>m.toUpperCase()),stdio:'inherit'}).status??0)\" build",
+    "start": "node -e \"process.exit(require('child_process').spawnSync(process.execPath,['./node_modules/next/dist/bin/next',...process.argv.slice(1)],{cwd:process.cwd().replace(/^[a-z]:/,m=>m.toUpperCase()),stdio:'inherit'}).status??0)\" start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "lucide-react": "^0.475.0",
+    "next": "^15.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.14",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "tailwindcss": "^4.0.14",
+    "typescript": "^5.8.2"
+  }
+}

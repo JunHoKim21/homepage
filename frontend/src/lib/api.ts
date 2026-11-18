@@ -57,6 +57,13 @@ export const DEFAULT_SITE_CONFIGS: Record<string, string> = {
   reservation_capacity_mode: "SINGLE",
   reservation_default_capacity: "1",
   naver_booking_url: "https://booking.naver.com/",
+  floating_left_enabled: "true",
+  floating_right_enabled: "true",
+  quick_kakao_url: "https://pf.kakao.com/",
+  quick_wechat_id: "",
+  sns_instagram_url: "",
+  sns_blog_url: "",
+  sns_youtube_url: "",
 };
 
 function getInternalApiBase(): string {
