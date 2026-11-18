@@ -1,30 +1,45 @@
 import Link from "next/link";
 import { ArrowRight, CalendarCheck, MessageSquarePlus, ShieldCheck, Sparkles } from "lucide-react";
+import PopupOverlay from "@/components/PopupOverlay";
 import { fetchPublicSiteConfigs, fetchPublishedCms } from "@/lib/api";
 
 export default async function HomePage() {
-  const [configs, portfolios, notices] = await Promise.all([
+  const [configs, portfolios, notices, banners, popups] = await Promise.all([
     fetchPublicSiteConfigs(),
     fetchPublishedCms("PORTFOLIO"),
     fetchPublishedCms("NOTICE"),
+    fetchPublishedCms("BANNER"),
+    fetchPublishedCms("POPUP"),
   ]);
 
   const reservationMode = configs.reservation_mode || "BOTH";
+  const heroBanner = banners.find((b) => b.slug === "hero-main") || banners[0];
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white py-20 sm:py-28">
-        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+      <PopupOverlay popups={popups} />
+
+      {/* Hero Section (BANNER 'hero-main' 등록 시 동적 이미지/문구 반영) */}
+      <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white py-20 sm:py-28">
+        {heroBanner?.thumbnailUrl && (
+          <div className="pointer-events-none absolute inset-0 opacity-15">
+            <img
+              src={heroBanner.thumbnailUrl}
+              alt={heroBanner.title}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
+        <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
           <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             신뢰할 수 있는 맞춤형 비즈니스 파트너
           </div>
           <h1 className="mx-auto max-w-3xl text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-            {configs.seo_title || "정확하고 빠른 비즈니스 파트너"}
+            {heroBanner?.title || configs.seo_title || "정확하고 빠른 비즈니스 파트너"}
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            {configs.seo_description || "전문적인 상담과 맞춤형 솔루션을 제공합니다."}
+            {heroBanner?.summary || configs.seo_description || "전문적인 상담과 맞춤형 솔루션을 제공합니다."}
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">

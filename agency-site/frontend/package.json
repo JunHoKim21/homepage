@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node -e \"if(process.platform==='win32'&&/^[a-z]:/.test(process.cwd()))process.chdir(process.cwd()[0].toUpperCase()+process.cwd().slice(1));require('next/dist/bin/next')\" next dev",
+    "build": "node -e \"if(process.platform==='win32'&&/^[a-z]:/.test(process.cwd()))process.chdir(process.cwd()[0].toUpperCase()+process.cwd().slice(1));require('next/dist/bin/next')\" next build",
+    "start": "node -e \"if(process.platform==='win32'&&/^[a-z]:/.test(process.cwd()))process.chdir(process.cwd()[0].toUpperCase()+process.cwd().slice(1));require('next/dist/bin/next')\" next start",
     "lint": "next lint"
   },
   "dependencies": {
