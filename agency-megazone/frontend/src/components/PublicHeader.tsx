@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { Menu, ShieldCheck, Sparkles, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MenuItem } from "@/lib/api";
 
 interface Props {
   menus: MenuItem[];
   brandName: string;
+  brandLogoUrl?: string;
   reservationMode: string;
 }
 
-export default function PublicHeader({ menus, brandName, reservationMode }: Props) {
+export default function PublicHeader({ menus, brandName, brandLogoUrl, reservationMode }: Props) {
   const [open, setOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [brandLogoUrl]);
 
   const defaultMenus: MenuItem[] =
     menus.length > 0
@@ -107,9 +113,18 @@ export default function PublicHeader({ menus, brandName, reservationMode }: Prop
             href="/"
             className="flex min-w-0 shrink-0 items-center gap-2.5 text-base font-extrabold tracking-tight text-slate-900 sm:text-lg"
           >
-            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-black text-white shadow-xs">
-              <Sparkles className="h-4 w-4" />
-            </span>
+            {brandLogoUrl && !logoError ? (
+              <img
+                src={brandLogoUrl}
+                alt={displayBrand}
+                onError={() => setLogoError(true)}
+                className="h-8 w-auto max-w-[140px] shrink-0 rounded-md object-contain"
+              />
+            ) : (
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-black text-white shadow-xs">
+                <Sparkles className="h-4 w-4" />
+              </span>
+            )}
             <span className="truncate">{displayBrand}</span>
           </Link>
 

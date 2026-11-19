@@ -39,6 +39,28 @@ public final class MediaFileGuard {
         }
     }
 
+    public static void validatePublicMediaMagicBytes(byte[] headerBytes) {
+        validateMagicBytes(headerBytes, false);
+        if (!isSupportedRasterImage(headerBytes) && !isSupportedVideo(headerBytes)) {
+            throw new BusinessException(ErrorCode.UNSUPPORTED_MEDIA_TYPE, "공개 미디어는 JPG, PNG, WEBP 이미지 또는 MP4, WEBM 동영상만 허용됩니다.");
+        }
+    }
+
+    public static boolean isMp4(byte[] b) {
+        return b != null && b.length >= 12
+                && b[4] == 'f' && b[5] == 't' && b[6] == 'y' && b[7] == 'p';
+    }
+
+    public static boolean isWebm(byte[] b) {
+        return b != null && b.length >= 4
+                && (b[0] & 0xFF) == 0x1A && (b[1] & 0xFF) == 0x45
+                && (b[2] & 0xFF) == 0xDF && (b[3] & 0xFF) == 0xA3;
+    }
+
+    public static boolean isSupportedVideo(byte[] b) {
+        return isMp4(b) || isWebm(b);
+    }
+
     public static boolean isSupportedRasterImage(byte[] b) {
         if (b == null || b.length < 12) {
             return false;

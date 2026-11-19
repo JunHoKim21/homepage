@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>eleveWeb 크몽 썸네일 (652x488)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="./shared-kmong.css" />
+  <style>
+    html, body {
+      width: 652px;
+      height: 488px;
+      overflow: hidden;
+      background: #0b0f19;
+    }
+    .thumb-wrap {
+      width: 652px;
+      height: 488px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 80% 15%, rgba(14, 165, 233, 0.25), transparent 45%),
+                  radial-gradient(circle at 15% 85%, rgba(29, 78, 216, 0.32), transparent 50%),
+                  #0b0f19;
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #ffffff;
+    }
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+    .tax-badge {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      color: #6ee7b7;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 18px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      margin-top: 4px;
+    }
+    .launch-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3);
+    }
+    .hero-copy {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+    .hero-copy .accent {
+      color: #38bdf8;
+    }
+    .sub-copy {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: #cbd5e1;
+    }
+    .sub-copy strong {
+      color: #ffffff;
+      font-weight: 800;
+    }
+    .sample-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .mini-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+    .mini-card img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      display: block;
+    }
+    .mini-label {
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.9);
+    }
+    .mini-label span {
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .bottom-chips {
+      display: flex;
+      gap: 8px;
+      position: relative;
+      z-index: 2;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .b-chip {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+    }
+    .b-chip em {
+      font-style: normal;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+  <div class="thumb-wrap">
+    <div class="top-row">
+      <div class="ew-logo-wrap">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ewGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#0EA5E9"/>
+              <stop offset="100%" stop-color="#1D4ED8"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" fill="url(#ewGrad)"/>
+          <text x="20" y="26" text-anchor="middle" fill="#FFFFFF" font-family="Pretendard, sans-serif" font-weight="900" font-size="18" letter-spacing="-0.8">eW</text>
+        </svg>
+        <div>
+          <div class="ew-wordmark" style="font-size: 19px; color:#fff;">eleveWeb</div>
+          <div class="ew-sub" style="font-size: 11px;">엘레브웹 · 소유형 맞춤 웹 구축</div>
+        </div>
+      </div>
+      <div class="tax-badge">세금계산서 100% 발행</div>
+    </div>
+
+    <div class="main-grid">
+      <div>
+        <div class="launch-tag">선착순 3개사 론칭 특가 · 45만 원~</div>
+        <h1 class="hero-copy">
+          월 임대료 <span class="accent">0원</span><br />
+          <span class="accent">자체개발</span>+<br />
+          한글 관리자까지
+        </h1>
+        <p class="sub-copy">
+          기업 · 병의원 · 로펌 · 인테리어<br />
+          <strong>100% 영구 소유 반응형 홈페이지</strong>
+        </p>
+      </div>
+
+      <div class="sample-stack">
+        <div class="mini-card">
+          <img src="../../frontend/public/images/samples/corp-hero.jpg" alt="건축 인테리어 샘플" />
+          <div class="mini-label">기업 · 시공 <span>견적계산기</span></div>
+        </div>
+        <div class="mini-card">
+          <img src="../../frontend/public/images/samples/clinic-hero.jpg" alt="내과 병의원 샘플" />
+          <div class="mini-label">내과 · 검진 <span>예약연동</span></div>
+        </div>
+        <div class="mini-card">
+          <img src="../../frontend/public/images/samples/skin-hero.jpg" alt="피부과 뷰티 샘플" />
+          <div class="mini-label">피부과 · 뷰티 <span>다국어</span></div>
+        </div>
+        <div class="mini-card">
+          <img src="../../frontend/public/images/samples/law-hero.jpg" alt="법무법인 전문직 샘플" />
+          <div class="mini-label">로펌 · 세무 <span>승소사례</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-chips">
+      <div class="b-chip"><em>100%</em> 디자인·소스 소유</div>
+      <div class="b-chip"><em>1분</em> 비개발자 한글 수정</div>
+      <div class="b-chip"><em>PC · 모바일</em> 완벽 반응형</div>
+      <div class="b-chip">시안 불만족 <em>전액 환불</em></div>
+    </div>
+  </div>
+</body>
+</html>

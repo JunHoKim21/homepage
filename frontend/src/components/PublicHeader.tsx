@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MenuItem } from "@/lib/api";
 
 interface Props {
   menus: MenuItem[];
   brandName: string;
+  brandLogoUrl?: string;
   reservationMode: string;
 }
 
-export default function PublicHeader({ menus, brandName, reservationMode }: Props) {
+export default function PublicHeader({ menus, brandName, brandLogoUrl, reservationMode }: Props) {
   const [open, setOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [brandLogoUrl]);
 
   const defaultMenus: MenuItem[] =
     menus.length > 0
@@ -33,9 +39,18 @@ export default function PublicHeader({ menus, brandName, reservationMode }: Prop
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg btn-primary text-sm font-extrabold">
-            S
-          </span>
+          {brandLogoUrl && !logoError ? (
+            <img
+              src={brandLogoUrl}
+              alt={brandName}
+              onError={() => setLogoError(true)}
+              className="h-8 w-auto max-w-[140px] rounded-md object-contain"
+            />
+          ) : (
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg btn-primary text-sm font-extrabold">
+              S
+            </span>
+          )}
           <span>{brandName}</span>
         </Link>
 

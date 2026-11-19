@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>detail-05-pricing (860x1680)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="./shared-kmong.css" />
+  <style>
+    html, body { width: 860px; height: 1350px; overflow: hidden; }
+    .canvas { width: 860px; height: 1350px; overflow: hidden; background: #ffffff; display: flex; flex-direction: column; }
+    .wrap { flex: 1; padding: 32px 44px; display: flex; flex-direction: column; justify-content: flex-start; gap: 18px; }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+    .head h1 {
+      margin-top: 8px;
+      font-size: 31px;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.28;
+      color: #0f172a;
+    }
+    .launch-pill {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    .tier-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    .tier-card {
+      border-radius: 20px;
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .tier-card.best {
+      background: #0b0f19;
+      color: #ffffff;
+      border: 2px solid #0ea5e9;
+      box-shadow: 0 18px 38px rgba(14, 165, 233, 0.22);
+    }
+    .best-tag {
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+    }
+    .tier-name {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: #1d4ed8;
+    }
+    .tier-card.best .tier-name { color: #38bdf8; }
+    .tier-sub {
+      margin-top: 4px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .anchor-price {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #94a3b8;
+      text-decoration: line-through;
+      font-weight: 600;
+    }
+    .real-price {
+      margin-top: 2px;
+      font-size: 31px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .vat-note {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .tier-card.best .vat-note { color: #94a3b8; }
+    .feat-list {
+      margin-top: 18px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 16px;
+    }
+    .tier-card.best .feat-list { border-top-color: rgba(255, 255, 255, 0.12); }
+    .feat-list li {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #334155;
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+    }
+    .tier-card.best .feat-list li { color: #e2e8f0; }
+    .chk {
+      flex-shrink: 0;
+      color: #0284c7;
+      font-weight: 900;
+    }
+    .tier-card.best .chk { color: #38bdf8; }
+    .tier-meta {
+      margin-top: 16px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+    .tier-card.best .tier-meta {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e0f2fe;
+    }
+
+    /* Bonus Box */
+    .bonus-box {
+      margin-top: 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+      border: 1.5px solid #7dd3fc;
+      padding: 18px 24px;
+    }
+    .bonus-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .bonus-title strong { font-size: 16px; font-weight: 900; color: #0c4a6e; }
+    .bonus-title span { font-size: 12px; font-weight: 800; color: #0369a1; }
+    .bonus-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .b-item {
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .b-item span { font-size: 11px; font-weight: 900; color: #0284c7; display: block; }
+    .b-item strong { font-size: 13.5px; font-weight: 800; color: #0f172a; display: block; margin-top: 4px; line-height: 1.38; }
+
+    /* Options Table */
+    .opt-box {
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      padding: 18px 22px;
+    }
+    .opt-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .opt-head h3 { font-size: 16px; font-weight: 900; color: #0f172a; }
+    .opt-head span { font-size: 12px; font-weight: 700; color: #64748b; }
+    .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .opt-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .opt-card strong { font-size: 12.5px; font-weight: 800; color: #0f172a; line-height: 1.38; }
+    .opt-card small { font-size: 11px; color: #64748b; display: block; margin-top: 3px; }
+    .opt-price { margin-top: 8px; font-size: 15px; font-weight: 900; color: #1d4ed8; }
+
+    /* Cost notice */
+    .cost-strip {
+      margin-top: 16px;
+      background: #0b0f19;
+      color: #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 22px;
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+    .cost-strip strong { color: #38bdf8; }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="brand-header-bar light">
+      <div class="ew-logo-wrap">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g5" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" fill="url(#g5)"/>
+          <text x="20" y="26" text-anchor="middle" fill="#FFF" font-family="Pretendard, sans-serif" font-weight="900" font-size="18">eW</text>
+        </svg>
+        <div>
+          <div class="ew-wordmark">eleveWeb</div>
+          <div class="ew-sub">TRANSPARENT PRICING · 투명한 정찰제 안내</div>
+        </div>
+      </div>
+      <div class="pill-badge pill-light">05 · 선착순 3개사 론칭가 · 추가 옵션</div>
+    </div>
+
+    <div class="wrap">
+      <div>
+        <div class="head">
+          <div>
+            <div class="kicker" style="color:#1d4ed8;">LAUNCH PARTNER PRICING</div>
+            <h1>추가금 장난 없는 <span class="brand-gradient-text-dark">3단 정찰제 패키지</span></h1>
+          </div>
+          <div class="launch-pill">
+            선착순 3개사 론칭 파트너 특가<br />
+            <small style="font-weight:600;color:#e0f2fe;">마감 시 정상가(79·149·249만)로 단계 전환</small>
+          </div>
+        </div>
+
+        <div class="tier-grid">
+          <!-- STANDARD -->
+          <div class="tier-card">
+            <div>
+              <div class="tier-name">STANDARD</div>
+              <div class="tier-sub">실속 원페이지 · 명함형</div>
+              <div class="anchor-price">정상가 790,000원</div>
+              <div class="real-price">450,000원</div>
+              <div class="vat-note">VAT 포함 · 론칭 특가</div>
+              <ul class="feat-list">
+                <li><span class="chk">✓</span><span>원페이지 (5~6섹션) 반응형</span></li>
+                <li><span class="chk">✓</span><span>모바일·PC 최적화 &amp; 이미지 자동압축</span></li>
+                <li><span class="chk">✓</span><span>스팸 차단 무료 견적문의 폼</span></li>
+                <li><span class="chk">✓</span><span>네이버·구글 기본 검색 세팅</span></li>
+                <li><span class="chk">✓</span><span>기본 한글 관리자 (배너·공지·문의)</span></li>
+              </ul>
+            </div>
+            <div class="tier-meta">
+              제작기간: 자료 전달 후 7일<br />
+              수정 2회 · 무상 하자보수 1개월
+            </div>
+          </div>
+
+          <!-- DELUXE -->
+          <div class="tier-card best">
+            <span class="best-tag">가장 많이 선택하는 BEST</span>
+            <div>
+              <div class="tier-name">DELUXE</div>
+              <div class="tier-sub">기업·병의원·전문직 표준형</div>
+              <div class="anchor-price">정상가 1,490,000원</div>
+              <div class="real-price" style="color:#38bdf8;">890,000원</div>
+              <div class="vat-note">VAT 포함 · 론칭 특가 (40% 혜택)</div>
+              <ul class="feat-list">
+                <li><span class="chk">✓</span><span>메인 + 서브 5페이지 내외 맞춤 UI</span></li>
+                <li><span class="chk">✓</span><span>시공사례·진료과목·승소사례 아카이브</span></li>
+                <li><span class="chk">✓</span><span>1:1 상담예약 또는 네이버예약 연동</span></li>
+                <li><span class="chk">✓</span><span>전체 한글 관리자 (SEO/카톡 1분 수정)</span></li>
+                <li><span class="chk">✓</span><span>전자세금계산서·비교견적서 즉시 발행</span></li>
+              </ul>
+            </div>
+            <div class="tier-meta">
+              제작기간: 자료 전달 후 14일<br />
+              시안 1회 + 수정 3회 · 하자보수 2개월
+            </div>
+          </div>
+
+          <!-- PREMIUM -->
+          <div class="tier-card">
+            <div>
+              <div class="tier-name">PREMIUM</div>
+              <div class="tier-sub">업종 특화 모듈 · 고도화형</div>
+              <div class="anchor-price">정상가 2,490,000원</div>
+              <div class="real-price">1,490,000원</div>
+              <div class="vat-note">VAT 포함 · 론칭 특가</div>
+              <ul class="feat-list">
+                <li><span class="chk">✓</span><span>메인 + 서브 8~10페이지 확장 구축</span></li>
+                <li><span class="chk">✓</span><span>특화 모듈 1종 택1 (견적계산기 · 전후사진 잠금 · 정원제 예약 · 다국어 1개)</span></li>
+                <li><span class="chk">✓</span><span>이벤트 팝업 · 플로팅 배너 제어</span></li>
+                <li><span class="chk">✓</span><span>소스·도메인·데이터 100% 영구 소유</span></li>
+              </ul>
+            </div>
+            <div class="tier-meta">
+              제작기간: 자료 전달 후 21일<br />
+              시안 2회 + 수정 5회 · 3개월 우선 SLA
+            </div>
+          </div>
+        </div>
+
+        <div class="bonus-box">
+          <div class="bonus-title">
+            <strong>선착순 3개사 론칭 파트너 특별 무상 보너스 3종 (전 패키지 공통 증정)</strong>
+            <span>리뷰 3건 달성 시 조기 종료</span>
+          </div>
+          <div class="bonus-3">
+            <div class="b-item">
+              <span>BONUS 01</span>
+              <strong>네이버·구글 검색엔진 등록 대행</strong>
+            </div>
+            <div class="b-item">
+              <span>BONUS 02</span>
+              <strong>카카오톡 링크 공유 대표 이미지(OG) 제작</strong>
+            </div>
+            <div class="b-item">
+              <span>BONUS 03</span>
+              <strong>담당자용 3분 맞춤 관리자 가이드 영상</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="opt-box">
+          <div class="opt-head">
+            <h3>선택형 추가 유료 옵션표 (필요하실 때만 투명하게 추가)</h3>
+            <span>크몽 추가 옵션 선택 가능 · VAT 포함</span>
+          </div>
+          <div class="opt-grid">
+            <div class="opt-card">
+              <div><strong>전후사진 회원 전용 잠금</strong><small>의료광고법 준수 로그인 열람</small></div>
+              <div class="opt-price">+300,000원</div>
+            </div>
+            <div class="opt-card">
+              <div><strong>다국어 확장 (1개 언어당)</strong><small>영/중/일 선택 · 번역 원고 제공 시</small></div>
+              <div class="opt-price">+500,000원</div>
+            </div>
+            <div class="opt-card">
+              <div><strong>카카오 알림톡 실제 발송 연동</strong><small>비즈채널·건당 발송 실비 별도</small></div>
+              <div class="opt-price">+200,000원</div>
+            </div>
+            <div class="opt-card">
+              <div><strong>전자결제(PG) 실서비스 연동</strong><small>PG사 가맹 심사·결제 수수료 별도</small></div>
+              <div class="opt-price">+500,000원</div>
+            </div>
+            <div class="opt-card">
+              <div><strong>상세 시술·제품·사례 5P 추가</strong><small>고품질 레이아웃 맞춤 구성</small></div>
+              <div class="opt-price">+250,000원</div>
+            </div>
+            <div class="opt-card" style="background:#eff6ff;border-color:#bfdbfe;">
+              <div><strong style="color:#1e3a8a;">어느 패키지인지 고민되시나요?</strong><small style="color:#1d4ed8;">참고 사이트만 알려주세요</small></div>
+              <div class="opt-price" style="font-size:13.5px;">크몽 메시지 무료 견적 안내</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cost-strip">
+        <strong>[투명한 별도 실비 안내]</strong> 도메인 등록비(연 약 2만 원대) 및 2GB 독립 클라우드 서버 이용료(월 1~2만 원대)는 제작사 마진 없이 <strong>고객사 명의로 직접 가입·결제</strong>하여 100% 고객사 자산으로 소유합니다. (제작사 월 관리비·플랫폼 임대료 0원)
+      </div>
+    </div>
+  </div>
+</body>
+</html>

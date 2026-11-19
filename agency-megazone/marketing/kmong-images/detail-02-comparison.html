@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>detail-02-comparison (860x1380)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="./shared-kmong.css" />
+  <style>
+    html, body { width: 860px; height: 1240px; overflow: hidden; }
+    .canvas { width: 860px; height: 1240px; overflow: hidden; background: #f8fafc; display: flex; flex-direction: column; }
+    .body-wrap { flex: 1; padding: 34px 44px; display: flex; flex-direction: column; justify-content: flex-start; gap: 20px; }
+    .title-area h1 {
+      margin-top: 8px;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+      color: #0f172a;
+    }
+    .title-area p {
+      margin-top: 10px;
+      font-size: 15.5px;
+      color: #475569;
+      line-height: 1.55;
+    }
+    .table-box {
+      margin-top: 24px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    thead th {
+      padding: 16px 14px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f1f5f9;
+      color: #334155;
+    }
+    thead th:first-child { text-align: left; padding-left: 20px; width: 17%; }
+    thead th.col-ew {
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      width: 27%;
+      font-size: 14.5px;
+    }
+    tbody td {
+      padding: 14px 13px;
+      font-size: 13px;
+      line-height: 1.48;
+      border-bottom: 1px solid #f1f5f9;
+      color: #475569;
+      text-align: center;
+      vertical-align: middle;
+    }
+    tbody td:first-child {
+      text-align: left;
+      padding-left: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      background: #fafbfc;
+    }
+    tbody td.col-ew {
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-weight: 800;
+      border-left: 2px solid #93c5fd;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .tco-section {
+      margin-top: 24px;
+      background: #0b0f19;
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 26px 28px;
+    }
+    .tco-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .tco-head h2 {
+      font-size: 20px;
+      font-weight: 800;
+    }
+    .tco-head span {
+      font-size: 12px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .bar-row {
+      margin-bottom: 14px;
+    }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #e2e8f0;
+    }
+    .bar-track {
+      height: 20px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+    }
+    .no-go-box {
+      margin-top: 20px;
+      background: #ffffff;
+      border: 1.5px solid #0284c7;
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .no-go-badge {
+      flex-shrink: 0;
+      background: #0b0f19;
+      color: #38bdf8;
+      font-size: 12.5px;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-align: center;
+      line-height: 1.35;
+    }
+    .no-go-box h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .no-go-box p {
+      margin-top: 5px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="brand-header-bar light">
+      <div class="ew-logo-wrap">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" fill="url(#g2)"/>
+          <text x="20" y="26" text-anchor="middle" fill="#FFF" font-family="Pretendard, sans-serif" font-weight="900" font-size="18">eW</text>
+        </svg>
+        <div>
+          <div class="ew-wordmark">eleveWeb</div>
+          <div class="ew-sub">SMART COMPARISON · 선택 기준 비교</div>
+        </div>
+      </div>
+      <div class="pill-badge pill-light">02 · 타사 방식과 무엇이 다른가요</div>
+    </div>
+
+    <div class="body-wrap">
+      <div>
+        <div class="title-area">
+          <div class="kicker" style="color:#1d4ed8;">WHY OWNED ARCHITECTURE</div>
+          <h1>당장의 초기 견적만이 아니라,<br /><span class="brand-gradient-text-dark">3년 뒤 우리 회사 자산</span>으로 남는지 비교하세요</h1>
+          <p>임대형 웹빌더, 저가 템플릿, 고가 에이전시 대비 eleveWeb이 가진 구조적 우위입니다.</p>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>비교 항목</th>
+                <th>저가 덤핑형<br /><small style="font-weight:500;">(20~30만 원대)</small></th>
+                <th>일반 임대형 웹빌더<br /><small style="font-weight:500;">(구독 대행)</small></th>
+                <th>고가 에이전시<br /><small style="font-weight:500;">(300~700만+)</small></th>
+                <th class="col-ew">eleveWeb<br /><small style="font-weight:600;color:#e0f2fe;">(론칭가 45·89·149만)</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>초기 제작 비용</td>
+                <td>저렴 (수정마다 추가금 폭탄)</td>
+                <td>50 ~ 200만 원대</td>
+                <td>300 ~ 1,000만 원+</td>
+                <td class="col-ew">45 / 89 / 149만 정찰제<br />(추가 옵션표 사전 공개)</td>
+              </tr>
+              <tr>
+                <td>제작사 월 관리·임대료</td>
+                <td>플랫폼 구독료 발생</td>
+                <td>매월 요금제 결제 필수<br />(미납 시 운영 중단)</td>
+                <td>월 유지보수 별도 계약 다수</td>
+                <td class="col-ew">제작사 월 임대료 0원<br />(도메인·서버 실비만 직접 납부)</td>
+              </tr>
+              <tr>
+                <td>디자인·소스 소유권</td>
+                <td>복제·이전 제한</td>
+                <td>임대 기간 내 사용<br />(타사 이전 불가)</td>
+                <td>고객 소유 (고비용)</td>
+                <td class="col-ew">디자인·소스·데이터<br />100% 고객사 영구 소유</td>
+              </tr>
+              <tr>
+                <td>직접 수정 편의성</td>
+                <td>편집기 학습 필요</td>
+                <td>복잡한 빌더 화면</td>
+                <td>개발자 요청·추가금</td>
+                <td class="col-ew">한글 관리자 기본 제공<br />(사진·공지·SEO 1분 수정)</td>
+              </tr>
+              <tr>
+                <td>업종 특화 기능</td>
+                <td>불가</td>
+                <td>유료 앱·틀 내 제한</td>
+                <td>가능 (추가 견적 고가)</td>
+                <td class="col-ew">견적계산기·예약·전후사진 잠금·다국어 표준 지원</td>
+              </tr>
+              <tr>
+                <td>세금계산서·환불보장</td>
+                <td>미발행·분쟁 빈번</td>
+                <td>업체별 상이</td>
+                <td>고액 선불 부담</td>
+                <td class="col-ew">세금계산서 100% 발행<br />1차 시안 불만족 전액 환불</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tco-section">
+          <div class="tco-head">
+            <h2>3년 누적 비용 구조 비교 (표준 기업·병원 홈페이지 기준)</h2>
+            <span>제작비 + 플랫폼/유지비 기준</span>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>고가 풀커스텀 에이전시 (초기 구축 400만~ + 월 유지보수)</span>
+              <span style="color:#fda4af;">총 500만 ~ 900만 원+</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:92%;background:linear-gradient(90deg,#f43f5e,#fb7185);"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>일반 임대형 웹빌더 대행 (초기 120만~ + 월 요금제·유료 기능 36개월)</span>
+              <span style="color:#fcd34d;">지속 누적 지출 + 자산 이전 불가</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:66%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">
+              <span>eleveWeb Deluxe 론칭가 (초기 89만 원 + 제작사 월 관리비 0원)</span>
+              <span style="color:#38bdf8;">89만 원 + 서버·도메인 실비만 유지 + 영구 소유</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:36%;background:linear-gradient(90deg,#0ea5e9,#38bdf8);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-go-box">
+        <div class="no-go-badge">품질 기준<br />선언</div>
+        <div>
+          <h3>eleveWeb은 20~30만 원대 복붙형 저품질 템플릿 작업은 진행하지 않습니다</h3>
+          <p>디자인 껍데기만 급하게 바꿔 끼우는 방식으로는 대표님의 브랜드 신뢰도를 지킬 수 없습니다. 한 번 구축하면 3년 이상 끄떡없이 쓰는 자산형 홈페이지와 한글 관리자만 책임지고 제작합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>detail-01-hook (860x1360)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="./shared-kmong.css" />
+  <style>
+    html, body { width: 860px; height: 1480px; overflow: hidden; }
+    .canvas { width: 860px; height: 1480px; overflow: hidden; display: flex; flex-direction: column; }
+    .hero-block {
+      flex-shrink: 0;
+      background: #0b0f19;
+      color: #ffffff;
+      padding: 40px 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-title {
+      margin-top: 16px;
+      font-size: 40px;
+      font-weight: 900;
+      line-height: 1.24;
+      letter-spacing: -0.03em;
+    }
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 17px;
+      line-height: 1.65;
+      color: #cbd5e1;
+      max-width: 720px;
+    }
+    .pain-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .pain-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 22px 20px;
+    }
+    .pain-num {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fda4af;
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+    .pain-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.38;
+      color: #ffffff;
+    }
+    .pain-card p {
+      margin-top: 10px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #94a3b8;
+    }
+    .solution-block {
+      flex: 1;
+      background: #ffffff;
+      padding: 44px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+    .sec-head h2 {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: #0f172a;
+      margin-top: 8px;
+    }
+    .sol-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .sol-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 24px;
+    }
+    .sol-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .sol-icon {
+      min-width: 48px;
+      height: 42px;
+      padding: 0 10px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .sol-tag {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1d4ed8;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+    .sol-card h3 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .sol-card p {
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+    }
+    .bottom-banner {
+      margin-top: 24px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0b0f19 0%, #172554 100%);
+      color: #ffffff;
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .bottom-banner strong {
+      font-size: 18px;
+      font-weight: 800;
+      display: block;
+    }
+    .bottom-banner span {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      display: block;
+      margin-top: 4px;
+    }
+    .cta-pill {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 20px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="brand-header-bar">
+      <div class="ew-logo-wrap">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" fill="url(#g1)"/>
+          <text x="20" y="26" text-anchor="middle" fill="#FFF" font-family="Pretendard, sans-serif" font-weight="900" font-size="18">eW</text>
+        </svg>
+        <div>
+          <div class="ew-wordmark">eleveWeb</div>
+          <div class="ew-sub">엘레브웹 · 자체 소유형 맞춤 웹 구축</div>
+        </div>
+      </div>
+      <div class="pill-badge pill-dark">01 · 왜 eleveWeb인가</div>
+    </div>
+
+    <section class="hero-block">
+      <div class="orb" style="width:260px;height:260px;background:rgba(14,165,233,0.22);top:-80px;right:-60px;"></div>
+      <div class="orb" style="width:240px;height:240px;background:rgba(29,78,216,0.25);bottom:-80px;left:-60px;"></div>
+
+      <span class="pill-badge pill-dark">대표님·원장님, 혹시 이런 경험 있으신가요?</span>
+      <h1 class="hero-title">
+        홈페이지 한 번 만드는데,<br />
+        왜 <span class="brand-gradient-text">매달 임대료와 수정 추가금</span>을<br />
+        계속 내야 할까요?
+      </h1>
+      <p class="hero-sub">
+        저가 템플릿은 회사 신뢰도를 깎아 먹고, 대형 에이전시 견적은 수백만 원을 훌쩍 넘깁니다.<br />
+        eleveWeb은 그 중간의 거품과 종속 구조를 없앤 100% 고객 소유형 구축 파트너입니다.
+      </p>
+
+      <div class="pain-grid">
+        <div class="pain-card">
+          <span class="pain-num">고민 01 · 비용 누수</span>
+          <h3>매달 나가는 웹빌더 임대료 &amp; 수정 추가금</h3>
+          <p>임대형 요금제를 안 내면 사이트가 닫히고, 배너·텍스트 하나 바꾸려 해도 매번 외주 비용과 대기 시간이 발생합니다.</p>
+        </div>
+        <div class="pain-card">
+          <span class="pain-num">고민 02 · 신뢰 하락</span>
+          <h3>누가 봐도 티 나는 20~30만 원대 복붙 템플릿</h3>
+          <p>거래처와 환자가 모바일에서 3초 만에 촌스러움을 느낍니다. 결국 다시 돈을 들여 리뉴얼하게 되는 가장 흔한 실패입니다.</p>
+        </div>
+        <div class="pain-card">
+          <span class="pain-num">고민 03 · 예산 장벽</span>
+          <h3>300~700만 원 넘는 에이전시 &amp; 연락 두절 불안</h3>
+          <p>제대로 만들려니 초기 견적이 부담스럽고, 계약 후 1차 시안이 마음에 안 들거나 사후 관리가 끊길까 걱정됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-block">
+      <div>
+        <div class="sec-head">
+          <div>
+            <div class="kicker" style="color:#1d4ed8;">ELEVEWEB SOLUTION</div>
+            <h2>임대형 중급 가격으로<br />자체개발과 한글 관리자까지 한 번에 소유하세요</h2>
+          </div>
+        </div>
+
+        <div class="sol-grid">
+          <div class="sol-card">
+            <div class="sol-top">
+              <div class="sol-icon">0원</div>
+              <span class="sol-tag">영구 자산 소유</span>
+            </div>
+            <h3>제작사 월 임대료 · 관리비 0원</h3>
+            <p>초기 1회 구축 후 제작사에 내는 월정액이 없습니다. 디자인·소스코드·데이터 모두 고객사 명의로 100% 귀속됩니다. (도메인·독립서버 실비만 고객 직접 납부)</p>
+          </div>
+
+          <div class="sol-card">
+            <div class="sol-top">
+              <div class="sol-icon">1분</div>
+              <span class="sol-tag">한글 관리자 기본</span>
+            </div>
+            <h3>코딩 몰라도 1분 만에 직접 수정</h3>
+            <p>어려운 개발 용어 없이 사진 클릭 교체, 공지·시공사례 등록, 팝업 ON/OFF, 네이버 검색 제목과 카톡 공유 이미지까지 직접 변경합니다.</p>
+          </div>
+
+          <div class="sol-card">
+            <div class="sol-top">
+              <div class="sol-icon">4종</div>
+              <span class="sol-tag">검증된 업종 엔진</span>
+            </div>
+            <h3>업종별 특화 기능 바로 탑재</h3>
+            <p>기업 견적 계산기, 병의원 네이버 예약 연동, 피부과 다국어·전후사진 회원 잠금, 로펌 승소사례·비밀상담까지 검증된 모듈을 적용합니다.</p>
+          </div>
+
+          <div class="sol-card">
+            <div class="sol-top">
+              <div class="sol-icon">100%</div>
+              <span class="sol-tag">일반과세자 발행</span>
+            </div>
+            <h3>세금계산서 발행 · 리스크 제로 보장</h3>
+            <p>전자세금계산서 100% 발행은 물론, 기획 확정 후 1차 메인 시안 불만족 시 전액 환불 보장 및 납품 후 무상 하자보수 SLA를 제공합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-banner">
+        <div>
+          <strong>"내 업종도 이렇게 깔끔하게 나올 수 있을까?"</strong>
+          <span>크몽 메시지로 업종만 말씀해 주세요. 실제 동작하는 샘플 구성을 바로 안내해 드립니다.</span>
+        </div>
+        <div class="cta-pill">론칭 특가 45만 원~</div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

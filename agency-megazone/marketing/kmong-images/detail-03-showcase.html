@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>detail-03-showcase (860x1580)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="./shared-kmong.css" />
+  <style>
+    html, body { width: 860px; height: 1390px; overflow: hidden; }
+    .canvas { width: 860px; height: 1390px; overflow: hidden; background: #ffffff; display: flex; flex-direction: column; }
+    .wrap { flex: 1; padding: 34px 44px; display: flex; flex-direction: column; justify-content: flex-start; gap: 22px; }
+    .head h1 {
+      margin-top: 8px;
+      font-size: 33px;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.28;
+      color: #0f172a;
+    }
+    .head p {
+      margin-top: 10px;
+      font-size: 15.5px;
+      color: #475569;
+      line-height: 1.55;
+    }
+    .grid-2x2 {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .sample-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .sample-card.dark {
+      background: #0f172a;
+      border-color: #334155;
+      color: #ffffff;
+    }
+    .browser-bar {
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e293b;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .dots { display: inline-flex; gap: 5px; }
+    .dots span { width: 8px; height: 8px; border-radius: 9999px; background: #475569; }
+    .dots span:nth-child(1) { background: #f87171; }
+    .dots span:nth-child(2) { background: #fbbf24; }
+    .dots span:nth-child(3) { background: #34d399; }
+    .img-box {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .img-overlay-tag {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+    .card-body {
+      padding: 20px 22px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .tone-label {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .card-body h2 {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .card-body p {
+      margin-top: 8px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      opacity: 0.85;
+    }
+    .chip-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .f-chip {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+    .sample-card.dark .f-chip {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+    .more-bar {
+      margin-top: 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0b0f19 0%, #172554 100%);
+      color: #ffffff;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .more-bar h3 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .more-bar p {
+      margin-top: 5px;
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .more-pill {
+      flex-shrink: 0;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0ea5e9 0%, #1d4ed8 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="brand-header-bar light">
+      <div class="ew-logo-wrap">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g3" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" fill="url(#g3)"/>
+          <text x="20" y="26" text-anchor="middle" fill="#FFF" font-family="Pretendard, sans-serif" font-weight="900" font-size="18">eW</text>
+        </svg>
+        <div>
+          <div class="ew-wordmark">eleveWeb</div>
+          <div class="ew-sub">INDUSTRY SHOWCASE · 업종별 완성형 샘플</div>
+        </div>
+      </div>
+      <div class="pill-badge pill-light">03 · 실제 구현 포트폴리오 4종</div>
+    </div>
+
+    <div class="wrap">
+      <div>
+        <div class="head">
+          <div class="kicker" style="color:#1d4ed8;">VERIFIABLE LIVE SAMPLES</div>
+          <h1>말로만 하는 디자인이 아닌,<br /><span class="brand-gradient-text-dark">업종별 실제 작동 샘플</span>로 품질을 확인하세요</h1>
+          <p>각 업종의 고객 동선과 전환 구조에 맞춰 설계된 4가지 표준 디자인 및 기능 패키지입니다.</p>
+        </div>
+
+        <div class="grid-2x2">
+          <!-- Sample 1 -->
+          <div class="sample-card dark">
+            <div class="browser-bar">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span>SAMPLE 01 · 건축 · 인테리어 · 제조 B2B</span>
+            </div>
+            <div class="img-box">
+              <img src="../../frontend/public/images/samples/corp-hero.jpg" alt="한빛공간디자인" />
+              <div class="img-overlay-tag" style="background:rgba(180,83,9,0.9);color:#fff;">웜 스톤 · 브론즈 기업형</div>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="tone-label" style="color:#fbbf24;">한빛공간디자인 (기업·시공 모델)</div>
+                <h2>시공사례 &amp; 30초 견적 계산기</h2>
+                <p>현장 포트폴리오 필터 갤러리와 평수·마감재별 즉시 예상 견적 계산기를 결합해 B2B 문의 전환율을 높입니다.</p>
+              </div>
+              <div class="chip-row">
+                <span class="f-chip">평수별 견적계산기</span>
+                <span class="f-chip">시공사례 필터</span>
+                <span class="f-chip">고화질 자동압축</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample 2 -->
+          <div class="sample-card">
+            <div class="browser-bar" style="background:#0f766e;color:#ccfbf1;">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span>SAMPLE 02 · 내과 · 검진 · 병의원</span>
+            </div>
+            <div class="img-box">
+              <img src="../../frontend/public/images/samples/clinic-hero.jpg" alt="연세바른내과" />
+              <div class="img-overlay-tag" style="background:rgba(15,118,110,0.9);color:#fff;">메디컬 틸 · 화이트 클리닉</div>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="tone-label" style="color:#0f766e;">연세바른내과 (내과·검진 모델)</div>
+                <h2>2단 진료시간표 &amp; 하이브리드 예약</h2>
+                <p>모바일 상단 빠른 예약 바, 의료진 약력, 2단 진료시간표, 기존 네이버 예약과의 매끄러운 연동을 제공합니다.</p>
+              </div>
+              <div class="chip-row">
+                <span class="f-chip">네이버 예약 연동</span>
+                <span class="f-chip">1:1 초진 예약</span>
+                <span class="f-chip">휴진 팝업 1분제어</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample 3 -->
+          <div class="sample-card">
+            <div class="browser-bar" style="background:#9f1239;color:#ffe4e6;">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span>SAMPLE 03 · 피부과 · 뷰티 · 다국어</span>
+            </div>
+            <div class="img-box">
+              <img src="../../frontend/public/images/samples/skin-hero.jpg" alt="더셀루체 피부과" />
+              <div class="img-overlay-tag" style="background:rgba(159,18,57,0.9);color:#fff;">샴페인 · 로즈 하이엔드 뷰티</div>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="tone-label" style="color:#be123c;">더셀루체 피부과 (강남 뷰티 모델)</div>
+                <h2>3×2 화보 &amp; 전후사진 회원 잠금</h2>
+                <p>의료광고법을 준수한 전후사진 회원 잠금, 한·영·일·중 다국어 전환, 탭형 이벤트 팝업과 좌우 플로팅 배너를 탑재했습니다.</p>
+              </div>
+              <div class="chip-row">
+                <span class="f-chip">4개국어 다국어</span>
+                <span class="f-chip">전후사진 잠금</span>
+                <span class="f-chip">플로팅 ON/OFF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample 4 -->
+          <div class="sample-card dark">
+            <div class="browser-bar" style="background:#0a1120;color:#fde68a;">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span>SAMPLE 04 · 법무법인 · 세무 · 전문직</span>
+            </div>
+            <div class="img-box">
+              <img src="../../frontend/public/images/samples/law-hero.jpg" alt="법무법인 정율" />
+              <div class="img-overlay-tag" style="background:rgba(217,119,6,0.92);color:#fff;">다크 네이비 · 골드 전문직형</div>
+            </div>
+            <div class="card-body">
+              <div>
+                <div class="tone-label" style="color:#fbbf24;">법무법인 정율 (로펌·전문직 모델)</div>
+                <h2>승소사례 아카이브 &amp; 1:1 비밀상담</h2>
+                <p>묵직한 신뢰감을 주는 전문직 톤에 분야별 성공사례 필터·상세 모달과 보안이 유지되는 1:1 상담 예약을 결합했습니다.</p>
+              </div>
+              <div class="chip-row">
+                <span class="f-chip">4대 분야·구성원</span>
+                <span class="f-chip">사례 모달 조회</span>
+                <span class="f-chip">비밀상담 예약</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="more-bar">
+        <div>
+          <h3>기타 제조·학원·스튜디오·세무·노무 업종도 동일 엔진으로 맞춤 제작됩니다</h3>
+          <p>크몽 내 등록된 공식 포트폴리오 탭 또는 크몽 메시지로 업종을 알려주시면,<br />직접 눌러보실 수 있는 맞춤 샘플 구성과 관리자 체험 방법을 안내해 드립니다.</p>
+        </div>
+        <div class="more-pill">크몽 메시지로 시연 문의</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -43,20 +43,43 @@ public class MediaService {
     ) {}
 
     /**
-     * 공개 이미지(/uploads/public):
-     * 1. 첫 64B Magic Bytes 검사 (SVG/스크립트 차단)
-     * 2. ImageReader 헤더만 읽어 4096x4096 초과 Image Bomb 즉시 거부
-     * 3. 임시 원본 저장 후 단일 플랫폼 스레드 풀(Pool=1, Q=50)에 WebP(360/768/1920) 변환 비동기 제출
+     * 공개 미디어(/uploads/public):
+     * 1. 첫 64B Magic Bytes 검사 (SVG/스크립트 차단, 이미지 또는 MP4/WEBM 동영상 허용)
+     * 2. 동영상(MP4/WEBM)인 경우 인코딩 없이 바로 저장 및 READY 처리 (Caddy 직접 스트리밍)
+     * 3. 이미지인 경우 ImageReader 헤더 검사(4096x4096 초과 차단) 후 WebP(360/768/1920) 비동기 변환 제출
      */
     @Transactional
     public MediaUploadResult uploadPublicImage(String originalFilename, String contentType,
                                                byte[] fileBytes, String uploadedBy) {
-        MediaFileGuard.validateMagicBytes(fileBytes, true);
-        imageProcessPort.inspectDimensionsOrThrow(fileBytes);
+        MediaFileGuard.validatePublicMediaMagicBytes(fileBytes);
 
         LocalDate today = LocalDate.now();
         String baseRelativeDir = String.format("%04d/%02d", today.getYear(), today.getMonthValue());
         String fileStem = UuidV7Generator.generate().toString();
+
+        if (MediaFileGuard.isSupportedVideo(fileBytes)) {
+            boolean isMp4 = MediaFileGuard.isMp4(fileBytes);
+            String ext = isMp4 ? ".mp4" : ".webm";
+            String resolvedContentType = isMp4 ? "video/mp4" : "video/webm";
+            String relativeKey = baseRelativeDir + "/" + fileStem + ext;
+
+            storagePort.saveBytes(MediaFile.Visibility.PUBLIC, relativeKey, fileBytes);
+
+            MediaFile videoFile = MediaFile.builder()
+                    .visibility(MediaFile.Visibility.PUBLIC)
+                    .originalFilename(sanitizeFilename(originalFilename))
+                    .storageKey("/uploads/public/" + relativeKey)
+                    .contentType(resolvedContentType)
+                    .fileSize(fileBytes.length)
+                    .status(MediaFile.MediaStatus.READY)
+                    .uploadedBy(uploadedBy)
+                    .build();
+
+            return toResult(mediaFileRepository.save(videoFile));
+        }
+
+        imageProcessPort.inspectDimensionsOrThrow(fileBytes);
+
         String tempRelativeKey = baseRelativeDir + "/raw_" + fileStem + ".tmp";
 
         Path rawTempPath = storagePort.saveBytes(MediaFile.Visibility.PUBLIC, tempRelativeKey, fileBytes);

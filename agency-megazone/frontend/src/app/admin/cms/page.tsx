@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Edit2, Image as ImageIcon, Lock, Plus, Trash2, Upload, X } from "lucide-react";
-import { adminApiFetch, type CmsContentItem } from "@/lib/api";
+import { adminApiFetch, isVideoUrl, type CmsContentItem } from "@/lib/api";
 
 const CATEGORIES = [
   { key: "NOTICE", label: "공지사항" },
@@ -59,6 +59,10 @@ export default function AdminCmsPage() {
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      setNotice("파일 크기는 최대 20MB 이하만 업로드할 수 있습니다.");
+      return;
+    }
     setUploading(true);
     setNotice("");
     try {
@@ -70,7 +74,11 @@ export default function AdminCmsPage() {
       });
       setThumbnailUrl(res.storageKey);
       setImgError(false);
-      setNotice("이미지가 업로드되어 자동으로 최적화되었습니다. 등록/저장 버튼을 눌러 반영해 주세요.");
+      setNotice(
+        isVideoUrl(res.storageKey)
+          ? "동영상이 업로드되었습니다. 등록/저장 버튼을 눌러 반영해 주세요."
+          : "이미지가 업로드되어 자동으로 최적화되었습니다. 등록/저장 버튼을 눌러 반영해 주세요."
+      );
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "이미지 업로드 실패");
     } finally {
@@ -212,29 +220,59 @@ export default function AdminCmsPage() {
           <div className="flex min-w-0 items-center gap-4">
             <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white">
               {thumbnailUrl && !imgError ? (
-                <img
-                  src={thumbnailUrl}
-                  alt={title || "선택된 사진"}
-                  onError={() => setImgError(true)}
-                  className="h-full w-full object-cover"
-                />
+                isVideoUrl(thumbnailUrl) ? (
+                  <video
+                    src={thumbnailUrl}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    onError={() => setImgError(true)}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={thumbnailUrl}
+                    alt={title || "선택된 사진"}
+                    onError={() => setImgError(true)}
+                    className="h-full w-full object-cover"
+                  />
+                )
               ) : (
                 <ImageIcon className="h-6 w-6 text-slate-300" />
               )}
             </div>
             <div className="min-w-0 space-y-1.5">
               <div className="text-xs font-semibold text-slate-700">
-                {thumbnailUrl ? "선택된 대표 사진" : "대표 사진 (선택)"}
+                {category === "BANNER"
+                  ? thumbnailUrl
+                    ? "선택된 배너 사진/동영상"
+                    : "배너 사진/동영상 (선택, 20MB 이하)"
+                  : thumbnailUrl
+                  ? "선택된 대표 사진"
+                  : "대표 사진 (선택)"}
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
                   <Upload className="h-3.5 w-3.5" />
                   <span>
-                    {uploading ? "업로드 중..." : thumbnailUrl ? "사진 변경" : "사진 선택"}
+                    {uploading
+                      ? "업로드 중..."
+                      : category === "BANNER"
+                      ? thumbnailUrl
+                        ? "사진/동영상 변경"
+                        : "사진/동영상 선택"
+                      : thumbnailUrl
+                      ? "사진 변경"
+                      : "사진 선택"}
                   </span>
                   <input
                     type="file"
-                    accept="image/jpeg,image/png,image/webp"
+                    accept={
+                      category === "BANNER"
+                        ? "image/jpeg,image/png,image/webp,video/mp4,video/webm"
+                        : "image/jpeg,image/png,image/webp"
+                    }
                     className="hidden"
                     onChange={handleImageUpload}
                   />
@@ -283,13 +321,23 @@ export default function AdminCmsPage() {
           items.map((item) => (
             <div key={item.id} className="flex flex-wrap items-center justify-between gap-4 p-4">
               <div className="flex items-center gap-3">
-                {item.thumbnailUrl && (
-                  <img
-                    src={item.thumbnailUrl}
-                    alt={item.title}
-                    className="h-12 w-16 rounded-lg border border-slate-200 object-cover"
-                  />
-                )}
+                {item.thumbnailUrl &&
+                  (isVideoUrl(item.thumbnailUrl) ? (
+                    <video
+                      src={item.thumbnailUrl}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      className="h-12 w-16 rounded-lg border border-slate-200 object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={item.thumbnailUrl}
+                      alt={item.title}
+                      className="h-12 w-16 rounded-lg border border-slate-200 object-cover"
+                    />
+                  ))}
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-semibold text-slate-900">{item.title}</span>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarCheck, MessageSquarePlus, ShieldCheck, Sparkles } from "lucide-react";
 import PopupOverlay from "@/components/PopupOverlay";
-import { fetchPublicSiteConfigs, fetchPublishedCms } from "@/lib/api";
+import { fetchPublicSiteConfigs, fetchPublishedCms, isVideoUrl } from "@/lib/api";
 
 export default async function HomePage() {
   const [configs, portfolios, notices, banners, popups] = await Promise.all([
@@ -19,15 +19,27 @@ export default async function HomePage() {
     <div>
       <PopupOverlay popups={popups} />
 
-      {/* Hero Section (BANNER 'hero-main' 등록 시 동적 이미지/문구 반영) */}
+      {/* Hero Section (BANNER 'hero-main' 등록 시 동적 이미지/동영상/문구 반영) */}
       <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white py-20 sm:py-28">
         {heroBanner?.thumbnailUrl && (
-          <div className="pointer-events-none absolute inset-0 opacity-15">
-            <img
-              src={heroBanner.thumbnailUrl}
-              alt={heroBanner.title}
-              className="h-full w-full object-cover"
-            />
+          <div className="pointer-events-none absolute inset-0 opacity-20">
+            {isVideoUrl(heroBanner.thumbnailUrl) ? (
+              <video
+                src={heroBanner.thumbnailUrl}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <img
+                src={heroBanner.thumbnailUrl}
+                alt={heroBanner.title}
+                className="h-full w-full object-cover"
+              />
+            )}
           </div>
         )}
         <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">

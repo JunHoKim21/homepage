@@ -26,6 +26,7 @@ export default async function PublicLayout({
       <PublicHeader
         menus={menus}
         brandName={brandName}
+        brandLogoUrl={configs.brand_logo_url || ""}
         reservationMode={configs.reservation_mode || "BOTH"}
       />
       <main className="flex-1">{children}</main>

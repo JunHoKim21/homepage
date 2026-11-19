@@ -22,7 +22,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import type { CmsContentItem } from "@/lib/api";
+import { isVideoUrl, type CmsContentItem } from "@/lib/api";
 
 type WhatWeDoTab = "SERVICES" | "INDUSTRIES" | "PRODUCTS";
 
@@ -48,12 +48,24 @@ export default function MegazoneShowroom({
           {/* 1. Dark Hero + Key Highlights Bar */}
           <section className="relative overflow-hidden bg-[#0B0F19] pb-16 pt-16 text-white sm:pb-24 sm:pt-24">
             {heroBanner?.thumbnailUrl && (
-              <div className="pointer-events-none absolute inset-0 opacity-20">
-                <img
-                  src={heroBanner.thumbnailUrl}
-                  alt={heroBanner.title}
-                  className="h-full w-full object-cover"
-                />
+              <div className="pointer-events-none absolute inset-0 opacity-30">
+                {isVideoUrl(heroBanner.thumbnailUrl) ? (
+                  <video
+                    src={heroBanner.thumbnailUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={heroBanner.thumbnailUrl}
+                    alt={heroBanner.title}
+                    className="h-full w-full object-cover"
+                  />
+                )}
               </div>
             )}
             {/* Violet / Rose Gradient Orbs */}

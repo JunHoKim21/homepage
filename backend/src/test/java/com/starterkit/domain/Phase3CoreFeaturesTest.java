@@ -109,6 +109,30 @@ class Phase3CoreFeaturesTest {
     }
 
     @Test
+    @DisplayName("[킬러 2] 공개 미디어 Magic Bytes 검사 시 MP4와 WEBM 동영상은 허용하고 비허용 바이너리/SVG는 차단한다")
+    void validatePublicMediaMagicBytes_allowsMp4AndWebm_blocksInvalid() {
+        byte[] validMp4 = new byte[]{0x00, 0x00, 0x00, 0x18, 'f', 't', 'y', 'p', 'm', 'p', '4', '2'};
+        byte[] validWebm = new byte[]{0x1A, 0x45, (byte) 0xDF, (byte) 0xA3, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        byte[] invalidText = "not-a-media-file-payload".getBytes(StandardCharsets.UTF_8);
+        byte[] maliciousSvg = "<svg onload=\"alert(1)\"></svg>".getBytes(StandardCharsets.UTF_8);
+
+        MediaFileGuard.validatePublicMediaMagicBytes(validMp4);
+        MediaFileGuard.validatePublicMediaMagicBytes(validWebm);
+        assertThat(MediaFileGuard.isMp4(validMp4)).isTrue();
+        assertThat(MediaFileGuard.isWebm(validWebm)).isTrue();
+
+        assertThatThrownBy(() -> MediaFileGuard.validatePublicMediaMagicBytes(invalidText))
+                .isInstanceOf(BusinessException.class)
+                .extracting(ex -> ((BusinessException) ex).getErrorCode())
+                .isEqualTo(ErrorCode.UNSUPPORTED_MEDIA_TYPE);
+
+        assertThatThrownBy(() -> MediaFileGuard.validatePublicMediaMagicBytes(maliciousSvg))
+                .isInstanceOf(BusinessException.class)
+                .extracting(ex -> ((BusinessException) ex).getErrorCode())
+                .isEqualTo(ErrorCode.UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    @Test
     @DisplayName("[킬러 3] 상담 문의 Honeypot(website_url) 필드에 값이 있으면 DB 저장 및 알림톡 발송을 0건으로 차단한다")
     void submitInquiry_withHoneypot_skipsDatabaseAndNotification() {
         InquiryService.SubmitInquiryCommand spamCommand = new InquiryService.SubmitInquiryCommand(

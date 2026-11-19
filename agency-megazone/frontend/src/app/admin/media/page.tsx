@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Image as ImageIcon, Upload } from "lucide-react";
-import { adminApiFetch } from "@/lib/api";
+import { adminApiFetch, isVideoUrl } from "@/lib/api";
 
 interface MediaItem {
   id: number;
@@ -97,6 +97,10 @@ export default function AdminMediaPage() {
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      setNotice("파일 크기는 최대 20MB 이하만 업로드할 수 있습니다.");
+      return;
+    }
     setUploading(true);
     setNotice("");
 
@@ -113,7 +117,7 @@ export default function AdminMediaPage() {
         },
         ...prev,
       ]);
-      setNotice("체험 모드에서 사진이 보관함에 추가되었습니다.");
+      setNotice("체험 모드에서 미디어가 보관함에 추가되었습니다.");
       setUploading(false);
       return;
     }
@@ -121,11 +125,15 @@ export default function AdminMediaPage() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      await adminApiFetch("/api/admin/media/upload", {
+      const res = await adminApiFetch<{ storageKey: string }>("/api/admin/media/upload", {
         method: "POST",
         body: formData,
       });
-      setNotice("이미지가 업로드되었으며 홈페이지에 맞게 자동으로 크기가 최적화되고 있습니다.");
+      setNotice(
+        isVideoUrl(res.storageKey)
+          ? "동영상이 업로드되었습니다."
+          : "이미지가 업로드되었으며 홈페이지에 맞게 자동으로 크기가 최적화되고 있습니다."
+      );
       setTimeout(load, 1000);
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "업로드 실패");
@@ -146,10 +154,10 @@ export default function AdminMediaPage() {
 
         <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl btn-primary px-5 py-2.5 text-sm font-semibold">
           <Upload className="h-4 w-4" />
-          <span>{uploading ? "업로드 중..." : "새 사진 올리기"}</span>
+          <span>{uploading ? "업로드 중..." : "새 사진/동영상 올리기"}</span>
           <input
             type="file"
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
             className="hidden"
             onChange={handleUpload}
           />
@@ -178,6 +186,7 @@ export default function AdminMediaPage() {
             const imgSrc = item.publicUrl || item.storageKey;
             const badge = getStatusBadge(item.status);
             const isBroken = brokenIds[item.id] || !imgSrc;
+            const isVideo = isVideoUrl(imgSrc) || isVideoUrl(item.originalFilename);
 
             return (
               <div
@@ -186,12 +195,24 @@ export default function AdminMediaPage() {
               >
                 <div className="flex h-40 w-full items-center justify-center overflow-hidden bg-slate-100">
                   {!isBroken ? (
-                    <img
-                      src={imgSrc}
-                      alt={item.originalFilename}
-                      onError={() => setBrokenIds((prev) => ({ ...prev, [item.id]: true }))}
-                      className="h-full w-full object-cover"
-                    />
+                    isVideo ? (
+                      <video
+                        src={imgSrc}
+                        muted
+                        loop
+                        playsInline
+                        autoPlay
+                        onError={() => setBrokenIds((prev) => ({ ...prev, [item.id]: true }))}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={imgSrc}
+                        alt={item.originalFilename}
+                        onError={() => setBrokenIds((prev) => ({ ...prev, [item.id]: true }))}
+                        className="h-full w-full object-cover"
+                      />
+                    )
                   ) : (
                     <ImageIcon className="h-8 w-8 text-slate-300" />
                   )}

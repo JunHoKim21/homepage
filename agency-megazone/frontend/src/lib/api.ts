@@ -402,3 +402,9 @@ export async function adminApiFetch<T>(path: string, init?: RequestInit): Promis
   }
   return json.data;
 }
+
+export function isVideoUrl(url?: string | null): boolean {
+  if (!url) return false;
+  const clean = url.split("?")[0].split("#")[0].toLowerCase();
+  return clean.endsWith(".mp4") || clean.endsWith(".webm");
+}

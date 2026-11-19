@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
-import { adminApiFetch } from "@/lib/api";
+import { adminApiFetch, isVideoUrl } from "@/lib/api";
 
 interface MediaItem {
   id: number;
@@ -36,16 +36,24 @@ export default function AdminMediaPage() {
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      setNotice("파일 크기는 최대 20MB 이하만 업로드할 수 있습니다.");
+      return;
+    }
     setUploading(true);
     setNotice("");
     try {
       const formData = new FormData();
       formData.append("file", file);
-      await adminApiFetch("/api/admin/media/upload", {
+      const res = await adminApiFetch<{ storageKey: string }>("/api/admin/media/upload", {
         method: "POST",
         body: formData,
       });
-      setNotice("이미지가 업로드되었습니다. 홈페이지 속도를 위해 자동으로 용량을 최적화하고 있습니다.");
+      setNotice(
+        isVideoUrl(res.storageKey)
+          ? "동영상이 업로드되었습니다."
+          : "이미지가 업로드되었습니다. 홈페이지 속도를 위해 자동으로 용량을 최적화하고 있습니다."
+      );
       setTimeout(load, 1000);
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "업로드 실패");
@@ -66,8 +74,13 @@ export default function AdminMediaPage() {
 
         <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl btn-primary px-5 py-2.5 text-sm font-semibold">
           <Upload className="h-4 w-4" />
-          <span>{uploading ? "업로드 중..." : "새 사진 올리기"}</span>
-          <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleUpload} />
+          <span>{uploading ? "업로드 중..." : "새 사진/동영상 올리기"}</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
+            className="hidden"
+            onChange={handleUpload}
+          />
         </label>
       </div>
 
@@ -83,29 +96,44 @@ export default function AdminMediaPage() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <div key={item.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-              <div className="h-40 w-full bg-slate-100">
-                <img
-                  src={item.publicUrl || item.storageKey}
-                  alt={item.originalFilename}
-                  className="h-full w-full object-cover"
-                />
+          {items.map((item) => {
+            const src = item.publicUrl || item.storageKey;
+            const isVideo = isVideoUrl(src) || isVideoUrl(item.originalFilename);
+            return (
+              <div key={item.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                <div className="h-40 w-full bg-slate-100">
+                  {isVideo ? (
+                    <video
+                      src={src}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={src}
+                      alt={item.originalFilename}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex items-center justify-between gap-2 p-3.5">
+                  <span className="truncate text-sm font-semibold text-slate-900">{item.originalFilename}</span>
+                  <span
+                    className={`shrink-0 rounded px-2 py-0.5 text-[11px] font-bold ${
+                      item.status === "READY"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "bg-slate-100 text-slate-600"
+                    }`}
+                  >
+                    {STATUS_LABEL[item.status] || item.status}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center justify-between gap-2 p-3.5">
-                <span className="truncate text-sm font-semibold text-slate-900">{item.originalFilename}</span>
-                <span
-                  className={`shrink-0 rounded px-2 py-0.5 text-[11px] font-bold ${
-                    item.status === "READY"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "bg-slate-100 text-slate-600"
-                  }`}
-                >
-                  {STATUS_LABEL[item.status] || item.status}
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
