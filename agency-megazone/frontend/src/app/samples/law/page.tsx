@@ -5,15 +5,13 @@ import Link from "next/link";
 import { clientApiFetch } from "@/lib/api";
 import {
   ArrowRight,
+  ArrowUp,
   Award,
-  Briefcase,
-  Building2,
   Calendar,
   CheckCircle2,
   ChevronRight,
   Clock,
   FileText,
-  Gavel,
   Lock,
   MapPin,
   Menu,
@@ -22,7 +20,6 @@ import {
   ShieldCheck,
   Trash2,
   Upload,
-  Users,
   X,
 } from "lucide-react";
 
@@ -31,11 +28,9 @@ type ConsultField = Exclude<PracticeCategory, "전체">;
 
 interface PracticeArea {
   id: ConsultField;
+  number: string;
   title: string;
-  eng: string;
   summary: string;
-  keywords: string[];
-  icon: typeof Gavel;
 }
 
 interface LawyerProfile {
@@ -61,42 +56,41 @@ interface VictoryCase {
   outcome: string;
 }
 
+const TRUST_METRICS = [
+  { value: "3,420+", label: "누적 승소·성공사례" },
+  { value: "24H", label: "긴급 압수수색·구속 대응" },
+  { value: "100%", label: "파트너 변호사 직접 수행" },
+  { value: "4대 전담팀", label: "형사·가사·기업·부동산" },
+] as const;
+
 const PRACTICE_AREAS: PracticeArea[] = [
   {
     id: "형사",
-    title: "형사 전문 대응",
-    eng: "CRIMINAL DEFENSE",
+    number: "01",
+    title: "형사 전담팀",
     summary:
-      "압수수색·구속영장 실질심사 등 초기 골든타임부터 경찰·검찰 조사 동행, 공판 변론까지 전담팀이 즉각 대응합니다.",
-    keywords: ["경제·횡령·배임", "성범죄·무고", "디지털 포렌식", "영장실질심사"],
-    icon: Gavel,
+      "압수수색·구속영장 실질심사 등 초기 골든타임부터 수사 동행과 공판 변론까지 즉각 대응합니다.",
   },
   {
     id: "이혼/가사",
-    title: "이혼·가사·상속",
-    eng: "FAMILY & INHERITANCE",
+    number: "02",
+    title: "이혼·가사 전담팀",
     summary:
-      "고액 재산분할, 은닉재산 추적, 친권·양육권, 유류분 및 상속분쟁까지 의뢰인의 삶과 자산을 치밀하게 지켜냅니다.",
-    keywords: ["고액 재산분할", "상간자 소송", "친권·양육권", "상속·유류분"],
-    icon: Users,
+      "고액 재산분할과 은닉자산 추적, 양육권 및 유류분 상속분쟁까지 의뢰인의 자산을 지켜냅니다.",
   },
   {
     id: "기업자문",
-    title: "기업·조세 자문",
-    eng: "CORPORATE & TAX",
+    number: "03",
+    title: "기업법무·자문",
     summary:
-      "M&A, 주주간 분쟁, 영업비밀 침해, 세무조사 및 조세불복 등 기업 경영의 중대 리스크를 선제적으로 차단합니다.",
-    keywords: ["경영권 분쟁", "계약·노무 자문", "조세불복·세무", "영업비밀 보호"],
-    icon: Briefcase,
+      "M&A, 경영권·주주간 분쟁, 영업비밀 침해 및 조세불복 등 기업 핵심 리스크를 차단합니다.",
   },
   {
     id: "부동산",
-    title: "부동산·건설",
-    eng: "REAL ESTATE & CONSTRUCTION",
+    number: "04",
+    title: "부동산·건설 분쟁",
     summary:
-      "재개발·재건축 조합 분쟁, 상가·주택 임대차, 명도소송, 시행·시공 하자 분쟁에 실전 특화 솔루션을 제공합니다.",
-    keywords: ["재건축·재개발", "명도·임대차", "시행·시공 분쟁", "신탁·경매"],
-    icon: Building2,
+      "재개발·재건축 조합 분쟁, 상가 명도 및 시행·시공 하자 분쟁에 실전 솔루션을 제공합니다.",
   },
 ];
 
@@ -378,10 +372,19 @@ export default function JungyulLawFirmSamplePage() {
     el?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    el?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div
       id="top"
-      className="min-h-screen overflow-x-clip bg-[#0F172A] text-slate-100 antialiased selection:bg-[#C9A24D] selection:text-[#0F172A]"
+      className="min-h-screen overflow-x-clip bg-[#0A1120] text-slate-100 antialiased selection:bg-[#C9A24D] selection:text-[#0A1120]"
     >
       {/* 최상단 데모 안내 띠 */}
       <div className="bg-slate-950 px-4 py-2 text-xs text-slate-200">
@@ -419,10 +422,10 @@ export default function JungyulLawFirmSamplePage() {
       </div>
 
       {/* 1. 자체 상단 헤더 */}
-      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-[#0F172A]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0A1120]/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-6 lg:px-8">
           <a href="#top" className="flex min-w-0 items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#C9A24D]/50 bg-[#1E293B] text-[#C9A24D]">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#C9A24D]/50 bg-[#131D33] text-[#C9A24D]">
               <Scale className="h-5 w-5" />
             </div>
             <div className="min-w-0">
@@ -471,14 +474,14 @@ export default function JungyulLawFirmSamplePage() {
           <div className="flex shrink-0 items-center gap-2">
             <a
               href="tel:02-590-7700"
-              className="hidden items-center gap-1.5 rounded-sm border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-200 transition-colors hover:border-[#C9A24D] hover:text-[#C9A24D] sm:inline-flex"
+              className="hidden items-center gap-1.5 rounded-sm border border-white/20 px-3 py-2 text-xs font-semibold text-slate-200 transition-colors hover:border-[#C9A24D] hover:text-[#C9A24D] sm:inline-flex"
             >
               <Phone className="h-3.5 w-3.5 text-[#C9A24D]" />
               <span>02-590-7700</span>
             </a>
             <a
               href="#secret-consult"
-              className="inline-flex items-center gap-1.5 rounded-sm bg-[#C9A24D] px-3.5 py-2 text-xs font-bold text-[#0F172A] transition-colors hover:bg-[#E2C478] sm:px-4 sm:text-sm"
+              className="inline-flex items-center gap-1.5 rounded-sm bg-[#C9A24D] px-3.5 py-2 text-xs font-bold text-[#0A1120] transition-colors hover:bg-[#E2C478] sm:px-4 sm:text-sm"
             >
               <Lock className="h-3.5 w-3.5" />
               <span>비밀상담 예약</span>
@@ -487,7 +490,7 @@ export default function JungyulLawFirmSamplePage() {
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label="메뉴 열기"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-slate-700 text-slate-200 lg:hidden"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-white/20 text-slate-200 lg:hidden"
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -500,7 +503,7 @@ export default function JungyulLawFirmSamplePage() {
 
         {/* 모바일 내비게이션 */}
         {mobileMenuOpen && (
-          <div className="border-t border-slate-800 bg-[#0B1120] px-4 py-4 lg:hidden">
+          <div className="border-t border-white/10 bg-[#0A1120] px-4 py-4 lg:hidden">
             <nav className="flex flex-col gap-3 text-sm font-medium text-slate-200">
               {[
                 { label: "법무법인 소개", href: "#about" },
@@ -513,7 +516,7 @@ export default function JungyulLawFirmSamplePage() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-sm px-2 py-1.5 transition-colors hover:bg-slate-800/70 hover:text-[#C9A24D]"
+                  className="rounded-sm px-2 py-1.5 transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
                 >
                   {item.label}
                 </a>
@@ -523,127 +526,128 @@ export default function JungyulLawFirmSamplePage() {
         )}
       </header>
 
-      {/* 2. 묵직한 히어로 섹션 */}
+      {/* 2. 스튜디오 인물 중심 히어로 섹션 */}
       <section
         id="about"
-        className="relative overflow-hidden border-b border-slate-800/80 bg-[#0B1120]"
+        className="relative flex min-h-[600px] items-end overflow-hidden bg-[#0A1120] sm:items-center lg:min-h-[680px]"
       >
         <img
           src="/images/samples/law-hero.jpg"
-          alt="법무법인 정율 서초 본사 전경"
+          alt="법무법인 정율 대표·파트너 변호사 3인"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = "/images/samples/fallback.svg";
           }}
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-25"
+          className="absolute inset-0 h-full w-full object-cover object-[78%_top] lg:object-right-top"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/90 via-[#0F172A]/85 to-[#0F172A]" />
+        {/* 좌측 텍스트 가독성 확보 + 우측 3인 변호사 선명 노출 */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-[#C9A24D]/10 blur-3xl"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#0A1120] via-[#0A1120]/80 via-45% to-transparent"
         />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-12">
-            <div className="min-w-0 lg:col-span-7">
-              <div className="inline-flex items-center gap-2 rounded-sm border border-[#C9A24D]/40 bg-[#C9A24D]/10 px-3 py-1 text-[11px] font-semibold tracking-[0.16em] text-[#C9A24D]">
-                <Award className="h-3.5 w-3.5" />
-                <span>HIGH-END LEGAL COUNSEL · SEOCHO</span>
-              </div>
-              <h1 className="mt-5 font-serif text-3xl leading-tight font-bold tracking-tight text-white sm:text-5xl sm:leading-[1.18]">
-                절체절명의 순간,
-                <br />
-                결과로 증명하는{" "}
-                <span className="text-[#C9A24D]">정율의 변론</span>
-              </h1>
-              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
-                검사·판사·공인회계사 출신 파트너 변호사가 사건의 첫 단추부터
-                직접 전략을 수립합니다. 형사 긴급대응부터 고액 가사·기업·부동산
-                분쟁까지, 타협 없는 치밀함으로 의뢰인의 권익을 수호합니다.
-              </p>
+        {/* 좁은 모바일 화면 하단 텍스트 가독성 보조 */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0A1120] via-[#0A1120]/55 to-transparent sm:hidden"
+        />
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <a
-                  href="#secret-consult"
-                  className="inline-flex items-center gap-2 rounded-sm bg-[#C9A24D] px-6 py-3.5 text-sm font-bold text-[#0F172A] shadow-lg shadow-[#C9A24D]/15 transition-colors hover:bg-[#E2C478]"
-                >
-                  <span>1:1 비밀상담 예약</span>
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <a
-                  href="#cases"
-                  className="inline-flex items-center gap-2 rounded-sm border border-slate-700 bg-slate-900/70 px-6 py-3.5 text-sm font-semibold text-slate-100 transition-colors hover:border-[#C9A24D] hover:text-[#C9A24D]"
-                >
-                  <span>주요 승소사례 보기</span>
-                </a>
-              </div>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-56 pb-12 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="min-w-0 max-w-xl lg:max-w-[540px]">
+            <div className="flex items-center gap-3">
+              <span
+                className="h-[1.5px] w-8 bg-[#C9A24D]"
+                aria-hidden="true"
+              />
+              <span className="text-[11px] font-semibold tracking-[0.22em] text-[#C9A24D]">
+                HIGH-END LEGAL COUNSEL · SEOCHO
+              </span>
             </div>
 
-            {/* 핵심 누적 성과 카드 */}
-            <div className="min-w-0 lg:col-span-5">
-              <div className="rounded-sm border border-[#C9A24D]/30 bg-[#1E293B]/60 p-6 backdrop-blur-sm sm:p-8">
-                <div className="flex items-center justify-between border-b border-slate-700/80 pb-4">
-                  <span className="text-xs font-semibold tracking-[0.18em] text-[#C9A24D]">
-                    CUMULATIVE TRACK RECORD
-                  </span>
-                  <ShieldCheck className="h-5 w-5 text-[#C9A24D]" />
-                </div>
+            <h1 className="mt-5 font-serif text-3xl leading-[1.22] font-bold tracking-tight text-white sm:text-5xl sm:leading-[1.18]">
+              절체절명의 순간,
+              <br />
+              결과로 증명하는{" "}
+              <span className="text-[#C9A24D]">정율의 변론</span>
+            </h1>
 
-                <div className="mt-6 grid grid-cols-2 gap-5">
-                  <div className="border-l-2 border-[#C9A24D] pl-3.5">
-                    <div className="font-serif text-2xl font-bold text-white sm:text-3xl">
-                      3,420+
-                    </div>
-                    <div className="mt-1 text-xs text-slate-400">
-                      누적 승소·성공사례
-                    </div>
-                  </div>
-                  <div className="border-l-2 border-[#C9A24D] pl-3.5">
-                    <div className="font-serif text-2xl font-bold text-white sm:text-3xl">
-                      24H
-                    </div>
-                    <div className="mt-1 text-xs text-slate-400">
-                      형사 긴급 압수·체포 대응
-                    </div>
-                  </div>
-                  <div className="border-l-2 border-[#C9A24D] pl-3.5">
-                    <div className="font-serif text-2xl font-bold text-white sm:text-3xl">
-                      100%
-                    </div>
-                    <div className="mt-1 text-xs text-slate-400">
-                      파트너 변호사 직접 수임
-                    </div>
-                  </div>
-                  <div className="border-l-2 border-[#C9A24D] pl-3.5">
-                    <div className="font-serif text-2xl font-bold text-white sm:text-3xl">
-                      4대
-                    </div>
-                    <div className="mt-1 text-xs text-slate-400">
-                      변협 등록 전문 전담팀
-                    </div>
-                  </div>
-                </div>
+            <p className="mt-6 text-sm leading-relaxed text-slate-300 sm:text-base sm:leading-relaxed">
+              검사·판사·공인회계사 출신 파트너 변호사가 사건의 첫 단추부터 직접
+              전략을 수립합니다. 형사 긴급대응부터 고액 가사·기업·부동산
+              분쟁까지, 타협 없는 치밀함으로 의뢰인의 권익을 수호합니다.
+            </p>
 
-                <div className="mt-6 rounded-sm bg-[#0F172A]/80 px-4 py-3 text-xs leading-relaxed text-slate-300">
-                  <span className="font-semibold text-[#C9A24D]">
-                    비밀보장 원칙:
-                  </span>{" "}
-                  모든 상담 및 제출 자료는 변호사법 제26조에 따라 철저히
-                  비밀이 유지됩니다.
-                </div>
-              </div>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a
+                href="#secret-consult"
+                className="inline-flex items-center gap-2 rounded-sm bg-[#C9A24D] px-6 py-3.5 text-sm font-bold text-[#0A1120] transition-colors hover:bg-[#DEC06E]"
+              >
+                <span>1:1 비밀상담 신청</span>
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#cases"
+                className="inline-flex items-center gap-2 rounded-sm border border-white/40 bg-transparent px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-[#C9A24D] hover:text-[#C9A24D]"
+              >
+                <span>주요 승소사례 보기</span>
+              </a>
             </div>
+
+            <p className="mt-8 flex items-center gap-2 text-xs text-slate-400">
+              <Lock className="h-3.5 w-3.5 shrink-0 text-[#C9A24D]" />
+              <span>
+                변호사법 제26조에 따라 모든 상담 및 제출 자료는 철저히 비밀이
+                보장됩니다.
+              </span>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 3. 4대 전문 분야 */}
-      <section id="practice" className="bg-[#F8FAFC] py-16 text-slate-900 sm:py-24">
+      {/* 2-1. 4단 수평 신뢰 지표 바 (Trust Bar) */}
+      <section
+        aria-label="핵심 신뢰 지표"
+        className="border-y border-white/10 bg-[#0A1120]"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {TRUST_METRICS.map((metric, idx) => {
+              const borderClasses =
+                idx === 0
+                  ? "border-r border-b border-white/10 lg:border-b-0 lg:border-r"
+                  : idx === 1
+                    ? "border-b border-white/10 lg:border-b-0 lg:border-r"
+                    : idx === 2
+                      ? "border-r border-white/10 lg:border-r"
+                      : "";
+              return (
+                <div
+                  key={metric.label}
+                  className={`min-w-0 px-3 py-6 text-center sm:px-6 sm:py-8 lg:text-left ${borderClasses}`}
+                >
+                  <div className="font-serif text-xl font-bold tracking-tight text-[#C9A24D] sm:text-3xl">
+                    {metric.value}
+                  </div>
+                  <div className="mt-1.5 text-xs font-medium text-slate-300 sm:text-sm">
+                    {metric.label}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. 4대 핵심 전담 분야 (에디토리얼 호버 반전 그리드) */}
+      <section
+        id="practice"
+        className="bg-[#F8FAFC] py-16 text-slate-900 sm:py-24"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="text-xs font-bold tracking-[0.2em] text-[#9A7422]">
               PRACTICE AREAS
             </span>
-            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-[#0A1120] sm:text-4xl">
               4대 핵심 전담 분야
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
@@ -652,52 +656,43 @@ export default function JungyulLawFirmSamplePage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {PRACTICE_AREAS.map((area) => {
-              const Icon = area.icon;
-              return (
-                <div
-                  key={area.id}
-                  className="group flex min-w-0 flex-col justify-between rounded-sm border border-slate-200 bg-white p-6 shadow-xs transition-all hover:-translate-y-1 hover:border-[#C9A24D] hover:shadow-lg"
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#0F172A] text-[#C9A24D]">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <span className="text-[10px] font-bold tracking-widest text-slate-400">
-                        {area.eng}
-                      </span>
-                    </div>
-                    <h3 className="mt-5 font-serif text-xl font-bold text-[#0F172A]">
-                      {area.title}
-                    </h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                      {area.summary}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {area.keywords.map((kw) => (
-                        <span
-                          key={kw}
-                          className="rounded-sm bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-700"
-                        >
-                          {kw}
-                        </span>
-                      ))}
-                    </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PRACTICE_AREAS.map((area) => (
+              <button
+                key={area.id}
+                type="button"
+                onClick={() => jumpToConsultWithField(area.id)}
+                className="group flex min-w-0 flex-col justify-between rounded-sm border border-slate-200 bg-white p-7 text-left transition-colors duration-300 hover:border-[#0A1120] hover:bg-[#0A1120] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] sm:p-8"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span
+                      className="h-[1.5px] w-10 bg-[#C9A24D] transition-colors duration-300 group-hover:bg-[#C9A24D]"
+                      aria-hidden="true"
+                    />
+                    <span className="font-serif text-sm font-bold tracking-[0.16em] text-slate-400 transition-colors duration-300 group-hover:text-[#C9A24D]">
+                      {area.number}
+                    </span>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => jumpToConsultWithField(area.id)}
-                    className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-[#0F172A] transition-colors group-hover:text-[#9A7422]"
-                  >
-                    <span>{area.id} 비밀상담 신청</span>
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
+                  <h3 className="mt-7 font-serif text-xl font-bold tracking-tight text-[#0A1120] transition-colors duration-300 group-hover:text-white">
+                    {area.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-300">
+                    {area.summary}
+                  </p>
                 </div>
-              );
-            })}
+
+                <div className="mt-8 inline-flex items-center gap-1.5 text-xs font-bold tracking-wide text-[#0A1120] transition-colors duration-300 group-hover:text-[#C9A24D]">
+                  <span>상담 신청</span>
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </section>
@@ -1225,7 +1220,10 @@ export default function JungyulLawFirmSamplePage() {
       </section>
 
       {/* 푸터 */}
-      <footer className="border-t border-slate-800 bg-[#070B14] py-10 text-xs text-slate-400">
+      <footer
+        id="location"
+        className="border-t border-slate-800 bg-[#070B14] py-10 text-xs text-slate-400"
+      >
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 font-serif text-sm font-bold tracking-widest text-white">
@@ -1248,6 +1246,74 @@ export default function JungyulLawFirmSamplePage() {
           </p>
         </div>
       </footer>
+
+      {/* 우측 세로형 퀵 플로팅 바 (데스크톱 전용) */}
+      <aside
+        aria-label="로펌 빠른 메뉴"
+        className="fixed right-4 top-1/2 z-40 hidden w-[82px] -translate-y-1/2 flex-col overflow-hidden rounded-sm border border-[#C9A24D]/35 bg-[#0A1120]/95 shadow-2xl shadow-black/40 backdrop-blur-md lg:flex"
+      >
+        <a
+          href="tel:02-590-7700"
+          title="24시 긴급상담 02-590-7700"
+          className="flex flex-col items-center justify-center gap-1.5 bg-[#C9A24D] px-2 py-3.5 text-center text-[#0A1120] transition-colors hover:bg-[#DEC06E]"
+        >
+          <Phone className="h-4 w-4 shrink-0" />
+          <span className="text-[11px] leading-tight font-bold tracking-tight">
+            24시
+            <br />
+            긴급상담
+          </span>
+        </a>
+
+        <button
+          type="button"
+          onClick={() => scrollToSection("secret-consult")}
+          className="flex flex-col items-center justify-center gap-1.5 border-t border-white/10 px-2 py-3.5 text-center text-white transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
+        >
+          <Lock className="h-4 w-4 shrink-0 text-[#C9A24D]" />
+          <span className="text-[11px] leading-tight font-semibold tracking-tight">
+            1:1
+            <br />
+            비밀상담
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => scrollToSection("cases")}
+          className="flex flex-col items-center justify-center gap-1.5 border-t border-white/10 px-2 py-3.5 text-center text-white transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
+        >
+          <Award className="h-4 w-4 shrink-0 text-[#C9A24D]" />
+          <span className="text-[11px] leading-tight font-semibold tracking-tight">
+            주요
+            <br />
+            승소사례
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => scrollToSection("location")}
+          className="flex flex-col items-center justify-center gap-1.5 border-t border-white/10 px-2 py-3.5 text-center text-white transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
+        >
+          <MapPin className="h-4 w-4 shrink-0 text-[#C9A24D]" />
+          <span className="text-[11px] leading-tight font-semibold tracking-tight">
+            오시는 길
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="페이지 최상단으로 이동"
+          className="flex flex-col items-center justify-center gap-1 border-t border-white/15 bg-[#070C17] px-2 py-3 text-center text-slate-300 transition-colors hover:bg-white/10 hover:text-[#C9A24D]"
+        >
+          <ArrowUp className="h-3.5 w-3.5 shrink-0" />
+          <span className="font-serif text-[10px] font-bold tracking-[0.18em]">
+            TOP
+          </span>
+        </button>
+      </aside>
 
       {/* 승소사례 상세 모달 */}
       {activeCase && (
