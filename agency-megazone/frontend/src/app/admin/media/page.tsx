@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Image as ImageIcon, Upload } from "lucide-react";
 import { adminApiFetch, isVideoUrl } from "@/lib/api";
+import SmartPreviewImage from "@/components/SmartPreviewImage";
 
 interface MediaItem {
   id: number;
@@ -47,7 +48,7 @@ const FALLBACK_MEDIA: MediaItem[] = [
     id: 4,
     originalFilename: "신규_이벤트_팝업.png",
     storageKey: "",
-    publicUrl: SAMPLE_SVG("#312E81", "#7C3AED", "공지 · 팝업 이미지"),
+    publicUrl: SAMPLE_SVG("#312E81", "#0EA5E9", "공지 · 팝업 이미지"),
     status: "PROCESSING",
     createdAt: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
   },
@@ -206,11 +207,11 @@ export default function AdminMediaPage() {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <img
+                      <SmartPreviewImage
                         src={imgSrc}
                         alt={item.originalFilename}
-                        onError={() => setBrokenIds((prev) => ({ ...prev, [item.id]: true }))}
                         className="h-full w-full object-cover"
+                        iconClassName="h-8 w-8 text-slate-300"
                       />
                     )
                   ) : (

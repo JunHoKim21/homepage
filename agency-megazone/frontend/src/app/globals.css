@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #6d28d9;
+  --primary: #1d4ed8;
   --primary-foreground: #ffffff;
   --megazone-dark: #0b0f19;
-  --megazone-indigo: #4f46e5;
+  --megazone-sky: #0ea5e9;
+  --megazone-royal: #1d4ed8;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -38,14 +43,14 @@ body {
   border-color: var(--primary);
 }
 
-/* Megazone-inspired dark & violet/indigo utility classes */
+/* eleveWeb dark & sky-to-royal blue utility classes */
 .mz-dark-surface {
   background-color: var(--megazone-dark);
   color: #f8fafc;
 }
 
 .mz-gradient-text {
-  background: linear-gradient(135deg, #a78bfa 0%, #c084fc 45%, #fb7185 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 45%, #3b82f6 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -58,5 +63,5 @@ body {
 }
 
 .mz-glow-violet {
-  box-shadow: 0 12px 40px -10px rgba(109, 40, 217, 0.45);
+  box-shadow: 0 12px 40px -10px rgba(29, 78, 216, 0.45);
 }

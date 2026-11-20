@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "제작 샘플 쇼케이스 | 스타터웹 스튜디오",
+  title: "제작 샘플 쇼케이스 | 엘레브웹 (eleveWeb)",
   description: "실제 납품 수준의 업종별 독립 웹사이트 샘플입니다.",
 };
 
@@ -21,7 +21,7 @@ export default function SamplesLayout({
           href="/"
           className="truncate transition-colors hover:text-stone-950"
         >
-          스타터웹 스튜디오 제작 샘플 | 에이전시 홈 →
+          엘레브웹 (eleveWeb) 제작 샘플 | 에이전시 홈 →
         </Link>
         <span className="hidden text-stone-300 sm:inline" aria-hidden="true">
           |

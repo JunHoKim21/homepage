@@ -3,12 +3,13 @@ import PopupOverlay from "@/components/PopupOverlay";
 import { fetchPublicSiteConfigs, fetchPublishedCms } from "@/lib/api";
 
 export default async function HomePage() {
-  const [configs, portfolios, notices, banners, popups] = await Promise.all([
+  const [configs, portfolios, notices, banners, popups, faqs] = await Promise.all([
     fetchPublicSiteConfigs(),
     fetchPublishedCms("PORTFOLIO"),
     fetchPublishedCms("NOTICE"),
     fetchPublishedCms("BANNER"),
     fetchPublishedCms("POPUP"),
+    fetchPublishedCms("FAQ"),
   ]);
 
   const heroBanner = banners.find((b) => b.slug === "hero-main") || banners[0];
@@ -20,6 +21,7 @@ export default async function HomePage() {
         configs={configs}
         portfolios={portfolios}
         notices={notices}
+        faqs={faqs}
         heroBanner={heroBanner}
       />
     </div>

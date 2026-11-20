@@ -155,6 +155,29 @@ public class MediaService {
                 .toList();
     }
 
+    @Transactional
+    public void deletePublicMediaByStorageKey(String storageKey) {
+        if (storageKey == null || !storageKey.startsWith("/uploads/public/")) {
+            return;
+        }
+        String relativeKey = storageKey.substring("/uploads/public/".length());
+        if (relativeKey.isBlank() || relativeKey.contains("..")) {
+            return;
+        }
+
+        storagePort.deleteQuietly(MediaFile.Visibility.PUBLIC, relativeKey);
+        if (relativeKey.endsWith(".webp")) {
+            String baseStem = relativeKey.replaceAll("(_1920|_768|_360)?\\.webp$", "");
+            storagePort.deleteQuietly(MediaFile.Visibility.PUBLIC, baseStem + "_1920.webp");
+            storagePort.deleteQuietly(MediaFile.Visibility.PUBLIC, baseStem + "_768.webp");
+            storagePort.deleteQuietly(MediaFile.Visibility.PUBLIC, baseStem + "_360.webp");
+            storagePort.deleteQuietly(MediaFile.Visibility.PUBLIC, baseStem + ".webp");
+        }
+
+        mediaFileRepository.findByStorageKeyAndDeletedAtIsNull(storageKey)
+                .ifPresent(mediaFileRepository::delete);
+    }
+
     private String sanitizeFilename(String name) {
         if (name == null || name.isBlank()) {
             return "unnamed";

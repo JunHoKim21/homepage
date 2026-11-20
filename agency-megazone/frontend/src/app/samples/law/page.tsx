@@ -37,6 +37,7 @@ interface LawyerProfile {
   id: number;
   name: string;
   role: string;
+  badge: string;
   image: string;
   credential: string;
   specialty: string;
@@ -59,7 +60,7 @@ interface VictoryCase {
 const TRUST_METRICS = [
   { value: "3,420+", label: "누적 승소·성공사례" },
   { value: "24H", label: "긴급 압수수색·구속 대응" },
-  { value: "100%", label: "파트너 변호사 직접 수행" },
+  { value: "전 과정", label: "파트너 변호사 직접 수행" },
   { value: "4대 전담팀", label: "형사·가사·기업·부동산" },
 ] as const;
 
@@ -99,6 +100,7 @@ const LAWYERS: LawyerProfile[] = [
     id: 1,
     name: "강정율",
     role: "대표변호사",
+    badge: "형사전문",
     image: "/images/samples/law-attorney1.jpg",
     credential: "사법연수원 38기 · 전 서울중앙지검 검사",
     specialty: "형사·기업범죄·조세수사",
@@ -114,6 +116,7 @@ const LAWYERS: LawyerProfile[] = [
     id: 2,
     name: "서윤아",
     role: "파트너 변호사",
+    badge: "가사전문",
     image: "/images/samples/law-attorney2.jpg",
     credential: "사법연수원 41기 · 전 서울가정법원 판사",
     specialty: "이혼·재산분할·상속분쟁",
@@ -129,6 +132,7 @@ const LAWYERS: LawyerProfile[] = [
     id: 3,
     name: "민태현",
     role: "파트너 변호사",
+    badge: "기업·부동산",
     image: "/images/samples/law-attorney3.jpg",
     credential: "변호사시험 3회 · 공인회계사(KICPA)",
     specialty: "기업자문·M&A·부동산신탁",
@@ -750,9 +754,9 @@ export default function JungyulLawFirmSamplePage() {
                           </span>
                         </h3>
                       </div>
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-[#C9A24D]/30 bg-[#0F172A] font-serif text-base font-bold text-[#C9A24D]">
-                        {lawyer.name.slice(0, 1)}
-                      </div>
+                      <span className="shrink-0 rounded-sm border border-[#C9A24D]/40 bg-[#C9A24D]/10 px-2.5 py-1 text-[11px] font-bold tracking-wide text-[#C9A24D]">
+                        {lawyer.badge}
+                      </span>
                     </div>
 
                     <div className="mt-4 text-xs font-semibold text-slate-200">
@@ -1275,30 +1279,6 @@ export default function JungyulLawFirmSamplePage() {
             1:1
             <br />
             비밀상담
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => scrollToSection("cases")}
-          className="flex flex-col items-center justify-center gap-1.5 border-t border-white/10 px-2 py-3.5 text-center text-white transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
-        >
-          <Award className="h-4 w-4 shrink-0 text-[#C9A24D]" />
-          <span className="text-[11px] leading-tight font-semibold tracking-tight">
-            주요
-            <br />
-            승소사례
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => scrollToSection("location")}
-          className="flex flex-col items-center justify-center gap-1.5 border-t border-white/10 px-2 py-3.5 text-center text-white transition-colors hover:bg-white/5 hover:text-[#C9A24D]"
-        >
-          <MapPin className="h-4 w-4 shrink-0 text-[#C9A24D]" />
-          <span className="text-[11px] leading-tight font-semibold tracking-tight">
-            오시는 길
           </span>
         </button>
 

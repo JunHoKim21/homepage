@@ -13,7 +13,7 @@ export default async function PublicLayout({
     fetchPublicMenus(),
   ]);
 
-  let brandName = "스타터웹 스튜디오";
+  let brandName = "엘레브웹 (eleveWeb)";
   try {
     const info = JSON.parse(configs.footer_company_info || "{}") as { name?: string };
     if (info.name) brandName = info.name;
@@ -30,10 +30,8 @@ export default async function PublicLayout({
         reservationMode={configs.reservation_mode || "BOTH"}
       />
       <main className="min-w-0 flex-1">{children}</main>
+      <QuickFloatingBar configs={configs} />
       <PublicFooter companyInfoJson={configs.footer_company_info || "{}"} />
-      <QuickFloatingBar
-        floatingRightEnabled={configs.floating_right_enabled || "true"}
-      />
     </div>
   );
 }

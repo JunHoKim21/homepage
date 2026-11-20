@@ -7,7 +7,6 @@ import {
   Calendar,
   FileText,
   Home,
-  Image as ImageIcon,
   Inbox,
   LayoutDashboard,
   LogOut,
@@ -23,7 +22,6 @@ const NAV_ITEMS = [
   { href: "/admin/inquiries", label: "상담문의 관리", icon: Inbox },
   { href: "/admin/reservations", label: "온라인 예약 관리", icon: Calendar },
   { href: "/admin/cms", label: "게시판 · 배너 · 팝업 관리", icon: FileText },
-  { href: "/admin/media", label: "이미지 보관함", icon: ImageIcon },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

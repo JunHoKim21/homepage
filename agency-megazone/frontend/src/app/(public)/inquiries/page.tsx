@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, ClipboardCheck, MessageSquarePlus, Paperclip, Send, ShieldCheck } from "lucide-react";
 import { clientApiFetch } from "@/lib/api";
 
@@ -39,6 +39,27 @@ export default function InquiriesPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const pkg = params.get("package")?.toUpperCase();
+      if (pkg === "STANDARD" || pkg === "DELUXE" || pkg === "PREMIUM") {
+        setDesiredPackage(pkg);
+      }
+      const ind = params.get("industry")?.toUpperCase();
+      if (ind && ["CORP", "CLINIC", "LAW_TAX", "IT_STARTUP", "EDU", "ETC"].includes(ind)) {
+        setIndustry(ind);
+      }
+      const memo = params.get("memo")?.trim();
+      if (memo) {
+        setContent(memo);
+        setTitle((prev) => prev || `[빠른 견적] ${memo.slice(0, 30)}`);
+      }
+    } catch {
+      // ignore invalid query params
+    }
+  }, []);
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -113,7 +134,7 @@ export default function InquiriesPage() {
             상담 문의가 정상 접수되었습니다.
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            전담 담당자가 확인 후 입력하신 연락처로 신속하게 연락드리겠습니다.
+            확인 후 24시간 이내에 입력하신 연락처로 순차 회신드리겠습니다.
           </p>
           <button
             type="button"
@@ -137,11 +158,11 @@ export default function InquiriesPage() {
     <div className="overflow-x-hidden bg-slate-50">
       {/* 상단 다크 네이비/바이올렛 2단 컴팩트 배너 헤더 */}
       <section className="relative overflow-hidden bg-[#0B0F19] py-10 text-white sm:py-12">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-violet-600/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-blue-600/20" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
             <div className="min-w-0 lg:col-span-7">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1 text-xs font-semibold text-blue-300">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3.5 py-1 text-xs font-semibold text-sky-300">
                 <MessageSquarePlus className="h-3.5 w-3.5" />
                 상담 및 견적 문의 · INQUIRIES
               </span>
@@ -157,7 +178,7 @@ export default function InquiriesPage() {
 
             <div className="min-w-0 lg:col-span-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xs">
-                <div className="text-xs font-bold text-blue-300">100% 비대면 온라인 진행 안내</div>
+                <div className="text-xs font-bold text-sky-300">100% 비대면 온라인 진행 안내</div>
                 <dl className="mt-3 space-y-2 text-xs sm:text-sm">
                   <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
                     <dt className="text-slate-300">회신 속도</dt>
@@ -169,7 +190,7 @@ export default function InquiriesPage() {
                   </div>
                   <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
                     <dt className="text-slate-300">전화·화상 미팅</dt>
-                    <dd className="text-right font-bold text-white">평일 19:30~22:30 · 주말 10:00~20:00</dd>
+                    <dd className="text-right font-bold text-white">사전 예약제 운영 (평일 야간 / 주말)</dd>
                   </div>
                   <div className="flex items-center justify-between gap-2">
                     <dt className="text-slate-300">3단계 분할 정산</dt>
@@ -237,9 +258,9 @@ export default function InquiriesPage() {
                       className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm"
                     >
                       <option value="UNDECIDED">미정 (상담 후 추천받기)</option>
-                      <option value="STANDARD">Standard 패키지 (49만 원)</option>
-                      <option value="DELUXE">Deluxe 패키지 (99만 원 · 추천)</option>
-                      <option value="PREMIUM">Premium 패키지 (179만 원)</option>
+                      <option value="STANDARD">Standard 패키지 (69만 원 · VAT 별도)</option>
+                      <option value="DELUXE">Deluxe 패키지 (129만 원 · ★BEST)</option>
+                      <option value="PREMIUM">Premium 패키지 (219만 원 · VAT 별도)</option>
                     </select>
                   </div>
                 </div>
@@ -421,7 +442,7 @@ export default function InquiriesPage() {
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-[#0B0F19] p-6 text-white">
-                <div className="flex items-center gap-2 text-sm font-bold text-blue-300">
+                <div className="flex items-center gap-2 text-sm font-bold text-sky-300">
                   <ShieldCheck className="h-5 w-5" />
                   <span>100% 자체 소유 보장</span>
                 </div>

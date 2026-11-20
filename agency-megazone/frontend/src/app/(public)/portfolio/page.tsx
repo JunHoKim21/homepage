@@ -179,7 +179,7 @@ export default function PortfolioPage() {
     <div className="min-w-0 overflow-x-clip bg-white">
       {/* 상단 다크 네이비/바이올렛 2단 컴팩트 배너 헤더 */}
       <section className="relative overflow-hidden bg-[#0B0F19] py-10 text-white sm:py-12">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-violet-600/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-blue-600/20" />
         <div className="relative mx-auto max-w-6xl min-w-0 px-4 sm:px-6">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
             {/* 좌측: 배지 + 제목 + 핵심 설명 */}
@@ -228,7 +228,7 @@ export default function PortfolioPage() {
                 </div>
                 <Link
                   href="/admin/login"
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:opacity-95 sm:text-sm"
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#1D4ED8] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:opacity-95 sm:text-sm"
                 >
                   <ShieldCheck className="h-4 w-4 shrink-0" />
                   <span>관리자 1초 체험 →</span>
@@ -259,8 +259,8 @@ export default function PortfolioPage() {
                 image: "/images/samples/corp-hero.jpg",
                 icon: Building2,
                 dark: false,
-                badgeClass: "bg-blue-50 text-blue-600",
-                borderHover: "hover:border-blue-400",
+                badgeClass: "bg-sky-50 text-blue-600",
+                borderHover: "hover:border-sky-400",
               },
               {
                 href: "/samples/clinic",
@@ -412,7 +412,7 @@ export default function PortfolioPage() {
                 <article
                   key={item.id}
                   onClick={() => setActiveCase(item)}
-                  className="group flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
+                  className="group flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xs transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md"
                 >
                   <div className="relative h-48 w-full overflow-hidden bg-slate-900">
                     <img
@@ -505,7 +505,7 @@ export default function PortfolioPage() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
+                  <span className="rounded-full bg-sky-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
                     {activeCase.industry}
                   </span>
                   <span className="text-xs font-medium text-slate-500">

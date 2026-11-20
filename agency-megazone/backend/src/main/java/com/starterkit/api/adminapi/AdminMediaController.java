@@ -44,6 +44,12 @@ public class AdminMediaController {
         return ApiResponse.ok(mediaService.listPublicMedia());
     }
 
+    @DeleteMapping("/by-key")
+    public ApiResponse<Void> deletePublicMediaByKey(@RequestParam("storageKey") String storageKey) {
+        mediaService.deletePublicMediaByStorageKey(storageKey);
+        return ApiResponse.ok(null);
+    }
+
     /**
      * 비공개 첨부파일(/uploads/private)은 외부 URL 직접 접근이 차단되며,
      * 오직 관리자 인가를 통과한 후 본 스트리밍 API를 통해서만 안전하게 다운로드됩니다.

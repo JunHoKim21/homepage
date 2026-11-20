@@ -38,23 +38,24 @@ export interface CmsContentItem {
 }
 
 export const DEFAULT_SITE_CONFIGS: Record<string, string> = {
-  seo_title: "스타터웹 스튜디오 | 월 임대료 0원 독립형 홈페이지 구축",
+  seo_title: "엘레브웹(eleveWeb) | 월 임대료 0원 독립형 기업 홈페이지 제작",
   seo_description: "매달 나가는 임대료 없이, 전문 디자인과 맞춤 관리자까지 한 번에 구축하는 독립형 홈페이지 에이전시입니다.",
-  seo_keywords: "독립형홈페이지,기업홈페이지제작,병원홈페이지,정찰제홈페이지,스타터웹스튜디오",
+  seo_keywords: "독립형홈페이지,기업홈페이지제작,병원홈페이지,정찰제홈페이지,엘레브웹,eleveWeb",
   seo_og_image: "/uploads/public/default-og.webp",
   naver_site_verification: "",
   google_site_verification: "",
-  brand_primary_color: "#6D28D9",
+  brand_primary_color: "#1D4ED8",
   site_theme_preset: "AGENCY",
   demo_bar_enabled: "true",
   brand_logo_url: "/uploads/public/logo.webp",
   footer_company_info: JSON.stringify({
-    name: "스타터웹 스튜디오",
-    ceo: "김스타터",
-    bizNo: "211-88-90123",
-    phone: "02-6950-1234",
-    address: "100% 비대면 온라인 스튜디오 (전국 화상·화면공유 상담)",
-    hours: "온라인 24시간 접수 | 전화·화상 상담: 평일 야간 19:30~22:30 · 주말 10:00~20:00",
+    name: "엘레브웹 (eleveWeb)",
+    ceo: "김준호",
+    bizNo: "449-14-03005",
+    phone: "010-4404-5263",
+    email: "elevewebpage@gmail.com",
+    address: "100% 비대면 온라인 스튜디오 (전국 온라인 지원)",
+    hours: "온라인 접수 24시간 상시 (접수 후 24시간 이내 회신) | 유선·화상 상담: 사전 예약제 운영",
   }),
   reservation_mode: "INTERNAL",
   reservation_capacity_mode: "SINGLE",
@@ -62,11 +63,11 @@ export const DEFAULT_SITE_CONFIGS: Record<string, string> = {
   naver_booking_url: "https://booking.naver.com/",
   floating_left_enabled: "true",
   floating_right_enabled: "true",
-  quick_kakao_url: "https://pf.kakao.com/",
-  quick_wechat_id: "thecelluce_kr",
-  sns_instagram_url: "https://instagram.com/",
-  sns_blog_url: "https://blog.naver.com/",
-  sns_youtube_url: "https://youtube.com/",
+  quick_kakao_url: "https://pf.kakao.com/_AqlvX/chat",
+  quick_wechat_id: "",
+  sns_instagram_url: "",
+  sns_blog_url: "",
+  sns_youtube_url: "",
 };
 
 export const FALLBACK_PORTFOLIOS: CmsContentItem[] = [
@@ -216,7 +217,7 @@ export const FALLBACK_NOTICES: CmsContentItem[] = [
     slug: "fixed-price-and-tax-invoice-guide",
     category: "NOTICE",
     title: "[안내] 3단 정찰제 패키지 및 전자세금계산서·정부지원 바우처 지원 안내",
-    summary: "Standard(49만)·Deluxe(99만)·Premium(179만) 투명 정찰제와 비교견적서 즉시 발행 절차를 안내해 드립니다.",
+    summary: "Standard(69만)·Deluxe(129만)·Premium(219만) 투명 정찰제와 비교견적서 즉시 발행 절차를 안내해 드립니다.",
     contentHtml: null,
     thumbnailUrl: null,
     extraJson: "{}",
@@ -348,15 +349,41 @@ export async function fetchPublishedCms(category: string): Promise<CmsContentIte
   }
 }
 
+async function parseJsonResponse<T>(res: Response, defaultErrMsg: string): Promise<ApiEnvelope<T>> {
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    if (res.status >= 500 || res.status === 404 || res.status === 502 || res.status === 503 || res.status === 504) {
+      throw new Error("백엔드 서버(Spring Boot)에 연결할 수 없습니다. 서버 구동 상태(8080)를 확인해 주세요.");
+    }
+    const text = await res.text().catch(() => "");
+    if (text.startsWith("<!DOCTYPE") || text.includes("<html")) {
+      throw new Error("백엔드 서버(Spring Boot)가 응답하지 않습니다. 서버가 정상 실행 중인지 확인해 주세요.");
+    }
+    throw new Error(`${defaultErrMsg} (${res.status})`);
+  }
+
+  try {
+    return (await res.json()) as ApiEnvelope<T>;
+  } catch {
+    throw new Error("서버 응답 데이터를 해석할 수 없습니다. 백엔드 서버 상태를 확인해 주세요.");
+  }
+}
+
 export async function clientApiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(path, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers || {}),
-    },
-  });
-  const json = (await res.json()) as ApiEnvelope<T>;
+  let res: Response;
+  try {
+    res = await fetch(path, {
+      ...init,
+      headers: {
+        "Content-Type": "application/json",
+        ...(init?.headers || {}),
+      },
+    });
+  } catch {
+    throw new Error("백엔드 서버(Spring Boot)에 연결할 수 없습니다. 서버 구동 상태를 확인해 주세요.");
+  }
+
+  const json = await parseJsonResponse<T>(res, "API 요청 실패");
   if (!res.ok || !json.success) {
     throw new Error(json.message || `API 요청 실패 (${res.status})`);
   }
@@ -373,30 +400,39 @@ export async function adminApiFetch<T>(path: string, init?: RequestInit): Promis
     headers.set("Content-Type", "application/json");
   }
 
-  let res = await fetch(path, { ...init, headers });
+  let res: Response;
+  try {
+    res = await fetch(path, { ...init, headers });
+  } catch {
+    throw new Error("백엔드 서버(Spring Boot)에 연결할 수 없습니다. 서버 구동 상태를 확인해 주세요.");
+  }
 
   if (res.status === 401 && typeof window !== "undefined") {
     const refreshToken = localStorage.getItem("admin_refresh_token");
     if (refreshToken) {
-      const refreshRes = await fetch("/api/admin/auth/refresh", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken }),
-      });
-      if (refreshRes.ok) {
-        const refreshBody = (await refreshRes.json()) as ApiEnvelope<{
-          accessToken: string;
-          refreshToken: string;
-        }>;
-        localStorage.setItem("admin_access_token", refreshBody.data.accessToken);
-        localStorage.setItem("admin_refresh_token", refreshBody.data.refreshToken);
-        headers.set("Authorization", `Bearer ${refreshBody.data.accessToken}`);
-        res = await fetch(path, { ...init, headers });
+      try {
+        const refreshRes = await fetch("/api/admin/auth/refresh", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+        });
+        if (refreshRes.ok) {
+          const refreshBody = await parseJsonResponse<{
+            accessToken: string;
+            refreshToken: string;
+          }>(refreshRes, "토큰 갱신 실패");
+          localStorage.setItem("admin_access_token", refreshBody.data.accessToken);
+          localStorage.setItem("admin_refresh_token", refreshBody.data.refreshToken);
+          headers.set("Authorization", `Bearer ${refreshBody.data.accessToken}`);
+          res = await fetch(path, { ...init, headers });
+        }
+      } catch {
+        // ignore refresh failure
       }
     }
   }
 
-  const json = (await res.json()) as ApiEnvelope<T>;
+  const json = await parseJsonResponse<T>(res, "관리자 요청 실패");
   if (!res.ok || !json.success) {
     throw new Error(json.message || `관리자 요청 실패 (${res.status})`);
   }
@@ -407,4 +443,15 @@ export function isVideoUrl(url?: string | null): boolean {
   if (!url) return false;
   const clean = url.split("?")[0].split("#")[0].toLowerCase();
   return clean.endsWith(".mp4") || clean.endsWith(".webm");
+}
+
+export async function deletePublicMedia(storageKey?: string | null): Promise<void> {
+  if (!storageKey || !storageKey.startsWith("/uploads/public/")) return;
+  try {
+    await adminApiFetch(`/api/admin/media/by-key?storageKey=${encodeURIComponent(storageKey)}`, {
+      method: "DELETE",
+    });
+  } catch {
+    // 오프라인 데모 모드이거나 이미 파일이 없는 경우 조용히 무시
+  }
 }

@@ -80,11 +80,11 @@ const TIMELINE = [
 export default async function AboutPage() {
   const configs = await fetchPublicSiteConfigs();
   let info: CompanyInfo = {
-    name: "주식회사 스타터",
-    ceo: "홍길동",
-    bizNo: "123-45-67890",
-    phone: "02-1234-5678",
-    address: "서울시 강남구 테헤란로 123",
+    name: "엘레브웹 (eleveWeb)",
+    ceo: "김준호",
+    bizNo: "449-14-03005",
+    phone: "010-4404-5263",
+    address: "100% 비대면 온라인 스튜디오 (전국 온라인 지원)",
   };
 
   try {
@@ -94,17 +94,17 @@ export default async function AboutPage() {
     // 기본값 유지
   }
 
-  const companyName = info.name || "주식회사 스타터";
+  const companyName = info.name || "엘레브웹 (eleveWeb)";
 
   return (
     <div className="overflow-x-hidden bg-white">
       {/* 상단 다크 네이비/바이올렛 2단 컴팩트 배너 헤더 */}
       <section className="relative overflow-hidden bg-[#0B0F19] py-10 text-white sm:py-12">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-violet-600/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-blue-600/20" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
             <div className="min-w-0 lg:col-span-7">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1 text-xs font-semibold text-blue-300">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3.5 py-1 text-xs font-semibold text-sky-300">
                 <Building2 className="h-3.5 w-3.5" />
                 회사 소개 · ABOUT US
               </span>
@@ -120,22 +120,22 @@ export default async function AboutPage() {
 
             <div className="min-w-0 lg:col-span-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xs">
-                <div className="flex items-center gap-2 text-xs font-bold text-blue-300">
+                <div className="flex items-center gap-2 text-xs font-bold text-sky-300">
                   <ShieldCheck className="h-4 w-4 shrink-0" />
                   <span>리스크 제로 3대 보장</span>
                 </div>
                 <ul className="mt-3 space-y-2 text-xs text-slate-200 sm:text-sm">
                   <li className="flex items-start gap-2">
-                    <span className="font-bold text-blue-400">①</span>
+                    <span className="font-bold text-sky-400">①</span>
                     <span>1차 시안 불만족 시 100% 전액 환불 보장</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="font-bold text-blue-400">②</span>
-                    <span>납품 후 3개월 무상 하자보수 지원</span>
+                    <span className="font-bold text-sky-400">②</span>
+                    <span>패키지별 최대 3개월 무상 하자보수 지원</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="font-bold text-blue-400">③</span>
-                    <span>전자계약 · 세금계산서 100% 정식 발행</span>
+                    <span className="font-bold text-sky-400">③</span>
+                    <span>전자계약 · 전자세금계산서 100% 정식 발행</span>
                   </li>
                 </ul>
               </div>
@@ -165,9 +165,9 @@ export default async function AboutPage() {
               return (
                 <div
                   key={item.title}
-                  className="min-w-0 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xs transition hover:border-blue-300 hover:shadow-md"
+                  className="min-w-0 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xs transition hover:border-sky-300 hover:shadow-md"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-blue-600">
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="mt-4 text-xs font-semibold text-blue-600">{item.badge}</div>
@@ -231,8 +231,8 @@ export default async function AboutPage() {
             <div className="flex items-center gap-3">
               <ShieldCheck className="h-6 w-6 shrink-0 text-blue-600" />
               <div>
-                <div className="text-sm font-bold text-slate-900">구축 후 1년 무상 A/S</div>
-                <div className="text-xs text-slate-500">기능 오류 및 운영 기술 지원</div>
+                <div className="text-sm font-bold text-slate-900">패키지별 무상 하자보수</div>
+                <div className="text-xs text-slate-500">1~3개월 무상 지원 및 긴급 장애 12시간 대응 SLA</div>
               </div>
             </div>
           </div>
@@ -256,7 +256,7 @@ export default async function AboutPage() {
                   <div>
                     <dt className="font-semibold text-slate-700">상호 / 대표자</dt>
                     <dd className="mt-0.5 text-slate-600">
-                      {companyName} (대표: {info.ceo || "홍길동"})
+                      {companyName} (대표: {info.ceo || "김준호"})
                     </dd>
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export default async function AboutPage() {
                   <div>
                     <dt className="font-semibold text-slate-700">전화 · 화상 미팅 안내</dt>
                     <dd className="mt-0.5 text-slate-600">
-                      온라인 상담 접수 후 사전 예약 시 진행 ({info.phone || "02-1234-5678"})
+                      온라인 상담 접수 후 사전 예약 시 진행 ({info.phone || "010-4404-5263"})
                     </dd>
                   </div>
                 </div>
@@ -297,7 +297,7 @@ export default async function AboutPage() {
                   <p className="mt-1.5 text-slate-600">
                     온라인 접수: 24시간 상시 (접수 후 최대 24시간 이내 순차 회신)
                     <br />
-                    전화·화상 미팅: 평일 야간 19:30~22:30 · 주말 10:00~20:00
+                    전화·화상 미팅: 사전 예약제 운영 (평일 야간 / 주말 집중)
                   </p>
                 </div>
 
@@ -307,9 +307,9 @@ export default async function AboutPage() {
                     <span>세금계산서 및 결제 안내</span>
                   </div>
                   <p className="mt-1.5 text-slate-600">
-                    전자세금계산서 100% 발행 · 법인/개인카드 결제 및 계좌이체 지원
+                    일반과세자 전자세금계산서 100% 발행 · 계좌이체 및 카드 결제 지원
                     <br />
-                    사업자등록번호: {info.bizNo || "123-45-67890"}
+                    사업자등록번호: {info.bizNo || "449-14-03005"} (일반과세자)
                   </p>
                 </div>
               </div>

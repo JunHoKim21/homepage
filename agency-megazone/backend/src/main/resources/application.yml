@@ -1,15 +1,15 @@
 server:
   port: 8080
-  forward-headers-strategy: native   # Caddy 리버스 프록시 뒤에서 실제 접속자 IP 식별 필수 옵션
+  forward-headers-strategy: native # Caddy 리버스 프록시 뒤에서 실제 접속자 IP 식별 필수 옵션
 
 spring:
   application:
     name: starter-backend
   threads:
     virtual:
-      enabled: true                  # 일반 I/O API는 Java 21 가상 스레드로 고성능 처리
+      enabled: true # 일반 I/O API는 Java 21 가상 스레드로 고성능 처리
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/starter_db}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/starter_db}
     username: ${SPRING_DATASOURCE_USERNAME:starter_user}
     password: ${SPRING_DATASOURCE_PASSWORD:starter_secure_password_2026}
   jpa:
@@ -23,6 +23,7 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    validate-on-migrate: false
   servlet:
     multipart:
       max-file-size: 20MB
@@ -38,20 +39,20 @@ starter:
     url: ${STARTER_REVALIDATE_URL:http://localhost:3000/api/revalidate}
     secret: ${STARTER_REVALIDATE_SECRET:starter_revalidate_secret_2026}
   storage:
-    type: ${STORAGE_TYPE:LOCAL}      # LOCAL (기본) 또는 S3_R2 (Cloudflare R2 무료 티어 확장 시)
+    type: ${STORAGE_TYPE:LOCAL} # LOCAL (기본) 또는 S3_R2 (Cloudflare R2 무료 티어 확장 시)
     public-dir: ${STARTER_PUBLIC_DIR:/app/uploads/public}
     private-dir: ${STARTER_PRIVATE_DIR:/app/uploads/private}
   image-worker:
-    core-pool-size: 1                # 768MB 컨테이너 내 피크 힙 메모리 방어를 위해 동시 1건으로 제한
-    queue-capacity: 50               # ArrayBlockingQueue(50) 상한 설정
-    max-pixel-dimension: 4096        # 4096x4096 초과 Image Bomb 즉시 거부
+    core-pool-size: 1 # 768MB 컨테이너 내 피크 힙 메모리 방어를 위해 동시 1건으로 제한
+    queue-capacity: 50 # ArrayBlockingQueue(50) 상한 설정
+    max-pixel-dimension: 4096 # 4096x4096 초과 Image Bomb 즉시 거부
   rate-limit:
-    inquiry-per-minute: 3            # 동일 IP당 1분 내 최대 3회 문의 허용
+    inquiry-per-minute: 3 # 동일 IP당 1분 내 최대 3회 문의 허용
   features:
-    reservation-mode: ${FEATURE_RESERVATION_MODE:BOTH}                # OFF | NAVER | INTERNAL | BOTH
+    reservation-mode: ${FEATURE_RESERVATION_MODE:BOTH} # OFF | NAVER | INTERNAL | BOTH
     reservation-capacity-mode: ${FEATURE_RESERVATION_CAPACITY:SINGLE} # SINGLE (1:1 단독) | MULTI (시간대별 N명 정원제)
     reservation-default-capacity: ${FEATURE_RESERVATION_DEFAULT_CAP:1}
     payment-enabled: ${FEATURE_PAYMENT:false}
     audit-log-enabled: ${FEATURE_AUDIT_LOG:false}
     excel-export-enabled: ${FEATURE_EXCEL_EXPORT:true}
-    admin-totp-enabled: ${FEATURE_ADMIN_TOTP:false}                   # 소상공인 편의를 위해 기본값 false
+    admin-totp-enabled: ${FEATURE_ADMIN_TOTP:false} # 소상공인 편의를 위해 기본값 false

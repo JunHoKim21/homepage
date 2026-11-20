@@ -1,18 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ShieldCheck, Sparkles, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { MenuItem } from "@/lib/api";
 
 interface Props {
-  menus: MenuItem[];
+  menus?: MenuItem[];
   brandName: string;
   brandLogoUrl?: string;
   reservationMode: string;
 }
 
-export default function PublicHeader({ menus, brandName, brandLogoUrl, reservationMode }: Props) {
+const ONEPAGE_NAV_ITEMS = [
+  { label: "샘플 보기", href: "/#portfolio-showcase" },
+  { label: "핵심 기능", href: "/#what-we-do" },
+  { label: "정찰제 요금", href: "/#pricing" },
+  { label: "관리자 체험", href: "/#cms-demo" },
+  { label: "자주 묻는 질문", href: "/#faq" },
+];
+
+export default function PublicHeader({ brandName, brandLogoUrl, reservationMode }: Props) {
   const [open, setOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
 
@@ -20,93 +28,11 @@ export default function PublicHeader({ menus, brandName, brandLogoUrl, reservati
     setLogoError(false);
   }, [brandLogoUrl]);
 
-  const defaultMenus: MenuItem[] =
-    menus.length > 0
-      ? menus
-      : [
-          {
-            id: 1,
-            parentId: null,
-            menuType: "PUBLIC",
-            menuName: "회사·기술소개",
-            routePath: "/about",
-            iconName: null,
-            sortOrder: 1,
-            visible: true,
-            isSystem: true,
-            requiredPermission: null,
-          },
-          {
-            id: 2,
-            parentId: null,
-            menuType: "PUBLIC",
-            menuName: "구축사례·샘플",
-            routePath: "/portfolio",
-            iconName: null,
-            sortOrder: 2,
-            visible: true,
-            isSystem: true,
-            requiredPermission: null,
-          },
-          {
-            id: 3,
-            parentId: null,
-            menuType: "PUBLIC",
-            menuName: "정찰제·인사이트",
-            routePath: "/notices",
-            iconName: null,
-            sortOrder: 3,
-            visible: true,
-            isSystem: true,
-            requiredPermission: null,
-          },
-          {
-            id: 4,
-            parentId: null,
-            menuType: "PUBLIC",
-            menuName: "1:1 상담예약",
-            routePath: "/reservations",
-            iconName: null,
-            sortOrder: 4,
-            visible: true,
-            isSystem: true,
-            requiredPermission: null,
-          },
-          {
-            id: 5,
-            parentId: null,
-            menuType: "PUBLIC",
-            menuName: "무료 견적문의",
-            routePath: "/inquiries",
-            iconName: null,
-            sortOrder: 5,
-            visible: true,
-            isSystem: true,
-            requiredPermission: null,
-          },
-        ];
-
-  const visibleMenus = defaultMenus.filter(
-    (m) => !(reservationMode === "OFF" && m.routePath === "/reservations")
-  );
-
-  const displayBrand = brandName && brandName !== "Starter Biz" ? brandName : "스타터웹 스튜디오";
+  const displayBrand = brandName && brandName !== "Starter Biz" ? brandName : "엘레브웹 (eleveWeb)";
 
   return (
     <div className="sticky top-0 z-40 w-full min-w-0">
-      {/* Top Slim Dark Utility Bar */}
-      <div className="w-full min-w-0 bg-[#0B0F19] text-slate-300 border-b border-white/10">
-        <div className="mx-auto flex h-9 max-w-7xl min-w-0 items-center justify-between gap-2 px-3 sm:px-6 text-[11px] sm:text-xs">
-          <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden">
-            <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-violet-400" />
-            <span className="truncate font-medium text-slate-200">
-              세금계산서·비교견적서 즉시 발행 | 월 임대료 0원 독립형 구축
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main White/Translucent Header */}
+      {/* Main Clean 1-Row Header */}
       <header className="w-full min-w-0 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl min-w-0 items-center justify-between gap-3 px-4 sm:px-6">
           <Link
@@ -121,29 +47,37 @@ export default function PublicHeader({ menus, brandName, brandLogoUrl, reservati
                 className="h-8 w-auto max-w-[140px] shrink-0 rounded-md object-contain"
               />
             ) : (
-              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-black text-white shadow-xs">
-                <Sparkles className="h-4 w-4" />
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0EA5E9] to-[#1D4ED8] text-xs font-black tracking-tighter text-white shadow-xs">
+                eW
               </span>
             )}
             <span className="truncate">{displayBrand}</span>
           </Link>
 
-          <nav className="hidden min-w-0 items-center gap-5 lg:flex">
-            {visibleMenus.map((m) => (
+          <nav className="hidden min-w-0 items-center gap-6 lg:flex">
+            {ONEPAGE_NAV_ITEMS.map((item) => (
               <Link
-                key={m.id}
-                href={m.routePath}
-                className="whitespace-nowrap text-sm font-semibold text-slate-600 transition-colors hover:text-violet-700"
+                key={item.href}
+                href={item.href}
+                className="whitespace-nowrap text-sm font-semibold text-slate-600 transition-colors hover:text-blue-700"
               >
-                {m.menuName}
+                {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden shrink-0 items-center lg:flex">
+          <div className="hidden shrink-0 items-center gap-2 lg:flex">
+            {reservationMode !== "OFF" && (
+              <Link
+                href="/reservations"
+                className="whitespace-nowrap rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+              >
+                1:1 예약
+              </Link>
+            )}
             <Link
               href="/inquiries"
-              className="whitespace-nowrap rounded-lg bg-gradient-to-r from-violet-700 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:opacity-95"
+              className="whitespace-nowrap rounded-lg bg-gradient-to-r from-sky-500 to-blue-700 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:opacity-95"
             >
               30초 무료 견적
             </Link>
@@ -163,30 +97,40 @@ export default function PublicHeader({ menus, brandName, brandLogoUrl, reservati
         {open && (
           <div className="border-t border-slate-100 bg-white px-4 py-4 shadow-lg lg:hidden">
             <div className="flex flex-col gap-1.5">
-              {visibleMenus.map((m) => (
+              {ONEPAGE_NAV_ITEMS.map((item) => (
                 <Link
-                  key={m.id}
-                  href={m.routePath}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-violet-50 hover:text-violet-700"
+                  className="rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                 >
-                  {m.menuName}
+                  {item.label}
                 </Link>
               ))}
               <div className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
-                <Link
-                  href="/admin/login"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800"
-                >
-                  관리자 체험
-                </Link>
+                {reservationMode !== "OFF" ? (
+                  <Link
+                    href="/reservations"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800"
+                  >
+                    1:1 상담예약
+                  </Link>
+                ) : (
+                  <Link
+                    href="/admin/login"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800"
+                  >
+                    관리자 체험
+                  </Link>
+                )}
                 <Link
                   href="/inquiries"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-center rounded-lg bg-violet-700 px-3 py-2.5 text-xs font-bold text-white"
+                  className="flex items-center justify-center rounded-lg bg-blue-700 px-3 py-2.5 text-xs font-bold text-white"
                 >
-                  무료 견적
+                  30초 무료 견적
                 </Link>
               </div>
             </div>

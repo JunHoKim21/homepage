@@ -86,7 +86,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
     area: "68평",
     year: "2025",
     summary: "개방형 라운지와 방음 미팅 포드를 조화시킨 하이브리드 워크스페이스",
-    image: "/images/samples/corp-1.jpg",
+    image: "/images/samples/corp-5.jpg",
   },
   {
     id: 6,
@@ -96,7 +96,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
     area: "85평",
     year: "2025",
     summary: "자연 채광을 극대화한 커튼월과 원목 루버가 돋보이는 휴양형 건축",
-    image: "/images/samples/corp-2.jpg",
+    image: "/images/samples/corp-6.jpg",
   },
 ];
 
@@ -974,7 +974,7 @@ export default function HanbitSpaceCorpSamplePage() {
             <div className="min-w-0 lg:col-span-6">
               <div className="relative aspect-[16/11] overflow-hidden rounded-sm border border-stone-200 bg-stone-200">
                 <img
-                  src="/images/samples/corp-4.jpg"
+                  src="/images/samples/corp-showroom.jpg"
                   alt="한빛공간디자인 논현 쇼룸 내부"
                   loading="lazy"
                   onError={(e) => {

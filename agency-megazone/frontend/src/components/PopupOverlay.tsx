@@ -34,8 +34,16 @@ export default function PopupOverlay({ popups }: { popups: CmsContentItem[] }) {
       {visiblePopups.slice(0, 3).map((popup) => (
         <div
           key={popup.id}
-          className="w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+          className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
         >
+          <button
+            type="button"
+            onClick={() => closePopup(popup.id, false)}
+            className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white shadow-md backdrop-blur-sm transition hover:bg-black/75"
+            aria-label="팝업 닫기"
+          >
+            <X className="h-4 w-4" />
+          </button>
           {popup.thumbnailUrl && (
             <img
               src={popup.thumbnailUrl}
@@ -44,17 +52,9 @@ export default function PopupOverlay({ popups }: { popups: CmsContentItem[] }) {
             />
           )}
           <div className="p-5">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="text-base font-bold text-slate-900">{popup.title}</h3>
-              <button
-                type="button"
-                onClick={() => closePopup(popup.id, false)}
-                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
-                aria-label="팝업 닫기"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+            <h3 className={`text-base font-bold text-slate-900 ${!popup.thumbnailUrl ? "pr-8" : ""}`}>
+              {popup.title}
+            </h3>
             {popup.summary && (
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-600">
                 {popup.summary}

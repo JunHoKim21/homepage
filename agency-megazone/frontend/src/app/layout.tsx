@@ -4,8 +4,8 @@ import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const configs = await fetchPublicSiteConfigs();
-  const title = configs.seo_title || "표준 기업 홈페이지";
-  const description = configs.seo_description || "전문적인 상담과 맞춤형 솔루션을 제공합니다.";
+  const title = configs.seo_title || "엘레브웹 (eleveWeb) | 월 임대료 0원 독립형 홈페이지 제작";
+  const description = configs.seo_description || "추가 유지비 부담 없는 투명한 정찰제, 100% 고객 소유형 기업·병의원 홈페이지 제작 에이전시입니다.";
   const keywords = configs.seo_keywords || "";
   const ogImage = configs.seo_og_image || "/uploads/public/default-og.webp";
 
@@ -38,7 +38,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const configs = await fetchPublicSiteConfigs();
-  const primaryColor = configs.brand_primary_color || "#4F46E5";
+  const primaryColor = configs.brand_primary_color || "#1D4ED8";
 
   return (
     <html lang="ko">

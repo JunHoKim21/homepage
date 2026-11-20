@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Image as ImageIcon, Lock, Save, Trash2, Upload } from "lucide-react";
-import { adminApiFetch } from "@/lib/api";
+import { adminApiFetch, deletePublicMedia } from "@/lib/api";
+import SmartPreviewImage from "@/components/SmartPreviewImage";
 
 interface SiteConfigItem {
   configKey: string;
@@ -59,15 +60,32 @@ const KEY_LABELS: Record<string, string> = {
   sns_youtube_url: "유튜브 공식 채널 URL",
 };
 
+const REQUIRED_CONFIG_KEYS = new Set<string>([
+  "footer_company_info",
+  "seo_title",
+  "brand_primary_color",
+  "site_theme_preset",
+  "reservation_mode",
+]);
+
+// 현재 플로팅 UI(우측 하단 3버튼 통합형)에서 사용하지 않는 레거시 설정 키는 관리자 화면에서 숨김 처리
+const HIDDEN_CONFIG_KEYS = new Set<string>([
+  "floating_left_enabled",
+  "quick_wechat_id",
+  "sns_instagram_url",
+  "sns_blog_url",
+  "sns_youtube_url",
+]);
+
 const DEFAULT_FALLBACK_CONFIGS: SiteConfigItem[] = [
   {
     configKey: "footer_company_info",
     configValue: JSON.stringify({
-      name: "주식회사 스타터",
-      ceo: "홍길동",
-      bizNo: "123-45-67890",
-      phone: "02-1234-5678",
-      address: "서울시 강남구 테헤란로 123",
+      name: "엘레브웹 (eleveWeb)",
+      ceo: "김준호",
+      bizNo: "449-14-03005",
+      phone: "010-4404-5263",
+      address: "100% 비대면 온라인 스튜디오 (전국 온라인 지원)",
     }),
     valueType: "JSON",
     groupName: "COMPANY",
@@ -95,7 +113,7 @@ const DEFAULT_FALLBACK_CONFIGS: SiteConfigItem[] = [
   },
   {
     configKey: "brand_primary_color",
-    configValue: "#2563EB",
+    configValue: "#1D4ED8",
     valueType: "COLOR",
     groupName: "BRANDING",
     description: "버튼과 강조 텍스트에 적용되는 메인 색상입니다.",
@@ -194,19 +212,19 @@ const DEFAULT_FALLBACK_CONFIGS: SiteConfigItem[] = [
   },
   {
     configKey: "quick_kakao_url",
-    configValue: "https://pf.kakao.com/",
+    configValue: "https://pf.kakao.com/_AqlvX/chat",
     valueType: "TEXT",
     groupName: "FLOATING",
-    description: "비워 두면 좌측 플로팅 바에서 카카오톡 버튼이 자동으로 숨겨집니다.",
+    description: "비워 두면 플로팅 메뉴에서 카카오톡 버튼이 자동으로 숨겨집니다.",
     isPublic: true,
     isSystem: false,
   },
   {
     configKey: "quick_wechat_id",
-    configValue: "thecelluce_kr",
+    configValue: "",
     valueType: "TEXT",
     groupName: "FLOATING",
-    description: "비워 두면 좌측 플로팅 바에서 WeChat 버튼이 자동으로 숨겨집니다.",
+    description: "WeChat 상담 ID 설정 항목입니다.",
     isPublic: true,
     isSystem: false,
   },
@@ -321,6 +339,7 @@ export default function AdminConfigsPage() {
   }
 
   async function handleImageUpload(configKey: string, file: File) {
+    const oldUrl = configs.find((c) => c.configKey === configKey)?.configValue;
     setUploadingKey(configKey);
     setNotice("");
     try {
@@ -331,6 +350,9 @@ export default function AdminConfigsPage() {
         body: formData,
       });
       updateField(configKey, result.storageKey);
+      if (oldUrl && oldUrl !== result.storageKey) {
+        void deletePublicMedia(oldUrl);
+      }
       setNotice(
         "이미지가 업로드되어 초경량 최적화 변환이 시작되었습니다. '전체 설정 저장하기'를 눌러 반영해 주세요."
       );
@@ -383,6 +405,7 @@ export default function AdminConfigsPage() {
   }
 
   const grouped = configs.reduce<Record<string, SiteConfigItem[]>>((acc, item) => {
+    if (HIDDEN_CONFIG_KEYS.has(item.configKey)) return acc;
     const g = item.groupName || "OTHER";
     if (!acc[g]) acc[g] = [];
     acc[g].push(item);
@@ -447,12 +470,19 @@ export default function AdminConfigsPage() {
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-sm font-bold text-slate-900">{label}</span>
-                        {cfg.isSystem && (
+                        {REQUIRED_CONFIG_KEYS.has(cfg.configKey) ? (
                           <span
                             className="inline-flex items-center gap-1 rounded bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700"
-                            title="필수 항목은 삭제할 수 없습니다"
+                            title="홈페이지 운영에 필요한 기본 필수 설정입니다"
                           >
                             <Lock className="h-3 w-3" /> 필수 항목
+                          </span>
+                        ) : (
+                          <span
+                            className="inline-flex items-center gap-1 rounded bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500"
+                            title="비워두면 화면에서 자동으로 숨겨지거나 기본값이 적용됩니다"
+                          >
+                            선택 항목
                           </span>
                         )}
                       </div>
@@ -475,7 +505,7 @@ export default function AdminConfigsPage() {
                                 onChange={(e) =>
                                   updateCompanyField(cfg.configKey, cfg.configValue, "name", e.target.value)
                                 }
-                                placeholder="주식회사 스타터"
+                                placeholder="엘레브웹 (eleveWeb)"
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                               />
                             </div>
@@ -489,7 +519,7 @@ export default function AdminConfigsPage() {
                                 onChange={(e) =>
                                   updateCompanyField(cfg.configKey, cfg.configValue, "ceo", e.target.value)
                                 }
-                                placeholder="홍길동"
+                                placeholder="김준호"
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                               />
                             </div>
@@ -503,7 +533,7 @@ export default function AdminConfigsPage() {
                                 onChange={(e) =>
                                   updateCompanyField(cfg.configKey, cfg.configValue, "bizNo", e.target.value)
                                 }
-                                placeholder="123-45-67890"
+                                placeholder="449-14-03005"
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                               />
                             </div>
@@ -517,7 +547,7 @@ export default function AdminConfigsPage() {
                                 onChange={(e) =>
                                   updateCompanyField(cfg.configKey, cfg.configValue, "phone", e.target.value)
                                 }
-                                placeholder="02-1234-5678"
+                                placeholder="010-4404-5263"
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                               />
                             </div>
@@ -531,7 +561,7 @@ export default function AdminConfigsPage() {
                                 onChange={(e) =>
                                   updateCompanyField(cfg.configKey, cfg.configValue, "address", e.target.value)
                                 }
-                                placeholder="서울시 강남구 테헤란로 123"
+                                placeholder="100% 비대면 온라인 스튜디오 (전국 온라인 지원)"
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                               />
                             </div>
@@ -569,14 +599,12 @@ export default function AdminConfigsPage() {
                     ) : cfg.valueType === "IMAGE" ? (
                       <div className="flex flex-wrap items-center gap-4">
                         <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-                          {cfg.configValue && !brokenImages[cfg.configKey] ? (
-                            <img
+                          {cfg.configValue ? (
+                            <SmartPreviewImage
                               src={cfg.configValue}
                               alt={label}
-                              onError={() =>
-                                setBrokenImages((prev) => ({ ...prev, [cfg.configKey]: true }))
-                              }
                               className="h-full w-full object-contain p-1"
+                              iconClassName="h-7 w-7 text-slate-300"
                             />
                           ) : (
                             <ImageIcon className="h-7 w-7 text-slate-300" />
@@ -615,6 +643,7 @@ export default function AdminConfigsPage() {
                               <button
                                 type="button"
                                 onClick={() => {
+                                  void deletePublicMedia(cfg.configValue);
                                   updateField(cfg.configKey, "");
                                   setBrokenImages((prev) => ({ ...prev, [cfg.configKey]: false }));
                                 }}
@@ -668,7 +697,7 @@ export default function AdminConfigsPage() {
                     ) : cfg.configKey === "robots_txt_custom" ? (
                       <textarea
                         rows={3}
-                        value={cfg.configValue}
+                        value={(cfg.configValue || "").replace(/\\n/g, "\n")}
                         onChange={(e) => updateField(cfg.configKey, e.target.value)}
                         className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-xs"
                       />

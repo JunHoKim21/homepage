@@ -1,6 +1,6 @@
 -- =====================================================================
 -- V2__seed_data.sql
--- 메가존 에이전시(AGENCY) 납품 즉시 운영 가능한 기본 시드(Seed) 데이터
+-- 메가존 에이전시 -> 엘레브웹(eleveWeb) 납품 즉시 운영 가능한 기본 시드(Seed) 데이터
 -- =====================================================================
 
 -- 1. 기본 RBAC 역할 및 권한 시드
@@ -41,34 +41,34 @@ INSERT INTO menus (parent_id, menu_type, menu_name, route_path, icon_name, sort_
 
 -- 3. 무코드 SEO·브랜딩·하이브리드 예약·테마 프리셋 필수 설정 시드 (site_configs)
 INSERT INTO site_configs (config_key, config_value, value_type, group_name, description, is_public, is_system) VALUES
-('seo_title', '메가존 웹 에이전시 | 내 회사에 딱 맞는 자체 소유권 홈페이지 제작', 'STRING', 'SEO', '브라우저 탭 및 검색 결과 제목', TRUE, TRUE),
+('seo_title', '엘레브웹(eleveWeb) | 월 임대료 0원 독립형 기업 홈페이지 제작', 'STRING', 'SEO', '브라우저 탭 및 검색 결과 제목', TRUE, TRUE),
 ('seo_description', '추가 유지비 부담 없는 투명한 정찰제! 검색에 잘 노출되고 예약·상담 문의가 바로 들어오는 맞춤형 기업 홈페이지를 제작해 드립니다.', 'STRING', 'SEO', '네이버·구글 검색 결과 요약 설명문', TRUE, TRUE),
-('seo_keywords', '기업홈페이지제작,병원홈페이지,정찰제웹에이전시,자체홈페이지,맞춤형웹사이트,검색최적화', 'STRING', 'SEO', '검색 키워드 (쉼표 구분)', TRUE, TRUE),
+('seo_keywords', '기업홈페이지제작,병원홈페이지,정찰제웹에이전시,자체홈페이지,맞춤형웹사이트,검색최적화,엘레브웹', 'STRING', 'SEO', '검색 키워드 (쉼표 구분)', TRUE, TRUE),
 ('seo_og_image', '/uploads/public/default-og.webp', 'IMAGE', 'SEO', '카카오톡·SNS 링크 공유 시 대표 썸네일', TRUE, TRUE),
 ('naver_site_verification', '', 'STRING', 'SEO', '네이버 서치어드바이저 인증 메타태그 값', TRUE, TRUE),
 ('google_site_verification', '', 'STRING', 'SEO', '구글 서치콘솔 인증 메타태그 값', TRUE, TRUE),
 ('robots_txt_custom', 'User-agent: *\nAllow: /\nDisallow: /admin/', 'STRING', 'SEO', '검색 로봇 수집 규칙 설정', TRUE, TRUE),
-('brand_primary_color', '#6D28D9', 'COLOR', 'BRANDING', '홈페이지 메인 포인트 색상 (HEX)', TRUE, TRUE),
+('brand_primary_color', '#1D4ED8', 'COLOR', 'BRANDING', '홈페이지 메인 포인트 색상 (HEX)', TRUE, TRUE),
 ('brand_logo_url', '/uploads/public/logo.webp', 'IMAGE', 'BRANDING', '상단 헤더 로고 이미지 URL', TRUE, TRUE),
 ('brand_favicon_url', '/uploads/public/favicon.ico', 'IMAGE', 'BRANDING', '브라우저 탭 파비콘 URL', TRUE, TRUE),
 ('site_theme_preset', 'AGENCY', 'STRING', 'BRANDING', '사이트 디자인 테마 프리셋 (AGENCY 등)', TRUE, TRUE),
 ('demo_bar_enabled', 'true', 'BOOLEAN', 'BRANDING', '상단 데모 체험 바 노출 여부', TRUE, TRUE),
-('footer_company_info', '{"name":"주식회사 메가존웹스튜디오","ceo":"김민준","bizNo":"214-88-90123","phone":"02-6204-8800","email":"hello@megazone-studio.kr","kakaoUrl":"https://pf.kakao.com/_megazone","address":"서울시 강남구 테헤란로 231, 8층","hours":"온라인 24시간 접수 | 전화·화상 상담: 평일 야간 19:30~22:30 · 주말 10:00~20:00 (온라인 상담 접수 후 진행)"}', 'JSON', 'COMPANY', '푸터 하단 사업자 정보', TRUE, TRUE),
+('footer_company_info', '{"name":"엘레브웹 (eleveWeb)","ceo":"김준호","bizNo":"449-14-03005","phone":"010-4404-5263","email":"elevewebpage@gmail.com","address":"100% 비대면 온라인 스튜디오 (전국 온라인 지원)","hours":"온라인 접수 24시간 상시 (접수 후 24시간 이내 회신) | 유선·화상 미팅: 사전 예약제 운영"}', 'JSON', 'COMPANY', '푸터 하단 사업자 정보', TRUE, TRUE),
 ('reservation_mode', 'INTERNAL', 'STRING', 'RESERVATION', '예약 채널 모드 (OFF | NAVER | INTERNAL | BOTH)', TRUE, TRUE),
 ('reservation_capacity_mode', 'MULTI', 'STRING', 'RESERVATION', '자체 예약 정원 모드 (SINGLE: 1:1 단독예약 | MULTI: 시간대별 N명 정원제)', TRUE, TRUE),
 ('reservation_default_capacity', '3', 'NUMBER', 'RESERVATION', 'MULTI 모드 시 시간대별 기본 정원 수 (SINGLE 모드 시 1로 강제)', TRUE, TRUE),
 ('naver_booking_url', 'https://booking.naver.com/', 'STRING', 'RESERVATION', '네이버 스마트플레이스 예약 연결 주소', TRUE, TRUE),
 ('floating_left_enabled', 'true', 'BOOLEAN', 'FLOATING', '좌측 상담 플로팅 바(전화·카톡·WeChat) 노출 여부', TRUE, TRUE),
 ('floating_right_enabled', 'true', 'BOOLEAN', 'FLOATING', '우측 플로팅 사이드바 노출 여부 (ON/OFF)', TRUE, TRUE),
-('quick_kakao_url', 'https://pf.kakao.com/', 'STRING', 'FLOATING', '카카오톡 채널 상담 URL (비워두면 버튼 숨김)', TRUE, TRUE),
-('quick_wechat_id', 'thecelluce_kr', 'STRING', 'FLOATING', 'WeChat 상담 ID (비워두면 버튼 숨김)', TRUE, TRUE),
-('sns_instagram_url', 'https://instagram.com/', 'STRING', 'FLOATING', '인스타그램 공식 URL (비워두면 아이콘 숨김)', TRUE, TRUE),
-('sns_blog_url', 'https://blog.naver.com/', 'STRING', 'FLOATING', '네이버 블로그 URL (비워두면 아이콘 숨김)', TRUE, TRUE),
-('sns_youtube_url', 'https://youtube.com/', 'STRING', 'FLOATING', '유튜브 채널 URL (비워두면 아이콘 숨김)', TRUE, TRUE);
+('quick_kakao_url', 'https://pf.kakao.com/_AqlvX/chat', 'STRING', 'FLOATING', '카카오톡 채널 상담 URL (비워두면 버튼 숨김)', TRUE, TRUE),
+('quick_wechat_id', '', 'STRING', 'FLOATING', 'WeChat 상담 ID (비워두면 버튼 숨김)', TRUE, TRUE),
+('sns_instagram_url', '', 'STRING', 'FLOATING', '인스타그램 공식 URL (비워두면 아이콘 숨김)', TRUE, TRUE),
+('sns_blog_url', '', 'STRING', 'FLOATING', '네이버 블로그 URL (비워두면 아이콘 숨김)', TRUE, TRUE),
+('sns_youtube_url', '', 'STRING', 'FLOATING', '유튜브 채널 URL (비워두면 아이콘 숨김)', TRUE, TRUE);
 
 -- 4. 필수 시스템 약관 시드 (TERMS 2건 - is_system = TRUE 로 삭제 방지)
 INSERT INTO cms_contents (slug, category, title, summary, content_html, is_pinned, is_published, is_system, author_id) VALUES
-('terms-of-service', 'TERMS', '서비스 이용약관', '메가존 웹 에이전시 홈페이지 서비스 이용약관입니다.', '<h3>제1조 (목적)</h3><p>본 약관은 주식회사 메가존웹스튜디오(이하 "회사")가 제공하는 홈페이지 제작 상담 및 온라인 예약 서비스의 이용 조건과 절차를 규정함을 목적으로 합니다.</p><h3>제2조 (소유권 및 저작권)</h3><p>최종 납품이 완료되고 잔금 정산이 끝난 홈페이지의 소스코드 및 디자인 결과물에 대한 사용·소유 권리는 고객사에 귀속됩니다.</p>', FALSE, TRUE, TRUE, 'SYSTEM'),
+('terms-of-service', 'TERMS', '서비스 이용약관', '엘레브웹 홈페이지 서비스 이용약관입니다.', '<h3>제1조 (목적)</h3><p>본 약관은 엘레브웹(이하 "회사")이 제공하는 홈페이지 제작 상담 및 온라인 예약 서비스의 이용 조건과 절차를 규정함을 목적으로 합니다.</p><h3>제2조 (소유권 및 저작권)</h3><p>최종 납품이 완료되고 잔금 정산이 끝난 홈페이지의 소스코드 및 디자인 결과물에 대한 사용·소유 권리는 고객사에 귀속됩니다.</p>', FALSE, TRUE, TRUE, 'SYSTEM'),
 ('privacy-policy', 'TERMS', '개인정보처리방침', '개인정보 보호법에 따른 상담 및 예약 개인정보 처리방침입니다.', '<h3>1. 수집하는 개인정보 항목</h3><p>회사는 무료 견적문의 및 1:1 상담예약 처리를 위해 성함, 연락처, 이메일(선택), 문의 내용을 수집합니다.</p><h3>2. 보유 및 이용 기간</h3><p>상담 완료 및 서비스 안내 목적 달성 후 관련 법령에 따라 안전하게 파기하며, 고객 요청 시 즉시 삭제합니다.</p>', FALSE, TRUE, TRUE, 'SYSTEM');
 
 -- 5. 업종별 표준 제작 모델 시드 (PORTFOLIO 6건)
@@ -141,7 +141,7 @@ INSERT INTO cms_contents (slug, category, title, summary, content_html, is_pinne
     'NOTICE',
     '[안내] 추가 비용 없는 100% 투명 정찰제 제작 요금표',
     '상담할 때마다 달라지는 불투명한 견적 대신, 기능과 페이지 수에 따른 명확한 정찰제 패키지를 공개합니다.',
-    '<h3>왜 정찰제인가요?</h3><p>처음 홈페이지를 제작하시는 사장님들이 가장 어려워하시는 부분이 "적정 가격이 얼마인지 알 수 없다"는 점입니다. 메가존 웹 에이전시는 모든 제작 패키지와 옵션 비용을 사전에 투명하게 공개합니다.</p><ul><li><strong>스타터(150만 원)</strong>: 핵심 5페이지 + 반응형 디자인 + 기본 SEO 세팅 + 무료 견적문의</li><li><strong>스탠다드(280만 원)</strong>: 맞춤형 업종 디자인 + 자체 1:1 예약/네이버 연동 + 관리자 CMS</li><li><strong>프로(450만 원)</strong>: 고도화 맞춤 기능 + 온라인 결제/회원 연동 + 전담 유지보수 온보딩</li></ul><p>계약 전 안내드린 금액 외 불필요한 추가 비용을 청구하지 않습니다.</p>',
+    '<h3>왜 정찰제인가요?</h3><p>처음 홈페이지를 제작하시는 사장님들이 가장 어려워하시는 부분이 "적정 가격이 얼마인지 알 수 없다"는 점입니다. 엘레브웹은 모든 제작 패키지와 작업 범위를 사전에 투명하게 공개하며, 5분 설문지 기반 카피 초안 세팅까지 기본 제공합니다.</p><ul><li><strong>Standard(69만 원)</strong>: 반응형 원페이지(5~6섹션) + 스팸차단 견적폼 + 5분 설문지 카피 초안 + 기본 한글 관리자 (맞춤 시안 1종·수정 2회 / 무상 A/S 1개월)</li><li><strong>Deluxe(129만 원 · BEST)</strong>: 메인 + 서브 5~7P 맞춤 UI + 업종별 아카이브 DB + 1:1/네이버 예약 연동 + 전체 한글 관리자 (맞춤 시안 1종·수정 3회 / 무상 A/S 2개월)</li><li><strong>Premium(219만 원)</strong>: 메인 + 서브 10P 내외 + 업종 특화 모듈 1종 + 알림톡/PG/다국어 중 1종 포함 (맞춤 시안 1종·수정 5회 / 무상 A/S 3개월 SLA)</li></ul><p>※ 자사 홈페이지 직계약은 VAT 별도(일반과세자 전자세금계산서 100% 발행)이며, 기본 카피라이팅 초안은 무료로 잡아드리나 업종별 법적 심의 및 최종 문구 검수 책임은 고객사에 있습니다.</p>',
     TRUE, TRUE, FALSE, 'SYSTEM'
 ),
 (
@@ -165,7 +165,7 @@ INSERT INTO cms_contents (slug, category, title, summary, content_html, is_pinne
     'NOTICE',
     '[핵심원칙] 매달 내는 임대료 걱정 없는 100% 고객사 소유권 보장',
     '일반 임대형 웹빌더처럼 매월 고정 사용료를 내며 종속되는 구조가 아닌, 완성된 홈페이지 자산을 고객사가 온전히 소유하는 방식입니다.',
-    '<h3>내 사업의 디지털 자산, 직접 소유하세요</h3><p>일반 임대형 웹빌더를 이용하면 초기 진입은 쉬워 보이지만, 매년 반복되는 요금제 인상이나 원하는 기능 확장의 한계, 플랫폼 이동의 어려움 등 장기적인 제약이 생길 수 있습니다.</p><p>메가존 웹 에이전시는 표준 최신 웹 기술로 제작한 <strong>원본 소스코드와 데이터베이스, 도메인 권한을 100% 고객사 명의로 귀속</strong>시켜 드립니다. 덕분에 향후 사업이 커져서 기능을 추가하거나 서버를 이전할 때도 아무런 제약 없이 자유롭게 확장할 수 있습니다.</p>',
+    '<h3>내 사업의 디지털 자산, 직접 소유하세요</h3><p>일반 임대형 웹빌더를 이용하면 초기 진입은 쉬워 보이지만, 매년 반복되는 요금제 인상이나 원하는 기능 확장의 한계, 플랫폼 이동의 어려움 등 장기적인 제약이 생길 수 있습니다.</p><p>엘레브웹은 표준 최신 웹 기술로 제작한 <strong>원본 소스코드와 데이터베이스, 도메인 권한을 100% 고객사 명의로 귀속</strong>시켜 드립니다. 덕분에 향후 사업이 커져서 기능을 추가하거나 서버를 이전할 때도 아무런 제약 없이 자유롭게 확장할 수 있습니다.</p>',
     FALSE, TRUE, FALSE, 'SYSTEM'
 ),
 (

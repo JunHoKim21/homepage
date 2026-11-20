@@ -21,23 +21,23 @@ interface NoticeItem {
 const PACKAGES = [
   {
     name: "Standard",
-    price: "49만 원",
-    badge: "실속형 스타트",
-    desc: "1인 기업·소상공인을 위한 핵심 5페이지 + 반응형 + 기본 검색 등록",
+    price: "69만 원",
+    badge: "실속 원페이지형",
+    desc: "반응형 원페이지(5~6섹션) + 5분 설문지 카피 초안 + 한글 관리자 + 맞춤 시안 1종(수정 2회) + 무상 A/S 1개월",
     highlight: false,
   },
   {
     name: "Deluxe",
-    price: "99만 원",
-    badge: "가장 많이 선택",
-    desc: "일반 기업·병원 표준형 + 온라인 예약/상담 + 무코드 관리자 콘솔 포함",
+    price: "129만 원",
+    badge: "★ BEST 표준형",
+    desc: "메인+서브 5~7P + 아카이브 DB + 1:1/네이버 예약 + 한글 관리자 + 맞춤 시안 1종(수정 3회) + 무상 A/S 2개월",
     highlight: true,
   },
   {
     name: "Premium",
-    price: "179만 원",
-    badge: "맞춤형 풀패키지",
-    desc: "전담 디자인 커스텀 + 다국어/포트폴리오 확장 + 검색 상위 노출 집중 세팅",
+    price: "219만 원",
+    badge: "고도화 전담형",
+    desc: "메인+서브 10P 내외 + 특화 모듈 1종 + 알림톡/PG/다국어 중 1종 + 맞춤 시안 1종(수정 5회) + 3개월 SLA",
     highlight: false,
   },
 ];
@@ -47,9 +47,9 @@ const FALLBACK_NOTICES: NoticeItem[] = [
     id: 1,
     slug: "pricing-guide-2026",
     categoryLabel: "가격안내",
-    title: "[필독] 2026년 투명 정찰제 패키지(49만/99만/179만) 및 월 임대료 0원 안내",
-    summary: "추가 비용 없는 100% 정찰제 제작 비용과 평생 자체 소유 원칙을 안내해 드립니다.",
-    body: "저희는 불투명한 추가 견적이나 매달 나가는 플랫폼 임대료 없이, 처음 안내해 드린 정찰제 금액 그대로 구축해 드립니다.\n\n• Standard (49만 원): 회사소개, 서비스, 오시는길, 상담문의 등 핵심 구성 + 모바일 완벽 호환\n• Deluxe (99만 원): Standard 전체 + 온라인 예약 + 공지/포트폴리오 관리 + 무코드 관리자 콘솔\n• Premium (179만 원): Deluxe 전체 + 맞춤형 디자인 시안 + 업종 특화 기능 및 검색엔진 정밀 세팅\n\n모든 패키지는 부가세 별도이며, 전자세금계산서 발행 및 법인카드 결제가 100% 가능합니다.",
+    title: "[필독] 2026년 투명 정찰제 패키지(69만/129만/219만) 및 제작 범위 안내",
+    summary: "추가 비용 없는 100% 정찰제 제작 비용과 5분 설문지 기반 카피 초안 세팅 혜택을 안내해 드립니다.",
+    body: "엘레브웹(eleveWeb)은 불투명한 추가 견적이나 매달 나가는 플랫폼 임대료 없이, 처음 안내해 드린 정찰제 금액 그대로 구축해 드립니다.\n\n• Standard (69만 원): 반응형 원페이지(5~6섹션) + 스팸차단 견적폼 + 5분 설문지 카피 초안 + 기본 한글 관리자 (맞춤 시안 1종·수정 2회 / 무상 A/S 1개월)\n• Deluxe (129만 원 · BEST): 메인 + 서브 5~7P 맞춤 UI + 업종별 아카이브 DB + 1:1/네이버 예약 연동 + 전체 한글 관리자 (맞춤 시안 1종·수정 3회 / 무상 A/S 2개월)\n• Premium (219만 원): 메인 + 서브 10P 내외 + 업종 특화 모듈 1종 + 알림톡/PG/다국어 중 1종 포함 (맞춤 시안 1종·수정 5회 / 무상 A/S 3개월 SLA)\n\n※ 자사 홈페이지 직계약은 VAT 별도(일반과세자 전자세금계산서 100% 발행)이며, 기본 카피라이팅 초안은 무료로 세팅해 드리나 업종별 법적 심의 및 최종 문구 검수 책임은 고객사에 있습니다.",
     isPinned: true,
     createdAt: "2026-03-01T09:00:00",
     viewCount: 1284,
@@ -60,7 +60,7 @@ const FALLBACK_NOTICES: NoticeItem[] = [
     categoryLabel: "소유권",
     title: "제작 완료 후 도메인·디자인·데이터 100% 고객사 소유 이관 절차 안내",
     summary: "홈페이지 제작이 끝난 뒤 모든 권한과 원본 자산을 대표님 명의로 온전히 넘겨드립니다.",
-    body: "많은 대표님들께서 홈페이지 제작 후 수정이나 이전을 할 때 권한 문제로 어려움을 겪으십니다.\n\n저희는 구축 완료 시점에 도메인 소유권, 관리자 최고 계정, 이미지 및 소스 코드 일체를 고객사 명의로 100% 이관해 드립니다. 향후 운영 중에도 타 업체 제약 없이 자유롭게 확장하실 수 있습니다.",
+    body: "많은 대표님들께서 홈페이지 제작 후 수정이나 이전을 할 때 권한 문제로 어려움을 겪으십니다.\n\n엘레브웹은 구축 완료 시점에 도메인 소유권, 관리자 최고 계정, 이미지 및 소스 코드 일체를 고객사 명의로 100% 이관해 드립니다. 향후 운영 중에도 타 업체 제약 없이 자유롭게 확장하실 수 있습니다.",
     isPinned: true,
     createdAt: "2026-02-20T10:30:00",
     viewCount: 942,
@@ -82,7 +82,7 @@ const FALLBACK_NOTICES: NoticeItem[] = [
     categoryLabel: "결제·증빙",
     title: "전자세금계산서 발행, 법인카드 결제 및 정부지원사업 증빙 서류 안내",
     summary: "기업·병원·기관의 회계 처리에 필요한 모든 증빙 서류를 신속히 발급해 드립니다.",
-    body: "계약금 및 잔금 결제 시 전자세금계산서(영수/청구 선택 가능)를 즉시 발행해 드리며, 법인카드 및 개인카드 무이자 할부 결제도 지원합니다.\n\n견적서, 사업자등록증, 통장사본, 완료보고서 등 회사 내부 품의에 필요한 서류가 있으시면 상담 시 말씀해 주세요.",
+    body: "일반과세자 정식 사업자로서 계약금 및 잔금 결제 시 전자세금계산서(영수/청구 선택 가능)를 즉시 발행해 드리며, 법인카드 및 계좌이체 결제를 지원합니다.\n\n견적서, 사업자등록증, 통장사본, 완료보고서 등 회사 내부 품의에 필요한 서류가 있으시면 상담 시 말씀해 주세요.",
     isPinned: false,
     createdAt: "2026-01-28T11:15:00",
     viewCount: 518,
@@ -91,9 +91,9 @@ const FALLBACK_NOTICES: NoticeItem[] = [
     id: 5,
     slug: "warranty-and-support",
     categoryLabel: "유지보수",
-    title: "오픈 후 1년 무상 A/S 및 비개발자 대표님 대상 1:1 관리자 교육 안내",
-    summary: "홈페이지 오픈 이후에도 문구 수정이나 기능 오류가 없도록 1년간 무상 기술 지원을 제공합니다.",
-    body: "홈페이지 오픈 직후 직원이 바뀌거나 문구를 고쳐야 할 때도 걱정하지 마세요.\n\n관리자 콘솔에서 클릭 몇 번으로 전화번호, 주소, 공지사항, 포트폴리오를 직접 바꾸실 수 있도록 1:1 원격 화면 교육을 제공하며, 시스템 기능 오류에 대해서는 오픈일로부터 1년간 무상 A/S를 보장합니다.",
+    title: "패키지별 최대 3개월 무상 A/S 및 비개발자 대표님 대상 1:1 관리자 가이드 안내",
+    summary: "홈페이지 오픈 이후에도 문구 수정이나 기능 오류가 없도록 무상 기술 지원을 제공합니다.",
+    body: "홈페이지 오픈 직후 직원이 바뀌거나 문구를 고쳐야 할 때도 걱정하지 마세요.\n\n관리자 콘솔에서 클릭 몇 번으로 전화번호, 주소, 공지사항, 포트폴리오를 직접 바꾸실 수 있도록 가이드를 제공하며, 시스템 기능 오류에 대해서는 패키지에 따라 1~3개월간 무상 A/S를 보장합니다. (장애 접수 시 12시간 이내 우선 대응)",
     isPinned: false,
     createdAt: "2026-01-15T16:40:00",
     viewCount: 439,
@@ -156,11 +156,11 @@ function NoticesContent() {
     <div className="overflow-x-hidden bg-white">
       {/* 상단 다크 네이비/바이올렛 2단 컴팩트 배너 헤더 */}
       <section className="relative overflow-hidden bg-[#0B0F19] py-10 text-white sm:py-12">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-violet-600/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-blue-600/20" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
             <div className="min-w-0 lg:col-span-7">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1 text-xs font-semibold text-blue-300">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3.5 py-1 text-xs font-semibold text-sky-300">
                 <Megaphone className="h-3.5 w-3.5" />
                 공지사항 · 정찰제 안내
               </span>
@@ -176,22 +176,22 @@ function NoticesContent() {
 
             <div className="min-w-0 lg:col-span-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xs">
-                <div className="flex items-center justify-between gap-2 text-xs font-bold text-blue-300">
+                <div className="flex items-center justify-between gap-2 text-xs font-bold text-sky-300">
                   <span>정찰제 3종 패키지 한눈에 보기</span>
                   <span className="text-[11px] font-medium text-slate-400">월 임대료 0원</span>
                 </div>
                 <div className="mt-3 space-y-2 text-xs sm:text-sm">
                   <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
                     <span className="font-semibold text-slate-200">Standard (실속형)</span>
-                    <span className="font-extrabold text-white">49만 원</span>
+                    <span className="font-extrabold text-white">69만 원</span>
                   </div>
-                  <div className="flex items-center justify-between rounded-lg border border-blue-400/40 bg-blue-500/15 px-3 py-2">
-                    <span className="font-semibold text-blue-200">Deluxe (표준형 · 추천)</span>
-                    <span className="font-extrabold text-white">99만 원</span>
+                  <div className="flex items-center justify-between rounded-lg border border-sky-400/40 bg-sky-500/15 px-3 py-2">
+                    <span className="font-semibold text-sky-200">Deluxe (표준형 · 추천)</span>
+                    <span className="font-extrabold text-white">129만 원</span>
                   </div>
                   <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
                     <span className="font-semibold text-slate-200">Premium (맞춤형)</span>
-                    <span className="font-extrabold text-white">179만 원</span>
+                    <span className="font-extrabold text-white">219만 원</span>
                   </div>
                 </div>
               </div>
@@ -222,7 +222,7 @@ function NoticesContent() {
                 key={pkg.name}
                 className={`min-w-0 rounded-2xl border p-5 transition ${
                   pkg.highlight
-                    ? "border-blue-500 bg-[#0B0F19] text-white shadow-lg"
+                    ? "border-sky-500 bg-[#0B0F19] text-white shadow-lg"
                     : "border-slate-200 bg-white text-slate-900 shadow-2xs"
                 }`}
               >
@@ -231,7 +231,7 @@ function NoticesContent() {
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
                       pkg.highlight
-                        ? "bg-blue-500/20 text-blue-300"
+                        ? "bg-sky-500/20 text-sky-300"
                         : "bg-slate-100 text-slate-600"
                     }`}
                   >
@@ -294,7 +294,7 @@ function NoticesContent() {
                         key={notice.id}
                         onClick={() => toggleNotice(notice.slug)}
                         className={`cursor-pointer transition ${
-                          isOpen ? "bg-blue-50/50" : "hover:bg-slate-50"
+                          isOpen ? "bg-sky-50/50" : "hover:bg-slate-50"
                         }`}
                       >
                         <td className="px-4 py-4 text-center">
@@ -337,7 +337,7 @@ function NoticesContent() {
 
           {/* 선택된 공지 상세 본문 패널 */}
           {expandedSlug && (
-            <div className="mt-6 rounded-2xl border border-blue-200 bg-slate-50 p-6 sm:p-8">
+            <div className="mt-6 rounded-2xl border border-sky-200 bg-slate-50 p-6 sm:p-8">
               {(() => {
                 const current = notices.find((n) => n.slug === expandedSlug);
                 if (!current) return null;

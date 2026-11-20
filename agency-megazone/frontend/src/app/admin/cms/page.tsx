@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Edit2, Image as ImageIcon, Lock, Plus, Trash2, Upload, X } from "lucide-react";
-import { adminApiFetch, isVideoUrl, type CmsContentItem } from "@/lib/api";
+import { adminApiFetch, deletePublicMedia, isVideoUrl, type CmsContentItem } from "@/lib/api";
+import SmartPreviewImage from "@/components/SmartPreviewImage";
 
 const CATEGORIES = [
   { key: "NOTICE", label: "공지사항" },
@@ -12,6 +13,11 @@ const CATEGORIES = [
   { key: "FAQ", label: "자주 묻는 질문" },
   { key: "TERMS", label: "약관 · 방침" },
 ] as const;
+
+const BANNER_LOCATIONS = [
+  { value: "hero-main", label: "메인 상단 히어로 배너 (hero-main)" },
+  { value: "sub-promo", label: "서브 프로모션 배너 (sub-promo)" },
+];
 
 export default function AdminCmsPage() {
   const [category, setCategory] = useState<string>("NOTICE");
@@ -32,6 +38,9 @@ export default function AdminCmsPage() {
 
   useEffect(() => {
     resetForm();
+    if (category === "BANNER") {
+      setSlug("hero-main");
+    }
     load(category);
   }, [category]);
 
@@ -72,6 +81,9 @@ export default function AdminCmsPage() {
         method: "POST",
         body: formData,
       });
+      if (thumbnailUrl && thumbnailUrl !== res.storageKey) {
+        void deletePublicMedia(thumbnailUrl);
+      }
       setThumbnailUrl(res.storageKey);
       setImgError(false);
       setNotice(
@@ -120,7 +132,11 @@ export default function AdminCmsPage() {
 
   async function handleDelete(id: number) {
     if (!confirm("정말 삭제하시겠습니까?")) return;
+    const targetItem = items.find((it) => it.id === id);
     await adminApiFetch(`/api/admin/cms/${id}`, { method: "DELETE" });
+    if (targetItem?.thumbnailUrl) {
+      void deletePublicMedia(targetItem.thumbnailUrl);
+    }
     if (editingId === id) resetForm();
     load(category);
   }
@@ -142,7 +158,7 @@ export default function AdminCmsPage() {
             onClick={() => setCategory(cat.key)}
             className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
               category === cat.key
-                ? "btn-primary"
+                ? "bg-blue-600 text-white shadow-xs"
                 : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
             }`}
           >
@@ -152,7 +168,7 @@ export default function AdminCmsPage() {
       </div>
 
       {notice && (
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-xs font-medium text-indigo-700">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-xs font-medium text-blue-700">
           {notice}
         </div>
       )}
@@ -191,16 +207,20 @@ export default function AdminCmsPage() {
           {category === "BANNER" && (
             <div>
               <label className="mb-1 block text-xs font-semibold text-slate-700">
-                배너 위치 코드 (예: hero-main)
+                배너 노출 위치 선택
               </label>
-              <input
-                type="text"
-                value={slug}
+              <select
+                value={BANNER_LOCATIONS.some((loc) => loc.value === slug) ? slug : "hero-main"}
                 disabled={editingId !== null}
                 onChange={(e) => setSlug(e.target.value)}
-                placeholder="hero-main"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100"
-              />
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm disabled:bg-slate-100"
+              >
+                {BANNER_LOCATIONS.map((loc) => (
+                  <option key={loc.value} value={loc.value}>
+                    {loc.label}
+                  </option>
+                ))}
+              </select>
             </div>
           )}
         </div>
@@ -217,82 +237,93 @@ export default function AdminCmsPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-          <div className="flex min-w-0 items-center gap-4">
-            <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white">
-              {thumbnailUrl && !imgError ? (
-                isVideoUrl(thumbnailUrl) ? (
-                  <video
-                    src={thumbnailUrl}
-                    muted
-                    loop
-                    playsInline
-                    autoPlay
-                    onError={() => setImgError(true)}
-                    className="h-full w-full object-cover"
-                  />
+          {category !== "FAQ" && category !== "TERMS" ? (
+            <div className="flex min-w-0 items-center gap-4">
+              <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white">
+                {thumbnailUrl ? (
+                  isVideoUrl(thumbnailUrl) && !imgError ? (
+                    <video
+                      src={thumbnailUrl}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      onError={() => setImgError(true)}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : !isVideoUrl(thumbnailUrl) ? (
+                    <SmartPreviewImage
+                      src={thumbnailUrl}
+                      alt={title || "선택된 사진"}
+                      className="h-full w-full object-cover"
+                      iconClassName="h-6 w-6 text-slate-300"
+                    />
+                  ) : (
+                    <ImageIcon className="h-6 w-6 text-slate-300" />
+                  )
                 ) : (
-                  <img
-                    src={thumbnailUrl}
-                    alt={title || "선택된 사진"}
-                    onError={() => setImgError(true)}
-                    className="h-full w-full object-cover"
-                  />
-                )
-              ) : (
-                <ImageIcon className="h-6 w-6 text-slate-300" />
-              )}
-            </div>
-            <div className="min-w-0 space-y-1.5">
-              <div className="text-xs font-semibold text-slate-700">
-                {category === "BANNER"
-                  ? thumbnailUrl
-                    ? "선택된 배너 사진/동영상"
-                    : "배너 사진/동영상 (선택, 20MB 이하)"
-                  : thumbnailUrl
-                  ? "선택된 대표 사진"
-                  : "대표 사진 (선택)"}
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                  <Upload className="h-3.5 w-3.5" />
-                  <span>
-                    {uploading
-                      ? "업로드 중..."
-                      : category === "BANNER"
-                      ? thumbnailUrl
-                        ? "사진/동영상 변경"
-                        : "사진/동영상 선택"
-                      : thumbnailUrl
-                      ? "사진 변경"
-                      : "사진 선택"}
-                  </span>
-                  <input
-                    type="file"
-                    accept={
-                      category === "BANNER"
-                        ? "image/jpeg,image/png,image/webp,video/mp4,video/webm"
-                        : "image/jpeg,image/png,image/webp"
-                    }
-                    className="hidden"
-                    onChange={handleImageUpload}
-                  />
-                </label>
-                {thumbnailUrl && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setThumbnailUrl("");
-                      setImgError(false);
-                    }}
-                    className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-100"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                    <span>제거</span>
-                  </button>
+                  <ImageIcon className="h-6 w-6 text-slate-300" />
                 )}
               </div>
+              <div className="min-w-0 space-y-1.5">
+                <div className="text-xs font-semibold text-slate-700">
+                  {category === "BANNER"
+                    ? thumbnailUrl
+                      ? "선택된 배너 사진/동영상"
+                      : "배너 사진/동영상 (선택, 20MB 이하)"
+                    : thumbnailUrl
+                    ? "선택된 대표 사진"
+                    : "대표 사진 (선택)"}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                    <Upload className="h-3.5 w-3.5" />
+                    <span>
+                      {uploading
+                        ? "업로드 중..."
+                        : category === "BANNER"
+                        ? thumbnailUrl
+                          ? "사진/동영상 변경"
+                          : "사진/동영상 선택"
+                        : thumbnailUrl
+                        ? "사진 변경"
+                        : "사진 선택"}
+                    </span>
+                    <input
+                      type="file"
+                      accept={
+                        category === "BANNER"
+                          ? "image/jpeg,image/png,image/webp,video/mp4,video/webm"
+                          : "image/jpeg,image/png,image/webp"
+                      }
+                      className="hidden"
+                      onChange={handleImageUpload}
+                    />
+                  </label>
+                  {thumbnailUrl && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void deletePublicMedia(thumbnailUrl);
+                        setThumbnailUrl("");
+                        setImgError(false);
+                      }}
+                      className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-100"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      <span>제거</span>
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <p className="text-xs text-slate-500">
+              {category === "FAQ"
+                ? "자주 묻는 질문은 제목(질문)과 요약(답변)만 입력하면 메인 화면에 바로 반영됩니다."
+                : "약관·방침 문서는 텍스트 전용으로 관리됩니다."}
+            </p>
+          )}
 
           <div className="flex flex-wrap items-center gap-3">
             <label className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700">
@@ -305,7 +336,7 @@ export default function AdminCmsPage() {
             </label>
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl btn-primary px-5 py-2 text-sm font-semibold"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700"
             >
               <Plus className="h-4 w-4" />
               {editingId ? "수정 저장" : "등록하기"}
@@ -341,8 +372,8 @@ export default function AdminCmsPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-semibold text-slate-900">{item.title}</span>
-                    <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] text-slate-600">
-                      {item.slug}
+                    <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                      {new Date(item.createdAt).toLocaleDateString("ko-KR")}
                     </span>
                     {!item.isPublished && (
                       <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600">

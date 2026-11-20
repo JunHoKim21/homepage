@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  ArrowRight,
   Calendar,
   CheckCircle2,
   FileText,
   Globe,
   Inbox,
-  Sliders,
   Sparkles,
 } from "lucide-react";
 import { adminApiFetch } from "@/lib/api";
@@ -75,37 +73,6 @@ const FALLBACK_RESERVATIONS: ReservationSummary[] = [
     slotTime: "14:00",
     serviceName: "방문 · 화상 심층 컨설팅",
     status: "접수대기",
-  },
-];
-
-const QUICK_CONTROLS = [
-  {
-    href: "/admin/configs",
-    icon: Sliders,
-    badge: "무코드 설정",
-    title: "디자인 · SEO · 예약 설정",
-    desc: "회사 정보, 포인트 색상, 네이버·구글 검색 제목, 업종 테마를 클릭만으로 바꿉니다.",
-  },
-  {
-    href: "/admin/inquiries",
-    icon: Inbox,
-    badge: "고객 응대",
-    title: "상담문의 확인 · 답변",
-    desc: "접수된 견적 문의와 고객이 올린 비공개 첨부파일을 확인하고 상태를 관리합니다.",
-  },
-  {
-    href: "/admin/reservations",
-    icon: Calendar,
-    badge: "일정 관리",
-    title: "온라인 예약 일정 관리",
-    desc: "날짜별 예약 가능 시간대를 열고 닫거나 접수된 방문·화상 예약을 확정합니다.",
-  },
-  {
-    href: "/admin/cms",
-    icon: FileText,
-    badge: "게시판 · 배너",
-    title: "게시판 · 배너 · 팝업 관리",
-    desc: "구축 사례, 공지사항, 메인 배너와 팝업 공지를 새 글 쓰듯 간편하게 올립니다.",
   },
 ];
 
@@ -207,7 +174,7 @@ export default function AdminDashboardPage() {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">게시판 · 배너 · 팝업</span>
-            <FileText className="h-5 w-5 text-violet-600" />
+            <FileText className="h-5 w-5 text-blue-600" />
           </div>
           <p className="mt-3 text-3xl font-extrabold text-slate-900">운영 중</p>
           <p className="mt-1 text-xs text-slate-500">포트폴리오 · 공지 · 팝업 관리</p>
@@ -224,42 +191,6 @@ export default function AdminDashboardPage() {
           <p className="mt-3 text-xl font-extrabold text-emerald-600">정상 가동 중</p>
           <p className="mt-1 text-xs text-slate-500">설정 저장 시 0.1초 즉시 반영</p>
         </Link>
-      </div>
-
-      {/* 중앙 4대 기능 바로가기 제어판 */}
-      <div>
-        <h2 className="mb-3 text-base font-extrabold text-slate-900">핵심 기능 바로가기 제어판</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {QUICK_CONTROLS.map((ctrl) => {
-            const Icon = ctrl.icon;
-            return (
-              <Link
-                key={ctrl.href}
-                href={ctrl.href}
-                className="group flex min-w-0 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs transition hover:-translate-y-0.5 hover:border-blue-400 hover:shadow-md"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600">
-                      {ctrl.badge}
-                    </span>
-                  </div>
-                  <h3 className="mt-4 text-sm font-extrabold text-slate-900 group-hover:text-blue-600">
-                    {ctrl.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{ctrl.desc}</p>
-                </div>
-                <div className="mt-4 flex items-center gap-1 text-xs font-bold text-blue-600">
-                  <span>바로 열기</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
       </div>
 
       {/* 하단 최근 상담문의(3건) · 예약(2건) 실시간 접수 피드 */}

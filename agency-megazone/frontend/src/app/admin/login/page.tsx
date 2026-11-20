@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden bg-[#0B0F19] px-4 py-10">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-violet-600/20" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-indigo-600/15 to-blue-600/20" />
 
       <div className="relative w-full max-w-md space-y-4">
         <Link
@@ -161,8 +161,13 @@ export default function AdminLoginPage() {
             </div>
 
             {errorMsg && (
-              <div className="rounded-lg bg-red-50 p-3 text-xs font-medium text-red-600">
-                {errorMsg}
+              <div className="space-y-1 rounded-lg bg-red-50 p-3 text-xs font-medium text-red-600">
+                <p>{errorMsg}</p>
+                {errorMsg.includes("백엔드 서버") && (
+                  <p className="text-[11px] text-red-500">
+                    💡 백엔드 없이 화면을 둘러보시려면 상단의 <strong>[1초 원클릭 관리자 체험하기]</strong>를 클릭하세요.
+                  </p>
+                )}
               </div>
             )}
 
